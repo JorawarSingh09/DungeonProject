@@ -20,10 +20,12 @@ public class DungeonManiaController {
     }
 
     /**
+     * Returns a list of 
      * /dungeons
      */
     public static List<String> dungeons() {
-        return FileLoader.listFileNamesInResourceDirectory("dungeons");
+            return FileLoader.listFileNamesInResourceDirectory("dungeons");
+        
     }
 
     /**
