@@ -22,7 +22,7 @@ import scintilla.Scintilla;
  * 
  * You shouldn't need to modify this.
  * 
- * @author Braedon Wooding, Nick Patrikeos, 
+ * @author Braedon Wooding, Nick Patrikeos,
  *         Noa Challis, George Litsas.
  *         Chloe Cheong, Webster Zhang, Sienna Archer
  */
@@ -32,6 +32,7 @@ public class App implements SparkApplication {
             super(message);
         }
     }
+
     private static volatile Map<String, DungeonManiaController> sessionStates = new HashMap<>();
 
     private static synchronized DungeonManiaController getDungeonManiaController(Request request) {
@@ -50,7 +51,7 @@ public class App implements SparkApplication {
         }
     }
 
-    private static<T> GenericResponseWrapper<T> callWithWrapper(Supplier<T> runnable) {
+    private static <T> GenericResponseWrapper<T> callWithWrapper(Supplier<T> runnable) {
         try {
             return GenericResponseWrapper.Ok(runnable.get());
         } catch (Exception e) {
@@ -59,7 +60,8 @@ public class App implements SparkApplication {
         }
     }
 
-    private static<T> GenericResponseWrapper<T> callUsingSessionAndArgument(Request request, Function<DungeonManiaController, T> runnable) {
+    private static <T> GenericResponseWrapper<T> callUsingSessionAndArgument(Request request,
+            Function<DungeonManiaController, T> runnable) {
         try {
             DungeonManiaController dmc = getDungeonManiaController(request);
             synchronized (dmc) {
@@ -73,7 +75,7 @@ public class App implements SparkApplication {
 
     @Override
     public void init() {
-        Scintilla.initialize(); 
+        Scintilla.initialize();
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         Gson gson = gsonBuilder.create();
@@ -86,21 +88,24 @@ public class App implements SparkApplication {
         });
 
         Spark.get("/api/dungeons/", "application/json", (request, response) -> {
-            // we don't *need* to globally lock this but we might as well just to keep a nice standard.
+            // we don't *need* to globally lock this but we might as well just to keep a
+            // nice standard.
             synchronized (globalLock) {
                 return callWithWrapper(() -> DungeonManiaController.dungeons());
             }
         }, gson::toJson);
 
         Spark.get("/api/configs/", "application/json", (request, response) -> {
-            // we don't *need* to globally lock this but we might as well just to keep a nice standard.
+            // we don't *need* to globally lock this but we might as well just to keep a
+            // nice standard.
             synchronized (globalLock) {
                 return callWithWrapper(() -> DungeonManiaController.configs());
             }
         }, gson::toJson);
 
         Spark.post("/api/game/new/", "application/json", (request, response) -> {
-            return callUsingSessionAndArgument(request, (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
+            return callUsingSessionAndArgument(request,
+                    (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
         }, gson::toJson);
 
         Spark.post("/api/game/tick/item/", "application/json", (request, response) -> {
@@ -114,7 +119,8 @@ public class App implements SparkApplication {
         }, gson::toJson);
 
         Spark.post("/api/game/tick/movement/", "application/json", (request, response) -> {
-            return callUsingSessionAndArgument(request, (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
+            return callUsingSessionAndArgument(request,
+                    (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
         }, gson::toJson);
 
         Spark.post("/api/game/build/", "application/json", (request, response) -> {
