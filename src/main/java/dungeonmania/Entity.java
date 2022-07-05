@@ -1,14 +1,14 @@
 package dungeonmania;
 
 public class Entity {
-    // EntityType type;
+    // EntityType type; what are we doing for this
     int id;
     int xPos;
     int yPos;
     boolean interactable;
     boolean collidable;
 
-    public Entity(int id, int xPos, int yPos, bool interactable, boolean collidable){
+    public Entity(int id, int xPos, int yPos, boolean interactable, boolean collidable){
         this.id = id;
         this.xPos = xPos;
         this.yPos = yPos; 
