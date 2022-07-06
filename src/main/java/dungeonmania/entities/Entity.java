@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities;
 
 public class Entity {
     // EntityType type; what are we doing for this

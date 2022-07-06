@@ -5,32 +5,26 @@ import java.util.List;
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.ComplexGoal;
 import dungeonmania.controllers.MovementController;
+import dungeonmania.entities.Entity;
+import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.util.Position;
-
 import java.util.ArrayList;
 
 public class Dungeon {
-    List<Entity> entities  = new ArrayList<>();
-    BattleController bc = new BattleController();
-    MovementController mc = new MovementController();
-    Player player = new Player();
-    ComplexGoal goal = new ComplexGoal();
+    List<Entity> entities;
+    BattleController bc;
+    MovementController mc;
+    Player player;
+    ComplexGoal goal;
 
     int dungeonId;
     String dungeonName;
-    int zombieSpawnRate;
-    SpiderSpawn spiderSpawn;
     int currMaxEntity;
-
-    
 
     /**
      * 
      * @param dungeonId
      * @param dungeonName
-     * @param zombieSpawnRate
-     * @param spiderSpawnRate
-     * @param spiderSpawnLocation
      * @param currMaxEntity
      * @param entities
      * @param bc
@@ -38,14 +32,11 @@ public class Dungeon {
      * @param player
      * @param goal
      */
-    public Dungeon(int dungeonId, String dungeonName, int zombieSpawnRate, int spiderSpawnRate, 
-                    Position spiderSpawnLocation, int currMaxEntity, List<Entity> entities, 
+    public Dungeon(int dungeonId, String dungeonName, int currMaxEntity, List<Entity> entities, 
                     BattleController bc, MovementController mc, Player player, ComplexGoal goal){
         
         this.dungeonId = dungeonId;
         this.dungeonName = dungeonName;
-        this.zombieSpawnRate = zombieSpawnRate;
-        this.spiderSpawn = new SpiderSpawn(spiderSpawnLocation, spiderSpawnRate);
         this.currMaxEntity = currMaxEntity;
         this.entities = entities;
         this.bc = bc;
@@ -70,23 +61,23 @@ public class Dungeon {
         this.dungeonName = dungeonName;
     }
 
-    public int getZombieSpawnRate() {
-        return this.zombieSpawnRate;
-    }
-
-    public void setZombieSpawnRate(int zombieSpawnRate) {
-        this.zombieSpawnRate = zombieSpawnRate;
-    }
-
-    public SpiderSpawn getSpiderSpawn() {
-        return this.spiderSpawn;
-    }
-
     public int getCurrMaxEntity() {
         return this.currMaxEntity;
     }
 
     public void setCurrMaxEntity(int currMaxEntity) {
         this.currMaxEntity = currMaxEntity;
+    }
+
+    public void removeEntity(Entity entity){
+        entities.remove(entity);
+    }
+
+    public void addEntity(Entity entity){
+        entities.add(entity);
+    }
+
+    public List<Entity> getEntities(){
+        return entities;
     }
 }

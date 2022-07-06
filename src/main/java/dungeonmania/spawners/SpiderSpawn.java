@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.spawners;
 
 import java.util.ArrayList;
 import java.util.List;
