@@ -25,6 +25,7 @@ import dungeonmania.Entities.staticentities.FloorSwitch;
 import dungeonmania.Entities.staticentities.Portal;
 import dungeonmania.Entities.staticentities.Wall;
 import dungeonmania.Entities.staticentities.ZombieToastSpawner;
+import dungeonmania.response.models.DungeonResponse;
 
 public class EntityController {
 
@@ -61,6 +62,10 @@ public class EntityController {
     }
 
     public void prepareGoals(JsonObject goals) {
+
+    }
+
+    public DungeonResponse getGameState(JsonObject goals) {
 
     }
 
