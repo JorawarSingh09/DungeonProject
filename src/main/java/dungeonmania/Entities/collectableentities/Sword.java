@@ -1,6 +1,6 @@
-package dungeonmania.Entities.collectableentities;
+package dungeonmania.entities.collectableentities;
 
-import dungeonmania.Entity;
+import dungeonmania.entities.Entity;
 
 public class Sword extends Entity {
     

@@ -1,6 +1,6 @@
-package dungeonmania.Entities.buildableentities;
+package dungeonmania.entities.buildableentities;
 
-import dungeonmania.Entity;
+import dungeonmania.entities.Entity;
 
 public class Shield extends Entity {
 

@@ -1,27 +1,38 @@
 package dungeonmania.entities;
 
-public abstract class Entity {
-    // EntityType type; what are we doing for this
-    int id;
+import dungeonmania.util.Position;
+
+public class Entity {
+    String type;
+    int entityId;
     int xPos;
     int yPos;
-    boolean interactable;
-    boolean collidable;
+    Position pos;
+    boolean isCollidable;
+    boolean isInteractable;
 
-    public Entity(int id, int xPos, int yPos, boolean interactable, boolean collidable){
-        this.id = id;
+    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable){
+        this.entityId = entityId;
         this.xPos = xPos;
-        this.yPos = yPos; 
-        this.interactable = interactable;
-        this.collidable = collidable;
+        this.yPos = yPos;
+        this.isInteractable = interactable;
+        this.isCollidable = collidable;
     }
 
-    public int getId(){
-        return this.id;
+    public String getType() {
+        return this.type;
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getEntityId() {
+        return this.entityId;
+    }
+
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
     }
 
     public int getXPos() {
@@ -40,20 +51,23 @@ public abstract class Entity {
         this.yPos = yPos;
     }
 
-    public boolean isInteractable() {
-        return this.interactable;
+    public boolean isIsCollidable() {
+        return this.isCollidable;
     }
 
-    public void setInteractable(boolean interactable) {
-        this.interactable = interactable;
+    public void setIsCollidable(boolean isCollidable) {
+        this.isCollidable = isCollidable;
     }
 
-    public boolean isCollidable() {
-        return this.collidable;
+    public boolean isIsInteractable() {
+        return this.isInteractable;
     }
 
-    public void setCollidable(boolean collidable) {
-        this.collidable = collidable;
+    public void setIsInteractable(boolean isInteractable) {
+        this.isInteractable = isInteractable;
     }
 
+    public void moveTo(Position pos){
+        // stuff goes here
+    }
 }

@@ -1,6 +1,6 @@
-package dungeonmania.Entities.staticentities;
+package dungeonmania.entities.staticentities;
 
-import dungeonmania.Entity;
+import dungeonmania.entities.Entity;
 
 public class FloorSwitch extends Entity {
     

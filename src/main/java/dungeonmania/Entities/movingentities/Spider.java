@@ -1,6 +1,6 @@
-package dungeonmania.Entities.movingentities;
+package dungeonmania.entities.movingentities;
 
-import dungeonmania.Entity;
+import dungeonmania.entities.Entity;
 
 public class Spider extends Entity {
 

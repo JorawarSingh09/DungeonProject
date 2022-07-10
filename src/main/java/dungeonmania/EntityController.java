@@ -4,27 +4,28 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import dungeonmania.Entities.buildableentities.Bow;
-import dungeonmania.Entities.buildableentities.Shield;
-import dungeonmania.Entities.collectableentities.Arrow;
-import dungeonmania.Entities.collectableentities.Bomb;
-import dungeonmania.Entities.collectableentities.InvincibilityPotion;
-import dungeonmania.Entities.collectableentities.InvisibilityPotion;
-import dungeonmania.Entities.collectableentities.Key;
-import dungeonmania.Entities.collectableentities.Sword;
-import dungeonmania.Entities.collectableentities.Treasure;
-import dungeonmania.Entities.collectableentities.Wood;
-import dungeonmania.Entities.movingentities.Mercenary;
-import dungeonmania.Entities.movingentities.Player;
-import dungeonmania.Entities.movingentities.Spider;
-import dungeonmania.Entities.movingentities.ZombieToast;
-import dungeonmania.Entities.staticentities.Boulder;
-import dungeonmania.Entities.staticentities.Door;
-import dungeonmania.Entities.staticentities.Exit;
-import dungeonmania.Entities.staticentities.FloorSwitch;
-import dungeonmania.Entities.staticentities.Portal;
-import dungeonmania.Entities.staticentities.Wall;
-import dungeonmania.Entities.staticentities.ZombieToastSpawner;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.buildableentities.Bow;
+import dungeonmania.entities.buildableentities.Shield;
+import dungeonmania.entities.collectableentities.Arrow;
+import dungeonmania.entities.collectableentities.Bomb;
+import dungeonmania.entities.collectableentities.InvincibilityPotion;
+import dungeonmania.entities.collectableentities.InvisibilityPotion;
+import dungeonmania.entities.collectableentities.Key;
+import dungeonmania.entities.collectableentities.Sword;
+import dungeonmania.entities.collectableentities.Treasure;
+import dungeonmania.entities.collectableentities.Wood;
+import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.Spider;
+import dungeonmania.entities.movingentities.ZombieToast;
+import dungeonmania.entities.staticentities.Boulder;
+import dungeonmania.entities.staticentities.Door;
+import dungeonmania.entities.staticentities.Exit;
+import dungeonmania.entities.staticentities.FloorSwitch;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.Wall;
+import dungeonmania.entities.staticentities.ZombieToastSpawner;
 
 public class EntityController {
 
@@ -98,69 +99,71 @@ public class EntityController {
             String type = ((JsonObject) entity).get("type").getAsString();
             switch (type) {
                 case "player":
-                    dungeon.addEntity(new Player(dungeon.getCurrMaxId(), x, y, false, false, this.player_attack, this.player_health));
+                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health));
                     break;
                 case "wall":
-                    dungeon.addEntity(new Wall(dungeon.getCurrMaxId(), x, y, false, true));
+                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), x, y, false, true));
                     break;
                 case "exit":
-                    dungeon.addEntity(new Exit(dungeon.getCurrMaxId(), x, y, false, true));
+                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), x, y, false, true));
                     break;
                 case "boulder":
-                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxId(), x, y, false, true));    
+                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), x, y, false, true));    
                     break;
                 case "switch":
-                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxId(), x, y, false, true));
+                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), x, y, false, true));
                     break;
                 case "door":
-                    dungeon.addEntity(new Door(dungeon.getCurrMaxId(), x, y, false, true));
+                    dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), x, y, false, true));
                     break;
                 case "portal":
-                    dungeon.addEntity(new Portal(dungeon.getCurrMaxId(), x, y, false, true));
+                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), x, y, false, true));
                     break;
                 case "zombie_toast_spawner":
-                    dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxId(), x, y, true, true, this.zombie_spawn_rate));
+                    dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), x, y, true, true, this.zombie_spawn_rate));
                     break;
                 case "spider":
-                    dungeon.addEntity(new Spider(dungeon.getCurrMaxId(), x, y, false, false, this.spider_attack, this.spider_health));
+                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), x, y, false, false, this.spider_attack, this.spider_health));
                     break;
                 case "zombie_toast":
-                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxId(), x, y, false, false, this.zombie_attack, this.zombie_health));
+                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(), x, y, false, false, this.zombie_attack, this.zombie_health));
                     break;
                 case "mercenary":
-                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxId(), x, y, false, false, this.ally_attack,
+                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), x, y, false, false, this.ally_attack,
                                                     this.ally_defence, this.mercenary_attack, this.mercenary_health, this.bribe_radius, this.bribe_amount));
                     break;
                 case "treasure":
-                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxId(), x, y, false, false));
+                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), x, y, false, false));
                     break;
                 case "key":
-                    dungeon.addEntity(new Key(dungeon.getCurrMaxId(), x, y, false, false));
+                    dungeon.addEntity(new Key(dungeon.getCurrMaxEntityId(), x, y, false, false));
                     break;
                 case "invincibility_potion":
-                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxId(), x, y, false, false, this.invincibility_potion_duration));
+                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), x, y, false, false, this.invincibility_potion_duration));
                     break;
                 case "invisibility_potion":
-                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxId(), x, y, false, false, this.invisibility_potion_duration));
+                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), x, y, false, false, this.invisibility_potion_duration));
                     break;
                 case "wood":
-                    dungeon.addEntity(new Wood(dungeon.getCurrMaxId(), x, y, false, false));
+                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), x, y, false, false));
                     break;
                 case "arrow":
-                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxId(), x, y, false, false));
+                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), x, y, false, false));
                     break;
                 case "bomb":
-                    dungeon.addEntity(new Bomb(dungeon.getCurrMaxId(), x, y, false, false, this.bomb_radius));
+                    dungeon.addEntity(new Bomb(dungeon.getCurrMaxEntityId(), x, y, false, false, this.bomb_radius));
                     break;
                 case "sword":
-                    dungeon.addEntity(new Sword(dungeon.getCurrMaxId(), x, y, false, false, this.sword_attack, this.sword_durability));
+                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), x, y, false, false, this.sword_attack, this.sword_durability));
                     break;
                 case "bow":
-                    dungeon.addEntity(new Bow(dungeon.getCurrMaxId(), x, y, false, false, this.bow_durability));
+                    dungeon.addEntity(new Bow(dungeon.getCurrMaxEntityId(), x, y, false, false, this.bow_durability));
                     break;
                 case "shield":
-                    dungeon.addEntity(new Shield(dungeon.getCurrMaxId(), x, y, false, false, this.shield_durability, this.shield_defence));
+                    dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));
                     break;
+
+
             } 
         }
     }
