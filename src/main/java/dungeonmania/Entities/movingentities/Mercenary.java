@@ -2,7 +2,7 @@ package dungeonmania.entities.movingentities;
 
 import dungeonmania.entities.Entity;
 
-public class Mercenary extends Entity {
+public class Mercenary extends Entity{
 
     private int ally_attack;
     private int ally_defence;

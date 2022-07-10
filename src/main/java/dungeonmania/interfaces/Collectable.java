@@ -1,7 +1,8 @@
 package dungeonmania.interfaces;
 
-public interface CollectableEntity {
+public interface Collectable {
 
     public void pickup();
-    
+     
 }
+

@@ -1,5 +1,5 @@
 package dungeonmania.interfaces;
 
-public interface DefendingItem {
+public interface Defending {
     public void reduceEnemyAttack();
 }
