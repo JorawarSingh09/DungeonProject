@@ -75,3 +75,20 @@ na for 4/7/22
 - player will need a parameter (direction), other entities have predefined behaviour, Does player belong in moveable?? 
 - player no longer a moveable entity, 
 - add a kill count for enemies goal
+
+## 7/7/22
+
+### Standup
+
+#### Ridham
+entity controller compeleted and design for character state
+
+#### Jora
+done interfaces assigneed, working on desgin for Dungeon and adding new classes to handle tasks.
+
+#### Williams
+Done goals, thinking about redesign for goal and complex goals , 
+
+### Agenda
+
+###

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.text.html.parser.Entity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class DungeonManiaController {
     public String getSkin() {
         return "default";
