@@ -1,6 +1,6 @@
 package dungeonmania;
 
-public class Entity {
+public abstract class Entity {
     // EntityType type; what are we doing for this
     int id;
     int xPos;

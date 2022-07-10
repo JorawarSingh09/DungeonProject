@@ -5,15 +5,19 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.text.html.parser.Entity;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class DungeonManiaController {
     public String getSkin() {
@@ -44,6 +48,22 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+        if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {
+            throw new IllegalArgumentException();
+        }
+        try {
+            String jsonDungeon = new String(Files.readAllBytes(Paths.get("src/main/resources/dungeons/" + dungeonName + ".json")));
+            JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();
+            JsonArray entitiesArray = jsonObject.get("entities").getAsJsonArray();
+            JsonObject goals = jsonObject.get("goal-condition").getAsJsonObject();
+            EntityController entityController = new EntityController();
+            String jsonConfig = new String(Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName + ".json")));
+            JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
+            entityController.startGame(entitiesArray, goals, configs);
+        } catch (IOException e) {
+            throw new IllegalArgumentException();
+        }
+
         return null;
     }
 
@@ -81,4 +101,5 @@ public class DungeonManiaController {
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         return null;
     }
+    
 }
