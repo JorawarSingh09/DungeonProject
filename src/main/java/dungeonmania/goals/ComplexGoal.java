@@ -5,8 +5,10 @@ import java.util.List;
 
 public class ComplexGoal implements Goal {
     List<Goal> subgoals = new ArrayList<>();
+    public GoalCondition condition;
 
-    public ComplexGoal() {
+    public ComplexGoal(GoalCondition condition) {
+        this.condition = condition;
     }
 
     public List<Goal> getSubgoals() {
