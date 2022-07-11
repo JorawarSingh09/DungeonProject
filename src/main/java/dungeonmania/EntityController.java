@@ -25,6 +25,12 @@ import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.entities.staticentities.Wall;
 import dungeonmania.entities.staticentities.ZombieToastSpawner;
+import dungeonmania.goals.BoulderGoal;
+import dungeonmania.goals.CollectTreasureGoal;
+import dungeonmania.goals.ComplexGoal;
+import dungeonmania.goals.EnemiesGoal;
+import dungeonmania.goals.ExitGoal;
+import dungeonmania.goals.Goal;
 import dungeonmania.response.models.DungeonResponse;
 
 public class EntityController {
@@ -56,13 +62,41 @@ public class EntityController {
 
     public void startGame(JsonArray entities, JsonObject goals, JsonObject configs) {
         Dungeon dungeon = new Dungeon();
-        prepareGoals(goals);
+        prepareGoals(goals, dungeon);
         addConfigs(configs);
         makeEntities(entities, dungeon);
     }
 
-    public void prepareGoals(JsonObject goals) {
-        
+    public void prepareGoals(JsonObject goals, Dungeon dungeon) {
+        String goal = goals.get("goal").getAsString();
+        if (goals.has("subgoals")) {
+            ComplexGoal newGoal = new ComplexGoal();
+            JsonArray subgoals = goals.get("subgoals").getAsJsonArray();
+            for (JsonElement subgoal : subgoals) {
+                switch (subgoal.getAsString()) {
+                    case "enemies":
+                        newGoal.addSubgoal(new EnemiesGoal());
+                    case "boulders":
+                        newGoal.addSubgoal(new BoulderGoal());
+                    case "treasure":
+                        newGoal.addSubgoal(new CollectTreasureGoal());
+                    case "exit":
+                        newGoal.addSubgoal(new ExitGoal());
+                }
+            }
+            dungeon.setGoals(newGoal);
+        } else {
+            switch (goal) {
+                case "enemies":
+                    dungeon.setGoals(new EnemiesGoal());
+                case "boulders":
+                    dungeon.setGoals(new BoulderGoal());
+                case "treasure":
+                    dungeon.setGoals(new CollectTreasureGoal());
+                case "exit":
+                    dungeon.setGoals(new ExitGoal());
+            }
+        }
     }
 
     public DungeonResponse getGameState(JsonObject goals) {

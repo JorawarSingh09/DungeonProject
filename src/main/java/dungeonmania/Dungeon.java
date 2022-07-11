@@ -6,6 +6,7 @@ import java.util.List;
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
+import dungeonmania.goals.Goal;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -18,10 +19,10 @@ public class Dungeon {
     String dungeonString;
     int tickCount;
     List<Entity> entities = new ArrayList<>();
+    Goal goal;
     BattleController bc;
     MovementController mc;
     Player player;
-    String goals;
     int currMaxEntityId;
 
     public Dungeon() {
@@ -116,12 +117,12 @@ public class Dungeon {
         this.player = player;
     }
 
-    public String getGoals() {
-        return this.goals;
+    public Goal getGoal() {
+        return goal;
     }
 
-    public void setGoals(String goals) {
-        this.goals = goals;
+    public void setGoals(Goal goal) {
+        this.goal = goal;
     }
 
 
