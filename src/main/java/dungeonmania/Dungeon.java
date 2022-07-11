@@ -6,6 +6,7 @@ import java.util.List;
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
