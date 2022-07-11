@@ -9,6 +9,7 @@ public class Entity {
     int yPos;
     Position pos;
     boolean isCollidable;
+    
     boolean isInteractable;
 
     public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable){
