@@ -65,11 +65,12 @@ public class EntityController {
     private int zombie_health;
     private int zombie_spawn_rate;
 
-    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs) {
-        Dungeon dungeon = new Dungeon();
+    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId, String dungeonName) {
+        Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
         dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
+        getGameState(dungeon);
     }
 
     public Goal prepareGoals(JsonObject goals) {
@@ -110,7 +111,10 @@ public class EntityController {
         return null;
     }
 
-    public DungeonResponse getGameState(JsonObject goals) {
+    public DungeonResponse getGameState(Dungeon dungeon) {
+        String dId = Integer.toString(dungeon.getDungeonId());
+        String dName = dungeon.getDungeonString();
+        // TODO: entities, inventory, battles, buildables, goals
         return null;
     }
 

@@ -25,7 +25,8 @@ public class Dungeon {
     Player player;
     int currMaxEntityId;
 
-    public Dungeon() {
+    public Dungeon(String dungeonName, int dungeonId) {
+        this.dungeonString = dungeonName;
         currMaxEntityId = 0;
         tickCount = 0;
     }
