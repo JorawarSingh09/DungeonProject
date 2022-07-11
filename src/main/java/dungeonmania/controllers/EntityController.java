@@ -99,7 +99,7 @@ public class EntityController {
     public Goal goalType(String goal) {
         switch(goal) {
             case "enemies":
-                return new EnemiesGoal();
+                return new EnemiesGoal(enemy_goal);
             case "boulders":
                 return new BoulderGoal();
             case "treasure":
