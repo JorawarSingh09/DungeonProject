@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.controllers;
 
 /**
  * controller for events that need to be updatedeach tick, entity location, and such

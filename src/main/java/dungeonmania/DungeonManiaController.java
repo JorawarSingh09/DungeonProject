@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import dungeonmania.controllers.EntityController;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
