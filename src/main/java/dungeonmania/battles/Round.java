@@ -17,11 +17,11 @@ public class Round {
     List<Defending> defenceWeaponryUsed =  new ArrayList<>();
 
     public int playerHealthChange() {
-        return ((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus());
+        return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus())/10);
     }
 
     public int enemyHealthChange() {
-        return -calculatePlayerAttackDamage();
+        return ((-calculatePlayerAttackDamage())/5);
     }
 
     private int calculatePlayerAttackDamage() {

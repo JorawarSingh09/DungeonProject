@@ -15,6 +15,7 @@ public class Player extends Entity {
     Inventory inventory;
     List<Attacking> attackItems = new ArrayList<>();
     List<Defending> defenceItems = new ArrayList<>();
+    List<Mercenary> mercenaries = new ArrayList<>();
     
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, int player_attack, int player_health) {
         super(id, xPos, yPos, interactable, collidable);
@@ -28,5 +29,9 @@ public class Player extends Entity {
     
     public int getAttack() {
         return attack;
+    }
+
+    public void addAlly(Mercenary mercenary) {
+        mercenaries.add(mercenary);
     }
 }
