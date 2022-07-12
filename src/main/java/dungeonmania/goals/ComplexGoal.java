@@ -1,22 +1,30 @@
 package dungeonmania.goals;
 
-import java.util.ArrayList;
-import java.util.List;
+import dungeonmania.Dungeon;
 
 public class ComplexGoal implements Goal {
-    List<Goal> subgoals = new ArrayList<>();
+    Goal goal1 = null;
+    Goal goal2 = null;
     public GoalCondition condition;
 
     public ComplexGoal(GoalCondition condition) {
         this.condition = condition;
     }
 
-    public List<Goal> getSubgoals() {
-        return subgoals;
+    public boolean isGoalCompleted(Dungeon dungeon) {
+        if (condition == GoalCondition.AND) {
+            return goal1.isGoalCompleted(dungeon) && goal2.isGoalCompleted(dungeon);
+        } else {
+            return goal1.isGoalCompleted(dungeon) || goal2.isGoalCompleted(dungeon);
+        }
     }
 
     public void addSubgoal(Goal goal) {
-        this.subgoals.add(goal);
+        if (goal1 == null) {
+            goal1 = goal;
+        } else {
+            goal2 = goal;
+        }
     }
-    
+
 }

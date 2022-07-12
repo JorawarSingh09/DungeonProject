@@ -9,10 +9,10 @@ public class Entity {
     int yPos;
     Position pos;
     boolean isCollidable;
-    
+
     boolean isInteractable;
 
-    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable){
+    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable) {
         this.entityId = entityId;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -68,8 +68,11 @@ public class Entity {
         this.isInteractable = isInteractable;
     }
 
-    public void moveTo(Position pos){
+    public Position getPos() {
+        return this.pos;
+    }
+
+    public void moveTo(Position pos) {
         // stuff goes here
     }
 }
-
