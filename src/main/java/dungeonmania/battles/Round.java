@@ -3,10 +3,12 @@ package dungeonmania.battles;
 import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
 
 public class Round {
+
     int playerAttackDamage;
     int enemyAttackDamage;
     int playerHealth;
@@ -15,6 +17,7 @@ public class Round {
     int enemyDefence;
     List<Attacking> attackWeaponryUsed =  new ArrayList<>();
     List<Defending> defenceWeaponryUsed =  new ArrayList<>();
+    List<Mercenary> allies;
 
     public int playerHealthChange() {
         return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus())/10);
@@ -34,7 +37,7 @@ public class Round {
                 multiplicativeBonus += item.battleBonus();
             }
         }
-        return ((playerAttackDamage + additiveBonus) * multiplicativeBonus);
+        return ((playerAttackDamage + additiveBonus + allyAttackBonus()) * multiplicativeBonus);
     }
 
     private int calculateEnemyAttackDamage() {
@@ -46,7 +49,23 @@ public class Round {
         for (Defending item : defenceWeaponryUsed) {
             defenceBonus += item.battleBonus();
         }
-        return defenceBonus;
+        return (defenceBonus + allyDefenceBonus());
     }
 
+    private int allyAttackBonus() {
+        int attackBonus = 0;
+        for (Mercenary ally : allies) {
+            attackBonus += ally.getAllyAttackDamage();
+        }
+        return attackBonus;
+    }
+
+    private int allyDefenceBonus() {
+        int defenceBonus = 0;
+        for (Mercenary ally : allies) {
+            defenceBonus += ally.getAllyDefenceBonus();
+        }
+        return defenceBonus;
+    }
+    
 }

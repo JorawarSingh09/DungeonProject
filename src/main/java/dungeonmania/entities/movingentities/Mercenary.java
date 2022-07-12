@@ -26,13 +26,14 @@ public class Mercenary extends Entity{
         return ally_attack;
     }
 
-    public int getAllyDefencekDamage() {
+    public int getAllyDefenceBonus() {
         return ally_defence;
     }
 
     public int getHealth(){
         return health;
     }
+
     public int getAttackDamage() {
         return attack;
     }
