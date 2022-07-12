@@ -1,8 +1,10 @@
 package dungeonmania.entities.movingentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.interfaces.Health;
+import dungeonmania.interfaces.Moveable;
 
-public class Mercenary extends Entity{
+public class Mercenary extends Entity implements Moveable, Health {
 
     private int ally_attack;
     private int ally_defence;
@@ -45,6 +47,17 @@ public class Mercenary extends Entity{
 
     public int getBribeAmount() {
         return bribe_amount;
+    }
+
+    @Override
+    public void loseHealth() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void updatePosition() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

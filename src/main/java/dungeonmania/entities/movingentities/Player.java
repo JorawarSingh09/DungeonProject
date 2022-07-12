@@ -7,8 +7,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
+import dungeonmania.interfaces.Moveable;
 
-public class Player extends Entity {
+public class Player extends Entity implements Moveable {
 
     private int health;
     private int attack;
@@ -41,5 +42,10 @@ public class Player extends Entity {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void updatePosition() {
+        // TODO Auto-generated method stub
+        
     }
 }
