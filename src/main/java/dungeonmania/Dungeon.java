@@ -126,6 +126,4 @@ public class Dungeon {
         this.goal = goal;
     }
 
-
-
 }

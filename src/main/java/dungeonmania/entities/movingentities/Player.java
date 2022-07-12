@@ -21,5 +21,12 @@ public class Player extends Entity {
         this.health = player_health;
         this.attack = player_attack;
     }    
+
+    public int getHealth() {
+        return health;
+    }
     
+    public int getAttack() {
+        return attack;
+    }
 }

@@ -46,5 +46,8 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
         // TODO Auto-generated method stub
         
     }
-    
+
+    public int battleBonus() {
+        return defence;
+    }
 }

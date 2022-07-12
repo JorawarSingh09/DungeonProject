@@ -1,13 +1,10 @@
 package dungeonmania.controllers;
 
-import java.util.concurrent.locks.Condition;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
@@ -215,7 +212,6 @@ public class EntityController {
                 case "shield":
                     dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));
                     break;
-
 
             } 
         }
