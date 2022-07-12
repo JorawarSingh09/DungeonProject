@@ -34,4 +34,8 @@ public class Player extends Entity {
     public void addAlly(Mercenary mercenary) {
         mercenaries.add(mercenary);
     }
+
+    public List<Mercenary> getAllies() {
+        return mercenaries;
+    }
 }

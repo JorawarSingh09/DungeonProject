@@ -21,21 +21,25 @@ public class Battle {
     }
 
     public void startBattle() {
-        while (!gameOver()) {
+        while (!isGameOver()) {
             startRound();
         }
+        updateWeaponDurability();
+        diminishPotionEffects();
     }
 
     public void startRound() {
-        rounds.add(new Round());
+        rounds.add(new Round(player.getAttack(), enemy.getAttackDamage(), 
+                            playerInventory.getAttackingItems(), playerInventory.getDefendingItems(), 
+                            player.getAllies()));
     }
 
-    private boolean gameOver() {
+    private boolean isGameOver() {
         return (player.getHealth() <= 0 || enemy.getHealth() <= 0);
     }
 
     private void updateWeaponDurability() {
-        ;
+        playerInventory.updateWeaponsDurability();
     }
 
     private void diminishPotionEffects() {

@@ -9,15 +9,20 @@ import dungeonmania.interfaces.Defending;
 
 public class Round {
 
-    int playerAttackDamage;
-    int enemyAttackDamage;
-    int playerHealth;
-    int enemyHealth;
-    int playerDefence;
-    int enemyDefence;
-    List<Attacking> attackWeaponryUsed =  new ArrayList<>();
-    List<Defending> defenceWeaponryUsed =  new ArrayList<>();
-    List<Mercenary> allies;
+    private int playerAttackDamage;
+    private int enemyAttackDamage;
+    private List<Attacking> attackWeaponryUsed;
+    private List<Defending> defenceWeaponryUsed;
+    private List<Mercenary> allies;
+
+    public Round(int playerAttackDamage, int enemyAttackDamage, List<Attacking> attackWeaponryUsed,
+            List<Defending> defenceWeaponryUsed, List<Mercenary> allies) {
+        this.playerAttackDamage = playerAttackDamage;
+        this.enemyAttackDamage = enemyAttackDamage;
+        this.attackWeaponryUsed = attackWeaponryUsed;
+        this.defenceWeaponryUsed = defenceWeaponryUsed;
+        this.allies = allies;
+    }
 
     public int playerHealthChange() {
         return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus())/10);
@@ -67,5 +72,5 @@ public class Round {
         }
         return defenceBonus;
     }
-    
+
 }

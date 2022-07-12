@@ -15,7 +15,7 @@ public class Inventory {
     List<Buildable> buildableItems = new ArrayList<>();
     List<Attacking> attackingItems = new ArrayList<>();
     List<Defending> defendingItems = new ArrayList<>();
-    List<Durability> durabilityItems = new ArrayList<>();
+    List<Durability> weapons = new ArrayList<>();
 
 
     public Inventory(List<Storeable> inventoryItems) {
@@ -34,4 +34,19 @@ public class Inventory {
     public void build() {
         // TO DO
     }
+
+    public List<Attacking> getAttackingItems() {
+        return attackingItems;
+    }
+
+    public List<Defending> getDefendingItems() {
+        return defendingItems;
+    }
+
+    public void updateWeaponsDurability() {
+        for (Durability weapon : weapons) {
+            weapon.reducedurability();
+        }
+    }
+
 }
