@@ -34,6 +34,8 @@ import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalCondition;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.spawners.SpiderSpawn;
+import dungeonmania.util.Position;
 
 public class EntityController {
 
@@ -150,6 +152,7 @@ public class EntityController {
             switch (type) {
                 case "player":
                     dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health));
+                    dungeon.setSpiderSpawner(new SpiderSpawn(new Position(x, y), spider_spawn_rate));
                     break;
                 case "wall":
                     dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), x, y, false, true));

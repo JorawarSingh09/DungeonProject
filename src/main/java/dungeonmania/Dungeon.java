@@ -8,9 +8,11 @@ import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
 import dungeonmania.goals.Goal;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
+import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.util.Position;
 
 public class Dungeon {
@@ -24,6 +26,7 @@ public class Dungeon {
     MovementController mc;
     Player player;
     int currMaxEntityId;
+    SpiderSpawn spiderSpawner;
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonString = dungeonName;
@@ -125,6 +128,10 @@ public class Dungeon {
 
     public void setGoals(Goal goal) {
         this.goal = goal;
+    }
+
+    public void setSpiderSpawner(SpiderSpawn spawner) {
+        this.spiderSpawner = spawner;
     }
 
 }
