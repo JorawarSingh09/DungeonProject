@@ -10,6 +10,9 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     
     private int bow_durability;
 
+    // Bow will never have a pos, set to INF? can only ever appear in inventory
+    // bow(String id, int bow_durability) default values for the rest
+
     public Bow(int id, int xPos, int yPos, boolean interactable, boolean collidable, int bow_durability) {
         super(id, xPos, yPos, interactable, collidable);
         this.bow_durability = bow_durability;

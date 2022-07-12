@@ -6,7 +6,9 @@ import java.util.List;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
+import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
+import dungeonmania.interfaces.Storeable;
 
 public class Player extends Entity {
 
@@ -22,4 +24,11 @@ public class Player extends Entity {
         this.attack = player_attack;
     }    
     
+    public List<Storeable> getInventoryItems(){
+        return inventory.getInventoryItems();
+    }
+
+    public List<Storeable> getBuildableItems(){
+        return inventory.getBuildableItems();
+    }
 }
