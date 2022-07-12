@@ -2,9 +2,9 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class Key extends Entity implements Inventory, Collectable{
+public class Key extends Entity implements Storeable, Collectable{
     
     public Key(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
         super(id, xPos, yPos, interactable, collidable);

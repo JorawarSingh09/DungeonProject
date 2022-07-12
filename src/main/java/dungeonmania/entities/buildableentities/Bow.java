@@ -4,9 +4,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class Bow extends Entity implements Buildable, Inventory, Durability, Attacking{
+public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking{
     
     private int bow_durability;
 

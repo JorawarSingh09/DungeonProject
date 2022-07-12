@@ -2,9 +2,9 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class Bomb extends Entity implements Collectable, Inventory{
+public class Bomb extends Entity implements Collectable, Storeable{
     private int bomb_radius;
     private boolean inInventory;
     

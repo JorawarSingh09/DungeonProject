@@ -1,5 +1,5 @@
 package dungeonmania.interfaces;
 
-public interface Inventory {
+public interface Storeable {
     public void use();
 }

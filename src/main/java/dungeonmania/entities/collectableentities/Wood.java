@@ -2,9 +2,9 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class Wood extends Entity implements Collectable, Inventory{
+public class Wood extends Entity implements Collectable, Storeable{
     
     public Wood(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
         super(id, xPos, yPos, interactable, collidable);

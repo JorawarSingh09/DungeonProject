@@ -4,9 +4,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class Shield extends Entity implements Buildable, Inventory, Defending, Durability{
+public class Shield extends Entity implements Buildable, Storeable, Defending, Durability{
 
     private int durability;
     private int defence;

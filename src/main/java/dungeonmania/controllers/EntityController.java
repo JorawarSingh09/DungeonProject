@@ -1,9 +1,12 @@
-package dungeonmania;
+package dungeonmania.controllers;
+
+import java.util.concurrent.locks.Condition;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
@@ -26,6 +29,14 @@ import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.entities.staticentities.Wall;
 import dungeonmania.entities.staticentities.ZombieToastSpawner;
+import dungeonmania.goals.BoulderGoal;
+import dungeonmania.goals.CollectTreasureGoal;
+import dungeonmania.goals.ComplexGoal;
+import dungeonmania.goals.EnemiesGoal;
+import dungeonmania.goals.ExitGoal;
+import dungeonmania.goals.Goal;
+import dungeonmania.goals.GoalCondition;
+import dungeonmania.response.models.DungeonResponse;
 
 public class EntityController {
 
@@ -56,13 +67,51 @@ public class EntityController {
 
     public void startGame(JsonArray entities, JsonObject goals, JsonObject configs) {
         Dungeon dungeon = new Dungeon();
-        prepareGoals(goals);
+        dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
     }
 
-    public void prepareGoals(JsonObject goals) {
+    public Goal prepareGoals(JsonObject goals) {
+        if (goals.has("subgoals")) {
+            GoalCondition condition;
+            if (goals.get("goal").getAsString().equals("OR")) {
+                condition = GoalCondition.OR;
+            } else {
+                condition = GoalCondition.AND;
+            }
+            ComplexGoal newGoal = new ComplexGoal(condition);
+            JsonArray subgoals = goals.get("subgoals").getAsJsonArray();
+            for (JsonElement subgoal : subgoals) {
+                if (subgoal.isJsonObject() && ((JsonObject)subgoal).has("subgoals")) {
+                    newGoal.addSubgoal(prepareGoals((JsonObject)subgoal));
+                } else {
+                    String subgoalString = ((JsonObject) subgoal).get("goal").getAsString();
+                    newGoal.addSubgoal(goalType(subgoalString));
+                }
+            }
+            return newGoal;
+        } else {
+            return goalType(goals.toString());
+        }
+    }
 
+    public Goal goalType(String goal) {
+        switch(goal) {
+            case "enemies":
+                return new EnemiesGoal(enemy_goal);
+            case "boulders":
+                return new BoulderGoal();
+            case "treasure":
+                return new CollectTreasureGoal(treasure_goal);
+            case "exit":
+                return new ExitGoal();
+        }
+        return null;
+    }
+
+    public DungeonResponse getGameState(JsonObject goals) {
+        return null;
     }
 
     public void addConfigs(JsonObject configs) {

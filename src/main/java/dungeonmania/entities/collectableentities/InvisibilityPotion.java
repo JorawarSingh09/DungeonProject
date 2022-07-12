@@ -2,9 +2,9 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Inventory;
+import dungeonmania.interfaces.Storeable;
 
-public class InvisibilityPotion extends Entity implements Collectable, Inventory{
+public class InvisibilityPotion extends Entity implements Collectable, Storeable{
     
     private int duration;
 
