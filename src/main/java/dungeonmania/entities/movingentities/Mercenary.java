@@ -10,6 +10,7 @@ public class Mercenary extends Entity{
     private int health;
     private int bribe_radius;
     private int bribe_amount;
+
     public Mercenary(int id, int xPos, int yPos, boolean interactable, boolean collidable, int ally_attack,
             int ally_defence, int mercenary_attack, int mercenary_health, int bribe_radius, int bribe_amount) {
         super(id, xPos, yPos, interactable, collidable);
@@ -21,6 +22,20 @@ public class Mercenary extends Entity{
         this.bribe_amount = bribe_amount;
     }
     
-  
-    
+    public int getAllyAttackDamage() {
+        return ally_attack;
+    }
+
+    public int getAllyDefenceBonus() {
+        return ally_defence;
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public int getAttackDamage() {
+        return attack;
+    }
+
 }

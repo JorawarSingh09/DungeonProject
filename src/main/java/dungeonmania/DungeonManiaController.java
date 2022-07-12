@@ -21,6 +21,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class DungeonManiaController {
+
+    private int currMaxDungeonId = 0;
+
     public String getSkin() {
         return "default";
     }
@@ -60,7 +63,8 @@ public class DungeonManiaController {
             EntityController entityController = new EntityController();
             String jsonConfig = new String(Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName + ".json")));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
-            entityController.startGame(entitiesArray, goals, configs);
+            entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
+            currMaxDungeonId += 1;
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }

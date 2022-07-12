@@ -30,9 +30,9 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
 
     @Override
-    public Boolean isAdditive() {
+    public boolean isAdditive() {
         // TODO Auto-generated method stub
-        return null;
+        return true;
     }
 
     @Override
@@ -45,6 +45,10 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     public void pickup() {
         // TODO Auto-generated method stub
         
+    }
+
+    public int battleBonus() {
+        return attack;
     }
     
     

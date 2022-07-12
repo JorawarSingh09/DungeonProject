@@ -25,7 +25,8 @@ public class Dungeon {
     Player player;
     int currMaxEntityId;
 
-    public Dungeon() {
+    public Dungeon(String dungeonName, int dungeonId) {
+        this.dungeonString = dungeonName;
         currMaxEntityId = 0;
         tickCount = 0;
     }
@@ -92,9 +93,10 @@ public class Dungeon {
         currMaxEntityId += 1;
     }
 
-    public void removeEntity(Entity removing){
-        for(Entity entity : entities){
-            if(entity.equals(removing)){
+    // TODO: check defined behaviour for item/entity removal (always unique?)
+    public void removeEntity(Entity removing) { 
+        for (Entity entity : entities){
+            if (entity.equals(removing)){
                 entities.remove(removing);
                 currMaxEntityId -= 1;
             }
@@ -124,7 +126,5 @@ public class Dungeon {
     public void setGoals(Goal goal) {
         this.goal = goal;
     }
-
-
 
 }

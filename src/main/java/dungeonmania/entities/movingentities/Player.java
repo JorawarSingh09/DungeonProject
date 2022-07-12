@@ -12,14 +12,34 @@ public class Player extends Entity {
 
     private int health;
     private int attack;
-    Inventory inventory;
+    Inventory inventory =  new Inventory();
     List<Attacking> attackItems = new ArrayList<>();
     List<Defending> defenceItems = new ArrayList<>();
+    List<Mercenary> mercenaries = new ArrayList<>();
     
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, int player_attack, int player_health) {
         super(id, xPos, yPos, interactable, collidable);
         this.health = player_health;
         this.attack = player_attack;
     }    
+
+    public int getHealth() {
+        return health;
+    }
     
+    public int getAttack() {
+        return attack;
+    }
+
+    public void addAlly(Mercenary mercenary) {
+        mercenaries.add(mercenary);
+    }
+
+    public List<Mercenary> getAllies() {
+        return mercenaries;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 }

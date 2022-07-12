@@ -1,13 +1,10 @@
 package dungeonmania.controllers;
 
-import java.util.concurrent.locks.Condition;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
@@ -65,11 +62,12 @@ public class EntityController {
     private int zombie_health;
     private int zombie_spawn_rate;
 
-    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs) {
-        Dungeon dungeon = new Dungeon();
+    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId, String dungeonName) {
+        Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
         dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
+        getGameState(dungeon);
     }
 
     public Goal prepareGoals(JsonObject goals) {
@@ -110,7 +108,10 @@ public class EntityController {
         return null;
     }
 
-    public DungeonResponse getGameState(JsonObject goals) {
+    public DungeonResponse getGameState(Dungeon dungeon) {
+        String dId = Integer.toString(dungeon.getDungeonId());
+        String dName = dungeon.getDungeonString();
+        // TODO: entities, inventory, battles, buildables, goals
         return null;
     }
 
@@ -211,7 +212,6 @@ public class EntityController {
                 case "shield":
                     dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));
                     break;
-
 
             } 
         }
