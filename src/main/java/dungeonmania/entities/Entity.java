@@ -72,5 +72,10 @@ public class Entity {
     public void moveTo(Position pos){
         // stuff goes here
     }
+
+    public Position getPosition() {
+        return pos;
+    }
+
 }
 

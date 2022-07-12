@@ -13,15 +13,15 @@ public class Player extends Entity implements Moveable {
 
     private int health;
     private int attack;
-    Inventory inventory =  new Inventory();
-    List<Attacking> attackItems = new ArrayList<>();
-    List<Defending> defenceItems = new ArrayList<>();
+    Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
     
-    public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, int player_attack, int player_health) {
+    public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
+                    int player_attack, int player_health, int bowDurability, int shieldDurability) {
         super(id, xPos, yPos, interactable, collidable);
         this.health = player_health;
         this.attack = player_attack;
+        this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
     }    
 
     public int getHealth() {
