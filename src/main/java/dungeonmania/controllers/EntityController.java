@@ -151,7 +151,8 @@ public class EntityController {
             String type = ((JsonObject) entity).get("type").getAsString();
             switch (type) {
                 case "player":
-                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health));
+                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health, 
+                                                    bow_durability, shield_durability));
                     dungeon.setSpiderSpawner(new SpiderSpawn(new Position(x, y), spider_spawn_rate));
                     break;
                 case "wall":
