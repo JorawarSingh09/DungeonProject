@@ -17,11 +17,6 @@ public class Inventory {
     List<Defending> defendingItems = new ArrayList<>();
     List<Durability> weapons = new ArrayList<>();
 
-
-    public Inventory(List<Storeable> inventoryItems) {
-        this.inventoryItems = inventoryItems;
-    }
-
     public List<Storeable> getInventoryItems() {
         return inventoryItems;
     }

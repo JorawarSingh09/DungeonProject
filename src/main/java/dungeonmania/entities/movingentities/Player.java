@@ -12,7 +12,7 @@ public class Player extends Entity {
 
     private int health;
     private int attack;
-    Inventory inventory;
+    Inventory inventory =  new Inventory();
     List<Attacking> attackItems = new ArrayList<>();
     List<Defending> defenceItems = new ArrayList<>();
     List<Mercenary> mercenaries = new ArrayList<>();
@@ -37,5 +37,9 @@ public class Player extends Entity {
 
     public List<Mercenary> getAllies() {
         return mercenaries;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
