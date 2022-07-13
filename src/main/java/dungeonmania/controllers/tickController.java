@@ -5,4 +5,7 @@ package dungeonmania.controllers;
  */
 public class tickController {
     
+    public void enemyCell() {
+        
+    }
 }

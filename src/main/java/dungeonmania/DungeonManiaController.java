@@ -56,6 +56,7 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+        Dungeon dungeon;
         if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {
             throw new IllegalArgumentException();
         }
@@ -67,28 +68,32 @@ public class DungeonManiaController {
             EntityController entityController = new EntityController();
             String jsonConfig = new String(Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName + ".json")));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
-            Dungeon dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
+            dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
             dungeons.put(currMaxDungeonId, dungeon);
             currMaxDungeonId += 1;
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
 
-        return null;
+        return dungeon.createDungeonResponse();
     }
 
     /**
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-        return null;
+        return dungeons.get(1).createDungeonResponse();
     }
 
     /**
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        int itemId = Integer.parseInt(itemUsedId);
+        Dungeon dungeon = dungeons.get(1);
+        if (!dungeon.itemInPlayerInventory(itemId)) throw new InvalidActionException("item not in player inventory");
+        if (!dungeon.itemIsUsable(itemId)) throw new InvalidActionException("item not usable");
+        return dungeon.createDungeonResponse();
     }
 
     /**
@@ -102,7 +107,13 @@ public class DungeonManiaController {
      * /game/build
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Dungeon dungeon = dungeons.get(1);
+        //If buildable is not one of bow, shield
+        if (!buildable.equals("bow") && !buildable.equals("shield")) throw new IllegalArgumentException("not buildable item");
+        //If the player does not have sufficient items to craft the buildable
+        if (!dungeon.canBuild(buildable)) throw new InvalidActionException("the player does not have sufficient items to craft the buildable");
+        dungeon.build(buildable);
+        return dungeon.createDungeonResponse();
     }
 
     /**

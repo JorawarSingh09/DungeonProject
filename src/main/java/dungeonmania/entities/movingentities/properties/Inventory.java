@@ -55,6 +55,10 @@ public class Inventory {
         return items.get(id);
     }
 
+    public boolean hasItem(int id) {
+        return items.containsKey(id);
+    }
+
     public List<Storeable> getInventoryItems() {
         return inventoryItems;
     }

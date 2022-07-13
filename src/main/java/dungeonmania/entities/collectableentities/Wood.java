@@ -4,7 +4,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 
-public class Wood extends Entity implements Collectable, Storeable{
+public class Wood extends Entity implements Collectable, Storeable {
     
     public Wood(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
         super(id, xPos, yPos, interactable, collidable);
@@ -21,9 +21,13 @@ public class Wood extends Entity implements Collectable, Storeable{
         // TODO Auto-generated method stub
         
     }
-    
+
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
+    }
+
+    public String getType() {
+        return "wood";
     }
     
 }

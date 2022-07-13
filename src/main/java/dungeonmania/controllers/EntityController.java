@@ -69,7 +69,6 @@ public class EntityController {
         dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
-        getGameState(dungeon);
         return dungeon;
     }
 
@@ -108,13 +107,6 @@ public class EntityController {
             case "exit":
                 return new ExitGoal();
         }
-        return null;
-    }
-
-    public DungeonResponse getGameState(Dungeon dungeon) {
-        String dId = dungeon.getDungeonId();
-        String dName = dungeon.getDungeonString();
-        // TODO: entities, inventory, battles, buildables, goals
         return null;
     }
 

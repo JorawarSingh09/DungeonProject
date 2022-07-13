@@ -29,6 +29,8 @@ public class Dungeon {
     Player player;
     int currMaxEntityId;
     SpiderSpawn spiderSpawner;
+    List<String> usables = List.of("invincibility_potion", "invisibility_potion", "bomb");
+
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
@@ -37,7 +39,7 @@ public class Dungeon {
         tickCount = 0;
     }
 
-    //Dungeon Respose
+    // Dungeon Respose
     public DungeonResponse createDungeonResponse(){
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
             createItemResponse(), createBattleResponse(), getBuildable(), goal.toString());
@@ -46,29 +48,28 @@ public class Dungeon {
     public List<EntityResponse> createEntityResponse(){
         List<EntityResponse> entityResponses = new ArrayList<>();
         for(Entity entity : entities){
-            entityResponses.add(new EntityResponse(entity.getEntityId(), entity.getType(),
+            entityResponses.add(new EntityResponse(Integer.toString(entity.getEntityId()), entity.getType(),
                                  entity.getPosition(), entity.isInteractable()));
         }
         return entityResponses;
     }
 
-    public List<ItemResponse> createItemResponse(){
+    public List<ItemResponse> createItemResponse() {
         List<ItemResponse> inventory = new ArrayList<>();
         for(Storeable item : player.getInventoryItems()){
-            Entity bob = (Entity) item; //this isnt gonna work
-            inventory.add(new ItemResponse(bob.getEntityId(), bob.getType()));
+            inventory.add(new ItemResponse(Integer.toString(item.getItemId()), item.getType()));
         }
         return inventory;
     }
 
-    public List<BattleResponse> createBattleResponse(){
+    public List<BattleResponse> createBattleResponse() {
         // no clue what to do here
         return new ArrayList<>();
     }
-    public List<String> getBuildable(){
+    public List<String> getBuildable() {
         List<String> buildable = new ArrayList<>();
-        for(Storeable item : player.getBuildableItems()){
-            buildable.add(item.toString());
+        for(String item : player.getBuildableItems()){
+            buildable.add(item);
         }
         return buildable;
     }
@@ -166,6 +167,42 @@ public class Dungeon {
 
     public void setSpiderSpawner(SpiderSpawn spawner) {
         this.spiderSpawner = spawner;
+    }
+
+    public Entity getEntityById(int id) {
+        for (Entity entity: entities) {
+            if (entity.getEntityId() == id) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    public boolean itemInPlayerInventory(int id) {
+        return player.hasItem(id);
+    }
+
+    public boolean itemIsUsable(int id) {
+        return usables.contains(player.itemType(id));
+    }
+
+    public boolean canBuild(String itemString) {
+        return player.getBuildableItems().contains(itemString);
+    }    
+
+    public void useItem(int id) {
+        if (player.itemType(id).equals(usables.get(0))) {
+            player.drinkInvinc(id);
+        } else if (player.itemType(id).equals(usables.get(1))) {
+            player.drinkInvis(id);
+        } else {
+            player.putDownBomb(id);
+        }
+    }
+
+    public void build(String item) {
+        player.build(item, currMaxEntityId);
+        currMaxEntityId += 1;
     }
 
 }

@@ -23,8 +23,8 @@ public class Entity {
         return "Entity";
     }
 
-    public String getEntityId() {
-        return Integer.toString(this.entityId);
+    public int getEntityId() {
+        return entityId;
     }
 
     public void setEntityId(int entityId) {

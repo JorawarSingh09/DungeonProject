@@ -11,13 +11,9 @@ import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
-import dungeonmania.interfaces.Attacking;
-import dungeonmania.interfaces.Buildable;
-import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
-import dungeonmania.interfaces.Storeable;
 
 public class Player extends Entity implements Moveable {
 
@@ -39,6 +35,14 @@ public class Player extends Entity implements Moveable {
 
     public PlayerState getPlayerState() {
         return state;
+    }
+
+    public List<Storeable> getInventoryItems() {
+        return inventory.getInventoryItems();
+    }
+
+    public List<String> getBuildableItems() {
+        return inventory.getBuildableItems();
     }
 
     public void setPlayerState(PlayerState state) {
@@ -67,7 +71,6 @@ public class Player extends Entity implements Moveable {
 
     public void updatePosition() {
         // TODO Auto-generated method stub
-        
     }
 
     public void engageBattle(boolean playerDied) {
@@ -114,5 +117,21 @@ public class Player extends Entity implements Moveable {
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
             drinkInvinc(queueItems.peek().getItemId());
         }
+    }
+
+    public boolean hasItem(int id) {
+        return inventory.hasItem(id);
+    }
+
+    public String itemType(int id) {
+        return inventory.getItemFromId(id).getType();
+    }
+
+    public void putDownBomb(int id) {
+        inventory.getItemFromId(id).use();
+    }
+
+    public void build(String item, int nextItemId) {
+        inventory.build(item, nextItemId);
     }
 }

@@ -27,8 +27,7 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     }
 
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
-    }
+        return getEntityId();    }
 
     public int getRemainingDuration() {
         return duration;
@@ -37,5 +36,9 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     public void decrementDuration() {
         duration -= 1;
     }
-    
+
+    public String getType() {
+        return "invincibility_potion";
+    }
+
 }

@@ -58,7 +58,11 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
+    }
+
+    public String getType() {
+        return "shield";
     }
 
 }

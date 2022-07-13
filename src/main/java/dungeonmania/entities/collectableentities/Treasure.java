@@ -23,7 +23,11 @@ public class Treasure extends Entity implements Collectable, Storeable{
     }
     
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();    
     }
-    
+
+    public String getType() {
+        return "treasure";
+    }
+
 }

@@ -25,7 +25,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
 
     @Override
-    public Boolean isAdditive() {
+    public boolean isAdditive() {
         // TODO Auto-generated method stub
         return true;
     }
@@ -52,7 +52,11 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
     
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
+    }
+
+    public String getType() {
+        return "sword";
     }
 
 }
