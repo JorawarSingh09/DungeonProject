@@ -13,8 +13,8 @@ public abstract class PlayerState {
         // Do nothing
     }
 
-    public boolean tick(int remainingDuration) {
-        return false;
+    public void tick(int remainingDuration) {
+        // Do nothing
     }
 
     public void drinkInvis() {

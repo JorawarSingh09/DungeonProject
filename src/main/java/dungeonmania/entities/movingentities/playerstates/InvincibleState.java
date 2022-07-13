@@ -9,26 +9,12 @@ public class InvincibleState extends PlayerState {
         //TODO Auto-generated constructor stub
     }
 
-    @Override
     public void engageBattle(boolean playerDied) {
         player.setPlayerState(new AliveState(player));       
     }
 
-    @Override
-    public boolean tick(int remainingDuration) {
-        // TODO Auto-generated method stub
-        return false;        
-    }
-
-    @Override
     public void drinkInvis() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void drinkInvinc() {
-        // TODO Auto-generated method stub
+        player.setPlayerState(new InvisibleState(player));
         
     }
     

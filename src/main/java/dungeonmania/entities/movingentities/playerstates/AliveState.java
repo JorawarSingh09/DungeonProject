@@ -16,12 +16,6 @@ public class AliveState extends PlayerState {
     }
 
     @Override
-    public boolean tick(int remainingDuration) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
     public void drinkInvis() {
         player.setPlayerState(new InvisibleState(player));
     }

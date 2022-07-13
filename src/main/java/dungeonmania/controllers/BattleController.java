@@ -26,6 +26,7 @@ public class BattleController {
         } else {
             this.playerDied = true;
         }
+        player.engageBattle(playerDied);
     }
 
     public int getEnemiesKilled() {

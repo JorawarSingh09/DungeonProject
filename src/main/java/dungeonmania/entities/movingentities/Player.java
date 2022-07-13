@@ -29,7 +29,7 @@ public class Player extends Entity implements Moveable {
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
                     int player_attack, int player_health, int bowDurability, int shieldDurability) {
         super(id, xPos, yPos, interactable, collidable);
-        this.health = player_health;
+        this.health = player_health;                                                                                                                         
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
         this.state = new AliveState(this);
@@ -69,14 +69,14 @@ public class Player extends Entity implements Moveable {
     }
 
     public void engageBattle(boolean playerDied) {
-        state.engageBattle(playerDied);;
+        state.engageBattle(playerDied);
     }
 
     public void tick() {
         if (queueItems.size() > 0) {
             Regenerative item = queueItems.peek();
             item.decrementDuration();
-            if (state.tick(item.getRemainingDuration())) {
+            if (item.getRemainingDuration() == 0) {
                 queueItems.remove();
                 inventory.removeItemById(item.getItemId());
             };
@@ -108,9 +108,9 @@ public class Player extends Entity implements Moveable {
 
     private void nextItem() {
         if (queueItems.peek() instanceof InvisibilityPotion) {
-            drinkInvis(((InvisibilityPotion)queueItems.peek()).getEntityId());
+            drinkInvis(queueItems.peek().getItemId());
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
-            drinkInvinc(((InvincibilityPotion)queueItems.peek()).getEntityId());
+            drinkInvinc(queueItems.peek().getItemId());
         }
     }
 }

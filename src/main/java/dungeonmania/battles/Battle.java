@@ -27,7 +27,6 @@ public class Battle {
         }
 
         updateWeaponDurability();
-        diminishPotionEffects();
         return (isPlayerAlive());
         //Update player state
     }
@@ -50,7 +49,4 @@ public class Battle {
         playerInventory.updateWeaponsDurability();
     }
 
-    private void diminishPotionEffects() {
-        ;
-    }
 }
