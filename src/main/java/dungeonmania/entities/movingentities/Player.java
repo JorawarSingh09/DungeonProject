@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Queue;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.InvincibilityPotion;
+import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Moveable;
+import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
 
 public class Player extends Entity implements Moveable {
@@ -20,7 +23,7 @@ public class Player extends Entity implements Moveable {
     private int attack;
     Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
-    Queue<Storeable> queueItems = new LinkedList<>();
+    Queue<Regenerative> queueItems = new LinkedList<>();
     PlayerState state;
     
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
@@ -70,17 +73,44 @@ public class Player extends Entity implements Moveable {
     }
 
     public void tick() {
-        state.tick();;
+        if (queueItems.size() > 0) {
+            Regenerative item = queueItems.peek();
+            item.decrementDuration();
+            if (state.tick(item.getRemainingDuration())) {
+                queueItems.remove();
+                inventory.removeItemById(item.getItemId());
+            };
+            if (queueItems.size() > 0) nextItem();
+        } else {
+            state.tick(0);
+        }
     }
 
     public void drinkInvis(int itemId) {
-        state.drinkInvis();
+        if (inventory.getItemFromId(itemId) instanceof Regenerative) {
+            Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
+            queueItems.add(invincPotion);
+            if (queueItems.size() == 1) {
+                state.drinkInvis();
+            }
+        }
     }
 
     public void drinkInvinc(int itemId) {
-        Storeable invincPotion = inventory.getItemFromId(itemId);
-        queueItems.add(invincPotion);
-        state.drinkInvinc();
+        if (inventory.getItemFromId(itemId) instanceof Regenerative) {
+            Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
+            queueItems.add(invincPotion);
+            if (queueItems.size() == 1) {
+                state.drinkInvinc();
+            }
+        }
     }
 
+    private void nextItem() {
+        if (queueItems.peek() instanceof InvisibilityPotion) {
+            drinkInvis(((InvisibilityPotion)queueItems.peek()).getEntityId());
+        } else if (queueItems.peek() instanceof InvincibilityPotion) {
+            drinkInvinc(((InvincibilityPotion)queueItems.peek()).getEntityId());
+        }
+    }
 }

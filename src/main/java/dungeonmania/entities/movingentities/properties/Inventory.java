@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
@@ -139,7 +140,16 @@ public class Inventory {
                 itemRemoved += 1;
             }
         }
+        List<Integer> remainingIds = inventoryItems.stream().map(Storeable::getItemId).collect(Collectors.toList());
+        for (Integer key : items.keySet()) {
+            if (!remainingIds.contains(key)) items.remove(key);
+        }
         return (itemRemoved == removeAmount);
+    }
+
+    public void removeItemById(int id) {
+        inventoryItems.remove(items.get(id));
+        items.remove(id);
     }
 
 }

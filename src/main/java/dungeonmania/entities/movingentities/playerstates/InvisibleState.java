@@ -14,9 +14,9 @@ public class InvisibleState extends PlayerState {
     }
 
     @Override
-    public void tick() {
-        // TODO Auto-generated method stub
-        
+    public boolean tick(int remainingDuration) {
+        if (remainingDuration == 0);
+        return false;
     }
 
     @Override
