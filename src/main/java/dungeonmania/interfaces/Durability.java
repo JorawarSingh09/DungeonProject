@@ -1,7 +1,9 @@
 package dungeonmania.interfaces;
 
+import dungeonmania.entities.movingentities.Player;
+
 public interface Durability {
     
     public void reducedurability();
-    public void breakEntity();
+    public void breakEntity(Player player);
 }
