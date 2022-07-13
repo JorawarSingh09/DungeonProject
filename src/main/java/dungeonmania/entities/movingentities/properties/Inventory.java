@@ -85,7 +85,7 @@ public class Inventory {
                 removeShieldItems();
                 break;
             case "bow":
-                Bow bow = new Bow(nextItemMaxId, playerPos.getX(), playerPos.getY(), false, false, bowDurability);
+                Bow bow = new Bow(nextItemMaxId, bowDurability);
                 inventoryItems.add(bow);
                 buildableItems.add(bow);
                 weapons.add(bow);

@@ -1,6 +1,7 @@
 package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Durability;
@@ -24,13 +25,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
 
     @Override
-    public void breakEntity() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public boolean isAdditive() {
+    public Boolean isAdditive() {
         // TODO Auto-generated method stub
         return true;
     }
@@ -47,12 +42,17 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         
     }
 
+    @Override
+    public void breakEntity(Player player) {
+        // TODO Auto-generated method stub
+    }
+
     public int battleBonus() {
         return attack;
     }
     
     public int getItemId() {
-        return getEntityId();
+        return Integer.parseInt(getEntityId());
     }
 
 }

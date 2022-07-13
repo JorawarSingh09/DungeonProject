@@ -1,6 +1,7 @@
 package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
@@ -18,9 +19,8 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     @Override
-    public Entity build() {
+    public void build(Player player) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -36,13 +36,19 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     @Override
-    public void breakEntity() {
+    public void reduceEnemyAttack() {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void reduceEnemyAttack() {
+    public void consumeItems(Player player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void breakEntity(Player player) {
         // TODO Auto-generated method stub
         
     }
@@ -52,7 +58,7 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     public int getItemId() {
-        return getEntityId();
+        return Integer.parseInt(getEntityId());
     }
 
 }
