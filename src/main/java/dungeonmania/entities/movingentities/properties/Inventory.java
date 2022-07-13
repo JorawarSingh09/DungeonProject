@@ -1,7 +1,9 @@
 package dungeonmania.entities.movingentities.properties;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.reflections.Store;
 
@@ -25,6 +27,7 @@ public class Inventory {
     List<Attacking> attackingItems = new ArrayList<>();
     List<Defending> defendingItems = new ArrayList<>();
     List<Durability> weapons = new ArrayList<>();
+    Map<Integer, Storeable> items = new HashMap<>();
     private int bowDurability;
     private int shieldDurability;
     private Position playerPos;    
@@ -45,6 +48,7 @@ public class Inventory {
         if (item instanceof Durability) {
             weapons.add((Durability) item);
         }
+        items.put(item.getItemId(), item);
     }
 
     public List<Storeable> getInventoryItems() {
@@ -137,6 +141,10 @@ public class Inventory {
             }
         }
         return count;
+    }
+
+    private void removeShieldItems() {
+        
     }
 
 }

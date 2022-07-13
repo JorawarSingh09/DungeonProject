@@ -45,4 +45,8 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         return battleBonus;
     }
 
+    public int getItemId() {
+        return getEntityId();
+    }
+
 }

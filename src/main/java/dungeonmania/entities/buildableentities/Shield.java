@@ -50,4 +50,9 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     public int battleBonus() {
         return defence;
     }
+
+    public int getItemId() {
+        return getEntityId();
+    }
+    
 }
