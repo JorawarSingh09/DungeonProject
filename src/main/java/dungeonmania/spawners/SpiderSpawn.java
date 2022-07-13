@@ -6,11 +6,11 @@ import java.util.List;
 import dungeonmania.util.Position;
 
 public class SpiderSpawn {
-    List<Position> spawnBlocks = new ArrayList<>();
+    List<Position> spawnArea = new ArrayList<>();
     int spawnRate;
     
-    public SpiderSpawn(int spawnRate){
-        this.spawnBlocks = 
+    public SpiderSpawn(int spawnRate, Position playerSpawnBlock){
+        this.spawnArea = 
             List.of(new Position(0, 1),
                     new Position(1, 1),
                     new Position(0, 0),
@@ -20,7 +20,7 @@ public class SpiderSpawn {
     }
 
     public SpiderSpawn(Position spiderSpawnLocation, int spawnRate){
-        this.spawnBlocks = 
+        this.spawnArea = 
             List.of(spiderSpawnLocation,
                     new Position(spiderSpawnLocation.getX(), spiderSpawnLocation.getY() + 1),
                     new Position(spiderSpawnLocation.getX() + 1, spiderSpawnLocation.getY() + 1),
@@ -30,11 +30,11 @@ public class SpiderSpawn {
     }
 
     public List<Position> getSpawnLocation(){
-        return this.spawnBlocks;
+        return this.spawnArea;
     }
 
     public void setSpawnLocation(Position bottomLeft){
-        this.spawnBlocks = 
+        this.spawnArea = 
             List.of(bottomLeft,
                     new Position(bottomLeft.getX(), bottomLeft.getY() + 1),
                     new Position(bottomLeft.getX() + 1, bottomLeft.getY() + 1),

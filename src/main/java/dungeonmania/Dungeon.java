@@ -42,10 +42,15 @@ public class Dungeon {
         tickCount = 0;
     }
 
+    public boolean isGoalCompleted() {
+        return goal.isGoalCompleted(this);
+    }
+
     // Dungeon Respose
     public DungeonResponse createDungeonResponse() {
+        System.out.println(goal.toString(this));
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
-                createItemResponse(), createBattleResponse(), getBuildable(), "");
+                createItemResponse(), createBattleResponse(), getBuildable(), goal.toString(this));
     }
 
     public List<EntityResponse> createEntityResponse() {
@@ -68,6 +73,10 @@ public class Dungeon {
     public List<BattleResponse> createBattleResponse() {
         // no clue what to do here
         return new ArrayList<>();
+    }
+
+    public BattleController getBattleController() {
+        return this.bc;
     }
 
     public List<String> getBuildable() {
@@ -146,6 +155,10 @@ public class Dungeon {
         return foundMatches;
     }
 
+    public boolean areAllSwitchesTriggered() {
+        return mc.allSwitchestriggered();
+    }
+
     public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
@@ -158,12 +171,7 @@ public class Dungeon {
     // TODO: check defined behaviour for item/entity removal in terms of ID (always
     // unique?)
     public void removeEntity(Entity removing) {
-        for (Entity entity : entities) {
-            if (entity.equals(removing)) {
-                entities.remove(removing);
-                // currMaxEntityId -= 1;
-            }
-        }
+        entities.remove(removing);
     }
 
     public int getCurrMaxEntityId() {

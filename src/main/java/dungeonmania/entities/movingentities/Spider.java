@@ -9,11 +9,13 @@ public class Spider extends Entity implements Moveable, Health {
 
     private int attack;
     private int health;
+    boolean clockwise;
 
     public Spider(int id, Position position, boolean interactable, boolean collidable, int attack, int health) {
         super(id, position, interactable, collidable);
         this.attack = attack;
         this.health = health;
+        this.clockwise = true;
     }
 
     @Override

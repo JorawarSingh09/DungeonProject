@@ -10,15 +10,21 @@ import dungeonmania.util.Position;;
 public class ExitGoal implements Goal {
 
     public boolean isGoalCompleted(Dungeon dungeon) {
-        List<Entity> exits = dungeon.getEntitiesOfType("Exit");
+        List<Entity> exits = dungeon.getEntitiesOfType("exit");
         Player player = dungeon.getPlayer();
-        Position playerPos = player.getPos();
+        Position playerPos = player.getPosition();
         for (Entity exit : exits) {
-            if (playerPos.equals(exit.getPos())) {
+            if (playerPos.equals(exit.getPosition())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public String toString(Dungeon dungeon){
+        if (isGoalCompleted(dungeon))
+            return "";
+        return ":exit";
     }
 
 }

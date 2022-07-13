@@ -8,15 +8,37 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Door extends Entity implements Static {
-    
-    public Door(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    int keyPair;
+    boolean doorOpen;
+
+    public Door(int id, Position position, int keyPair) {
+        super(id, position, false, true);
+        this.keyPair = keyPair;
+        this.doorOpen = false;
+    }
+
+    public int getKeyPair() {
+        return this.keyPair;
     }
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        // TODO Auto-generated method stub
-        
-    }  
-    
+        // has right key
+        // open door move
+        // no right key or no key
+        // cant move
+        if (player.hasKey(keyPair) || doorOpen) {
+            // set door open
+            player.updatePosition(direction);
+            setCollidable(false);
+            this.doorOpen = true;
+        }
+
+    }
+
+    @Override
+    public String getType() {
+        return "door";
+    }
+
 }

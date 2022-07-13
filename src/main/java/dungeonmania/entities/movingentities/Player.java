@@ -128,6 +128,14 @@ public class Player extends Entity implements Moveable {
         return inventory.hasItem(id);
     }
 
+    public void addItem(Entity item) {
+        inventory.addItem((Storeable) item);
+    }
+
+    public void removeItem(Entity entity) {
+        inventory.removeItemById(entity.getEntityId());
+    }
+
     public String itemType(int id) {
         return inventory.getItemFromId(id).getType();
     }
@@ -138,6 +146,10 @@ public class Player extends Entity implements Moveable {
 
     public void build(String item, int nextItemId) {
         inventory.build(item, nextItemId);
+    }
+
+    public boolean hasKey(int keyPair) {
+        return inventory.hasRightKey(keyPair);
     }
 
     @Override

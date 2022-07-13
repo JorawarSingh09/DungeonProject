@@ -112,7 +112,7 @@ public class Inventory {
         }
     }
 
-    private int countItem(Class<?> t) {
+    public int countItem(Class<?> t) {
         int count = 0;
         for (Storeable item : inventoryItems) {
             if (item.getClass().equals(t)) {
@@ -155,4 +155,19 @@ public class Inventory {
         items.remove(id);
     }
 
+    public boolean hasRightKey(int keyPair){
+        boolean foundKey = false;
+        Storeable foundItem = null;
+        for(Storeable item : inventoryItems){
+            if(item instanceof Key){
+                if(((Key) item).getKeyPair() == keyPair){
+                    foundKey = true;
+                    foundItem = item;
+                    break;
+                }
+            }
+        }
+        if(foundKey) removeItemById(foundItem.getItemId());
+        return foundKey;
+    }
 }

@@ -1,6 +1,10 @@
 package dungeonmania.entities.collectableentities;
 
+import java.time.chrono.ThaiBuddhistChronology;
+
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
@@ -12,15 +16,9 @@ public class Arrow extends Entity implements Collectable, Storeable {
     }
 
     @Override
-    public void pickup() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void use() {
-        // TODO Auto-generated method stub
-        
+    public void pickup(Player player, Dungeon dungeon) {
+        player.addItem(this);
+        dungeon.removeEntity(this);
     }
 
     public int getItemId() {
@@ -29,6 +27,12 @@ public class Arrow extends Entity implements Collectable, Storeable {
     
     public String getType() {
         return "arrow";
+    }
+
+    @Override
+    public void use() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

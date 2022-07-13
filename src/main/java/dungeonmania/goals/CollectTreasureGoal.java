@@ -7,6 +7,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.Treasure;
 
 public class CollectTreasureGoal implements Goal {
     public int treasure;
@@ -18,20 +19,15 @@ public class CollectTreasureGoal implements Goal {
     public boolean isGoalCompleted(Dungeon dungeon) {
         Player player = dungeon.getPlayer();
         Inventory inventory = player.getInventory();
-        List<Storeable> items = inventory.getInventoryItems();
-        int treasureCount = 0;
-        for (Storeable item : items) {
-            Entity i = (Entity) item;
-            if (i.getType().equals("Treasure")) {
-                treasureCount += 1;
-            }
-        }
+        int treasureCount = inventory.countItem(Treasure.class);
 
-        if (treasureCount >= this.treasure) {
-            return true;
-        } else {
-            return false;
-        }
+        return (treasureCount >= this.treasure);
+    }
+
+    public String toString(Dungeon dungeon) {
+        if (isGoalCompleted(dungeon))
+            return "";
+        return ":treasure";
     }
 
 }
