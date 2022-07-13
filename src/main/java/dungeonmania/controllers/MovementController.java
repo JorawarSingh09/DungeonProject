@@ -27,18 +27,18 @@ public class MovementController {
         List<Static> entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);
         // Check for zombie Spawner
         for (Static entity: entitiesOnNextBlock) {
-            entity.playerOnTo(player);
+            entity.playerOnTo(player, dungeon, movement);
         }
         if (entitiesOnNextBlock.size() < 1) player.updatePosition(movement);
-        List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
-        for (Collectable entity: collectablesOnNextBlock) {
-            entity.pickup();
-        }
-        List<Health> enemiesOnNextBlock = dungeon.getEnemiesOnBlock(newPosition);
-        for (Health enemy: enemiesOnNextBlock) {
-            dungeon.startBattle(enemy);
-        }
-        updateEntityPositions();        
+        // List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
+        // for (Collectable entity: collectablesOnNextBlock) {
+        //     entity.pickup();
+        // }
+        // List<Health> enemiesOnNextBlock = dungeon.getEnemiesOnBlock(newPosition);
+        // for (Health enemy: enemiesOnNextBlock) {
+        //     dungeon.startBattle(enemy);
+        // }
+        // updateEntityPositions();        
     }
 
     public void updateEntityPositions() {

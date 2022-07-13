@@ -160,7 +160,7 @@ public class EntityController {
                     dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));    
                     break;
                 case "switch":
-                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
+                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
                 case "door":
                     dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
