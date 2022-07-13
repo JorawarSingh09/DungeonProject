@@ -5,4 +5,5 @@ public interface Health {
     public int getHealth();
     public int getAttackDamage();
     public void loseHealth();
+    public int getEntityId();
 }

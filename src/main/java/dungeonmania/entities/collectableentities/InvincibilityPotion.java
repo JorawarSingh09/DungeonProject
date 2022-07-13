@@ -5,13 +5,14 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class InvincibilityPotion extends Entity implements Storeable, Collectable, Regenerative {
     
     private int duration;
 
-    public InvincibilityPotion(int id, int xPos, int yPos, boolean interactable, boolean collidable, int duration) {
-        super(id, xPos, yPos, interactable, collidable);
+    public InvincibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
+        super(id, position, interactable, collidable);
         this.duration = duration;
     }
 
@@ -27,8 +28,7 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     }
 
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
-    }
+        return getEntityId();    }
 
     public int getRemainingDuration() {
         return duration;
@@ -37,5 +37,9 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     public void decrementDuration() {
         duration -= 1;
     }
-    
+
+    public String getType() {
+        return "invincibility_potion";
+    }
+
 }

@@ -6,14 +6,15 @@ import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
-public class Sword extends Entity implements Storeable, Attacking, Durability, Collectable{
+public class Sword extends Entity implements Storeable, Attacking, Durability, Collectable {
     
     private int attack;
     private int durability; 
 
-    public Sword(int id, int xPos, int yPos, boolean interactable, boolean collidable, int attack, int durability) {
-        super(id, xPos, yPos, interactable, collidable);
+    public Sword(int id, Position position, boolean interactable, boolean collidable, int attack, int durability) {
+        super(id, position, interactable, collidable);
         this.attack = attack;
         this.durability = durability;
     }
@@ -25,7 +26,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
 
     @Override
-    public Boolean isAdditive() {
+    public boolean isAdditive() {
         // TODO Auto-generated method stub
         return true;
     }
@@ -52,7 +53,11 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     }
     
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
     }
-    
+
+    public String getType() {
+        return "sword";
+    }
+
 }
