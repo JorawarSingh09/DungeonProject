@@ -24,5 +24,9 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
         // TODO Auto-generated method stub
         
     }
+
+    public int getItemId() {
+        return getEntityId();
+    }
     
 }

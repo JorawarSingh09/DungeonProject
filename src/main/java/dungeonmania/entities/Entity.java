@@ -18,6 +18,7 @@ public class Entity {
         this.yPos = yPos;
         this.isInteractable = interactable;
         this.isCollidable = collidable;
+        this.pos = new Position(xPos, yPos);
     }
 
     public String getType() {
@@ -71,5 +72,10 @@ public class Entity {
     public void moveTo(Position pos){
         // stuff goes here
     }
+
+    public Position getPosition() {
+        return pos;
+    }
+
 }
 
