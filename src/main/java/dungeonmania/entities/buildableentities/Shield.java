@@ -6,14 +6,15 @@ import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class Shield extends Entity implements Buildable, Storeable, Defending, Durability{
 
     private int durability;
     private int defence;
     
-    public Shield(int id, int xPos, int yPos, boolean interactable, boolean collidable, int durability, int defence) {
-        super(id, xPos, yPos, interactable, collidable);
+    public Shield(int id, boolean interactable, boolean collidable, int durability, int defence) {
+        super(id, new Position(0,0), interactable, collidable);
         this.durability = durability;
         this.defence = defence;
     }
@@ -58,7 +59,11 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
+    }
+
+    public String getType() {
+        return "shield";
     }
 
 }

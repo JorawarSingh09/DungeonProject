@@ -55,6 +55,10 @@ public class Inventory {
         return items.get(id);
     }
 
+    public boolean hasItem(int id) {
+        return items.containsKey(id);
+    }
+
     public List<Storeable> getInventoryItems() {
         return inventoryItems;
     }
@@ -76,8 +80,7 @@ public class Inventory {
     public void build(String itemBuild, int nextItemMaxId) {
         switch(itemBuild) {
             case "shield":
-                Shield shield = new Shield(nextItemMaxId, playerPos.getX(), playerPos.getY(), false, 
-                                            false, shieldDurability, 2);
+                Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, 2);
                 inventoryItems.add(shield);
                 buildableItems.add(shield);
                 weapons.add(shield);

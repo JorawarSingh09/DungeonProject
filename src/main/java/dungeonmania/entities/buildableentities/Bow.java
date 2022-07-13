@@ -8,6 +8,7 @@ import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
     
@@ -24,8 +25,8 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     // }
 
     public Bow(int id, int bow_durability){
-        super(id, 0, 0, false, false);
-        this.bow_durability = bow_durability;
+        super(id, new Position(0,0), false, false);
+        this.durability = bow_durability;
     }
     
     /**
@@ -79,14 +80,13 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         
     // }
 
-    @Override
-    public Boolean isAdditive() {
+    public boolean isAdditive() {
         // TODO Auto-generated method stub
         return false;
     }
 
     public int getItemId() {
-        return Integer.parseInt(getEntityId());
+        return getEntityId();
     }
 
     @Override
@@ -101,4 +101,12 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         
     }
 
+    @Override
+    public int battleBonus() {
+        return battleBonus;
+    }
+
+    public String getType() {
+        return "bow";
+    }
 }

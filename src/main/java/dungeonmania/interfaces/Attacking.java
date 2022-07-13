@@ -4,5 +4,7 @@ public interface Attacking {
     /**
      * if a weapon is additive or multiplicative to base attack
      */
-    Boolean isAdditive();
+    public boolean isAdditive();
+    public int battleBonus();
+    
 }

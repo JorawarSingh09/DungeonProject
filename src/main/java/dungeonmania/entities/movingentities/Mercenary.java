@@ -3,6 +3,7 @@ package dungeonmania.entities.movingentities;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
+import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health {
 
@@ -13,10 +14,10 @@ public class Mercenary extends Entity implements Moveable, Health {
     private int bribe_radius;
     private int bribe_amount;
 
-    public Mercenary(int id, int xPos, int yPos, boolean interactable, boolean collidable, int ally_attack,
+    public Mercenary(int id, Position position, boolean interactable, boolean collidable, int ally_attack,
             int ally_defence, int mercenary_attack, int mercenary_health, int bribe_radius, int bribe_amount) {
     
-        super(id, xPos, yPos, interactable, collidable);
+        super(id, position, interactable, collidable);
         this.ally_attack = ally_attack;
         this.ally_defence = ally_defence;
         this.attack = mercenary_attack;
