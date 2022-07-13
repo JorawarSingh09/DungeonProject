@@ -1,44 +1,52 @@
 package dungeonmania.spawners;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
+import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.util.Position;
 
 public class SpiderSpawn {
     List<Position> spawnArea = new ArrayList<>();
     int spawnRate;
+    int radius;
     
     public SpiderSpawn(int spawnRate, Position playerSpawnBlock){
-        this.spawnArea = 
-            List.of(new Position(0, 1),
-                    new Position(1, 1),
-                    new Position(0, 0),
-                    new Position(1, 0));
-
+        this.radius = 4;
+        this.spawnArea = playerSpawnBlock.getAdjacentPositions();
+        this.spawnArea.removeAll(playerSpawnBlock.getCardinallyAdjacentPositions());
+        this.spawnArea = this.spawnArea.stream().map(p -> p.scale(radius)).
+                                    collect(Collectors.toList());
         this.spawnRate = spawnRate;
+        
     }
 
-    public SpiderSpawn(Position spiderSpawnLocation, int spawnRate){
-        this.spawnArea = 
-            List.of(spiderSpawnLocation,
-                    new Position(spiderSpawnLocation.getX(), spiderSpawnLocation.getY() + 1),
-                    new Position(spiderSpawnLocation.getX() + 1, spiderSpawnLocation.getY() + 1),
-                    new Position(spiderSpawnLocation.getX() + 1, spiderSpawnLocation.getY()));
+    public Spider spawnSpider(int currentMaxId){
+        Random r = new Random();
+        int maxX = Collections.max((spawnArea.stream().
+                                    map(p -> p.getX()).
+                                    collect(Collectors.toList())));
+        int maxY = Collections.max((spawnArea.stream().
+                                    map(p -> p.getY()).
+                                    collect(Collectors.toList())));
 
-        this.spawnRate = spawnRate;
-    }
+        int minX = Collections.min((spawnArea.stream().
+                                    map(p -> p.getX()).
+                                    collect(Collectors.toList())));
+        int minY = Collections.min((spawnArea.stream().
+                                    map(p -> p.getY()).
+                                    collect(Collectors.toList())));
 
-    public List<Position> getSpawnLocation(){
-        return this.spawnArea;
-    }
-
-    public void setSpawnLocation(Position bottomLeft){
-        this.spawnArea = 
-            List.of(bottomLeft,
-                    new Position(bottomLeft.getX(), bottomLeft.getY() + 1),
-                    new Position(bottomLeft.getX() + 1, bottomLeft.getY() + 1),
-                    new Position(bottomLeft.getX() + 1, bottomLeft.getY()));
+        return new Spider(currentMaxId, new Position(
+            r.nextInt(maxX-minX) + minX, 
+            r.nextInt(maxY-minY) + minY), 
+            false, 
+            false, 
+            10, 
+            10);
     }
 
     public int getSpawnRate(){

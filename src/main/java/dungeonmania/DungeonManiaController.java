@@ -110,6 +110,7 @@ public class DungeonManiaController {
         Dungeon dungeon = dungeons.get(1);
         dungeon.updateMovement(movementDirection);
         
+        dungeon.tick();
         return dungeon.createDungeonResponse();
     }
 

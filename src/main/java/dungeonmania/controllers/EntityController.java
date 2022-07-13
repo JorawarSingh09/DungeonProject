@@ -150,7 +150,7 @@ public class EntityController {
                             bow_durability, shield_durability);
                     dungeon.addEntity(player);
                     dungeon.setPlayer(player);
-                    dungeon.setSpiderSpawner(new SpiderSpawn(new Position(x, y), spider_spawn_rate));
+                    dungeon.setSpiderSpawner(new SpiderSpawn(spider_spawn_rate, new Position(x, y)));
                     break;
                 case "wall":
                     dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));

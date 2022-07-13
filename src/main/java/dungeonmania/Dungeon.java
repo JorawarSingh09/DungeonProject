@@ -9,6 +9,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.goals.Goal;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Health;
+import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
@@ -27,9 +28,9 @@ public class Dungeon {
     String dungeonName;
     int tickCount;
     List<Entity> entities = new ArrayList<>();
-    Goal goal;
     BattleController bc = new BattleController();
     MovementController mc;
+    Goal goal;
     Player player;
     int currMaxEntityId;
     SpiderSpawn spiderSpawner;
@@ -48,7 +49,6 @@ public class Dungeon {
 
     // Dungeon Respose
     public DungeonResponse createDungeonResponse() {
-        System.out.println(goal.toString(this));
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
                 createItemResponse(), createBattleResponse(), getBuildable(), goal.toString(this));
     }
@@ -111,6 +111,13 @@ public class Dungeon {
         this.tickCount = tickCount;
     }
 
+    public void tick() {
+        if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
+            addEntity(spiderSpawner.spawnSpider(getCurrMaxEntityId()));
+        }
+        this.tickCount++;
+    }
+
     public List<Entity> getEntities() {
         return entities;
     }
@@ -140,6 +147,16 @@ public class Dungeon {
         for (Entity entity : entities) {
             if (entity.getPosition().equals(pos) && entity instanceof Collectable) {
                 foundMatches.add((Collectable) entity);
+            }
+        }
+        return foundMatches;
+    }
+
+    public List<Moveable> getEnemies() {
+        List<Moveable> foundMatches = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity instanceof Moveable && !(entity instanceof Player)) {
+                foundMatches.add((Moveable) entity);
             }
         }
         return foundMatches;

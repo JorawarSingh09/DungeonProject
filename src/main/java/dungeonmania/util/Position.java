@@ -71,6 +71,7 @@ public final class Position {
     /**
      * Calculates the position vector of b relative to a (ie. the direction from a
      * to b)
+     * 
      * @return The relative position vector
      */
     public static final Position calculatePositionBetween(Position a, Position b) {
@@ -91,29 +92,31 @@ public final class Position {
         return "Position [x=" + x + ", y=" + y + ", z=" + layer + "]";
     }
 
-    // Return Adjacent positions in an array list with the following element positions:
-    // 0 1 2
-    // 7 p 3
-    // 6 5 4
+    // Return Adjacent positions in an array list with the following element
+    // positions:
+    // 7 0 1
+    // 6 p 2
+    // 5 4 3
     public List<Position> getAdjacentPositions() {
         List<Position> adjacentPositions = new ArrayList<>();
-        adjacentPositions.add(new Position(x-1, y-1));
-        adjacentPositions.add(new Position(x  , y-1));
-        adjacentPositions.add(new Position(x+1, y-1));
-        adjacentPositions.add(new Position(x+1, y));
-        adjacentPositions.add(new Position(x+1, y+1));
-        adjacentPositions.add(new Position(x  , y+1));
-        adjacentPositions.add(new Position(x-1, y+1));
-        adjacentPositions.add(new Position(x-1, y));
+        adjacentPositions.add(new Position(x, y - 1));
+        adjacentPositions.add(new Position(x + 1, y - 1));
+        adjacentPositions.add(new Position(x + 1, y));
+        adjacentPositions.add(new Position(x + 1, y + 1));
+        adjacentPositions.add(new Position(x, y + 1));
+        adjacentPositions.add(new Position(x - 1, y + 1));
+        adjacentPositions.add(new Position(x - 1, y));
+        adjacentPositions.add(new Position(x - 1, y - 1));
+
         return adjacentPositions;
     }
 
     public List<Position> getCardinallyAdjacentPositions() {
         List<Position> adjacentPositions = new ArrayList<>();
-        adjacentPositions.add(new Position(x  , y-1));
-        adjacentPositions.add(new Position(x+1, y));
-        adjacentPositions.add(new Position(x  , y+1));
-        adjacentPositions.add(new Position(x-1, y));
+        adjacentPositions.add(new Position(x, y - 1));
+        adjacentPositions.add(new Position(x + 1, y));
+        adjacentPositions.add(new Position(x, y + 1));
+        adjacentPositions.add(new Position(x - 1, y));
         return adjacentPositions;
     }
 }

@@ -71,8 +71,12 @@ public class Player extends Entity implements Moveable {
         return inventory;
     }
 
+    public Position getNextPosition(Direction movement) {
+        return this.getPosition().translateBy(movement);
+    }
+
     public void updatePosition(Direction movement) {
-        this.setPosition(this.getPosition().translateBy(movement));
+        this.setPosition(getNextPosition(movement));
         // TODO Auto-generated method stub
     }
 

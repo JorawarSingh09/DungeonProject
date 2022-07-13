@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.entities.staticentities.Boulder;
 import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Health;
+import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -45,7 +47,7 @@ public class MovementController {
         // for (Health enemy: enemiesOnNextBlock) {
         // dungeon.startBattle(enemy);
         // }
-        // updateEntityPositions();
+        updateEntityPositions();
 
         // post move checks
         checkSwitchBehaviour();
@@ -78,6 +80,15 @@ public class MovementController {
     }
 
     public void updateEntityPositions() {
-        ;
+        // spider
+        for (Moveable enemy : dungeon.getEnemies()) {
+            if (enemy instanceof Spider) {
+                if (dungeon.getStaticsOnBlock(enemy.getNextPosition(null)).stream()
+                .filter(i -> i instanceof Boulder).collect(Collectors.toList()).size() > 0) {
+                    ((Spider) enemy).reversePath();
+                }
+                enemy.updatePosition();
+            }
+        }
     }
 }
