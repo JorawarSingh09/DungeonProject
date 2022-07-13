@@ -13,7 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,6 +25,8 @@ import com.google.gson.JsonParser;
 public class DungeonManiaController {
 
     private int currMaxDungeonId = 0;
+    List<Dungeon> dungeonList = new ArrayList<>();
+    Map<Integer, Dungeon> dungeons = new HashMap<>();
 
     public String getSkin() {
         return "default";
@@ -63,7 +67,8 @@ public class DungeonManiaController {
             EntityController entityController = new EntityController();
             String jsonConfig = new String(Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName + ".json")));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
-            entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
+            Dungeon dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
+            dungeons.put(currMaxDungeonId, dungeon);
             currMaxDungeonId += 1;
         } catch (IOException e) {
             throw new IllegalArgumentException();

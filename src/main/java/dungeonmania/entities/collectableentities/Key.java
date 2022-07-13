@@ -22,4 +22,8 @@ public class Key extends Entity implements Storeable, Collectable{
         
     }
     
+    public int getItemId() {
+        return Integer.parseInt(getEntityId());
+    }
+    
 }

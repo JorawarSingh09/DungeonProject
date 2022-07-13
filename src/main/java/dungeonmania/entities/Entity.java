@@ -3,33 +3,28 @@ package dungeonmania.entities;
 import dungeonmania.util.Position;
 
 public class Entity {
-    String type;
     int entityId;
     int xPos;
     int yPos;
     Position pos;
-    boolean isCollidable;
-
-    boolean isInteractable;
+    boolean Collidable;
+    boolean Interactable;
 
     public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable) {
         this.entityId = entityId;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.isInteractable = interactable;
-        this.isCollidable = collidable;
+        setPosition();
+        this.Interactable = interactable;
+        this.Collidable = collidable;
     }
 
     public String getType() {
-        return this.type;
+        return "Entity";
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
+    public String getEntityId() {
+        return Integer.toString(this.entityId);
     }
 
     public void setEntityId(int entityId) {
@@ -52,27 +47,34 @@ public class Entity {
         this.yPos = yPos;
     }
 
-    public boolean isIsCollidable() {
-        return this.isCollidable;
+    public boolean isCollidable() {
+        return this.Collidable;
     }
 
-    public void setIsCollidable(boolean isCollidable) {
-        this.isCollidable = isCollidable;
+    public void setCollidable(boolean isCollidable) {
+        this.Collidable = isCollidable;
     }
 
-    public boolean isIsInteractable() {
-        return this.isInteractable;
+    public boolean isInteractable() {
+        return this.Interactable;
     }
 
-    public void setIsInteractable(boolean isInteractable) {
-        this.isInteractable = isInteractable;
+    public void setInteractable(boolean isInteractable) {
+        this.Interactable = isInteractable;
     }
 
-    public Position getPos() {
-        return this.pos;
+    public void moveTo(int xPos, int yPos) {
+        setXPos(xPos);
+        setYPos(yPos);
+        setPosition();
     }
 
-    public void moveTo(Position pos) {
-        // stuff goes here
+    public void setPosition() {
+        this.pos = new Position(this.xPos, this.yPos);
     }
+
+    public Position getPosition() {
+        return pos;
+    }
+
 }

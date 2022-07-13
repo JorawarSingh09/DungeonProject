@@ -2,9 +2,10 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
+import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
 
-public class InvisibilityPotion extends Entity implements Collectable, Storeable{
+public class InvisibilityPotion extends Entity implements Collectable, Storeable, Regenerative {
     
     private int duration;
 
@@ -15,14 +16,25 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
 
     @Override
     public void use() {
-        // TODO Auto-generated method stub
-        
+        duration -= 1;
     }
 
     @Override
     public void pickup() {
         // TODO Auto-generated method stub
         
+    }
+
+    public int getItemId() {
+        return Integer.parseInt(getEntityId());
+    }
+
+    public int getRemainingDuration() {
+        return duration;
+    }
+
+    public void decrementDuration() {
+        duration -= 1;
     }
 
 }

@@ -7,16 +7,20 @@ import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
 import dungeonmania.goals.Goal;
+import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.response.models.BattleResponse;
+import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
+import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.util.Position;
 
 public class Dungeon {
 
     int dungeonId;
-    String dungeonString;
+    String dungeonName;
     int tickCount;
     List<Entity> entities = new ArrayList<>();
     Goal goal;
@@ -24,32 +28,53 @@ public class Dungeon {
     MovementController mc;
     Player player;
     int currMaxEntityId;
+    SpiderSpawn spiderSpawner;
 
     public Dungeon(String dungeonName, int dungeonId) {
-        this.dungeonString = dungeonName;
+        this.dungeonId = dungeonId;
+        this.dungeonName = dungeonName;
         currMaxEntityId = 0;
         tickCount = 0;
     }
 
     //Dungeon Respose
     public DungeonResponse createDungeonResponse(){
-        return null;
+        return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
+            createItemResponse(), createBattleResponse(), getBuildable(), goal.toString());
     }
 
     public List<EntityResponse> createEntityResponse(){
-        return null;
+        List<EntityResponse> entityResponses = new ArrayList<>();
+        for(Entity entity : entities){
+            entityResponses.add(new EntityResponse(entity.getEntityId(), entity.getType(),
+                                 entity.getPosition(), entity.isInteractable()));
+        }
+        return entityResponses;
     }
 
     public List<ItemResponse> createItemResponse(){
-        return null;
+        List<ItemResponse> inventory = new ArrayList<>();
+        for(Storeable item : player.getInventoryItems()){
+            Entity bob = (Entity) item; //this isnt gonna work
+            inventory.add(new ItemResponse(bob.getEntityId(), bob.getType()));
+        }
+        return inventory;
     }
 
-    public List<Entity> getBuildable(){
-        return null;
+    public List<BattleResponse> createBattleResponse(){
+        // no clue what to do here
+        return new ArrayList<>();
+    }
+    public List<String> getBuildable(){
+        List<String> buildable = new ArrayList<>();
+        for(Storeable item : player.getBuildableItems()){
+            buildable.add(item.toString());
+        }
+        return buildable;
     }
 
-    public int getDungeonId() {
-        return this.dungeonId;
+    public String getDungeonId() {
+        return Integer.toString(this.dungeonId);
     }
 
     public void setDungeonId(int dungeonId) {
@@ -57,11 +82,11 @@ public class Dungeon {
     }
 
     public String getDungeonString() {
-        return this.dungeonString;
+        return this.dungeonName;
     }
 
     public void setDungeonString(String dungeonString) {
-        this.dungeonString = dungeonString;
+        this.dungeonName = dungeonString;
     }
 
     public int getTickCount() {
@@ -77,11 +102,23 @@ public class Dungeon {
     }
 
     public List<Entity> getEntitiesOfType(String type){
-        return new ArrayList<>();
+        List<Entity> foundMatches = new ArrayList<>();
+        for(Entity entity : entities){
+            if(entity.getType().equals(type)){
+                foundMatches.add(entity);
+            }
+        }
+        return foundMatches;
     }
 
     public List<Entity> getEntitiesOnBlock(Position pos){
-        return new ArrayList<>();
+        List<Entity> foundMatches = new ArrayList<>();
+        for(Entity entity : entities){
+            if(entity.getPosition().equals(pos)){
+                foundMatches.add(entity);
+            }
+        }
+        return foundMatches;
     }
 
     public void setEntities(List<Entity> entities) {
@@ -93,12 +130,12 @@ public class Dungeon {
         currMaxEntityId += 1;
     }
 
-    // TODO: check defined behaviour for item/entity removal (always unique?)
+    // TODO: check defined behaviour for item/entity removal in terms of ID (always unique?)
     public void removeEntity(Entity removing) { 
         for (Entity entity : entities){
             if (entity.equals(removing)){
                 entities.remove(removing);
-                currMaxEntityId -= 1;
+                //currMaxEntityId -= 1;
             }
         }
     }
@@ -125,6 +162,10 @@ public class Dungeon {
 
     public void setGoals(Goal goal) {
         this.goal = goal;
+    }
+
+    public void setSpiderSpawner(SpiderSpawn spawner) {
+        this.spiderSpawner = spawner;
     }
 
 }

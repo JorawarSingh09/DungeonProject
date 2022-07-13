@@ -20,12 +20,15 @@ public class Battle {
         this.playerInventory = playerInventory;
     }
 
-    public void startBattle() {
+    /* returns if player won */
+    public boolean startBattle() {
         while (!isGameOver()) {
             startRound();
         }
+
         updateWeaponDurability();
-        diminishPotionEffects();
+        return (isPlayerAlive());
+        //Update player state
     }
 
     public void startRound() {
@@ -38,11 +41,12 @@ public class Battle {
         return (player.getHealth() <= 0 || enemy.getHealth() <= 0);
     }
 
+    private boolean isPlayerAlive() {
+        return (player.getHealth() > 0);
+    }
+
     private void updateWeaponDurability() {
         playerInventory.updateWeaponsDurability();
     }
 
-    private void diminishPotionEffects() {
-        ;
-    }
 }
