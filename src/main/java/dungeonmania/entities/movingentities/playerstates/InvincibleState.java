@@ -3,7 +3,7 @@ package dungeonmania.entities.movingentities.playerstates;
 public class InvincibleState implements PlayerState {
 
     @Override
-    public void engageBattle() {
+    public void engageBattle(boolean playerDied) {
         // TODO Auto-generated method stub
         
     }
