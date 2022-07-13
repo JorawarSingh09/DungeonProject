@@ -1,6 +1,7 @@
 package dungeonmania.entities.staticentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.util.Position;
 
 public class Exit extends Entity {
     

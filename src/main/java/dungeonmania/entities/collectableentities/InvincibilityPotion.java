@@ -5,6 +5,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class InvincibilityPotion extends Entity implements Storeable, Collectable, Regenerative {
     

@@ -25,13 +25,12 @@ public class Dungeon {
     int tickCount;
     List<Entity> entities = new ArrayList<>();
     Goal goal;
-    BattleController bc;
+    BattleController bc = new BattleController();
     MovementController mc;
     Player player;
     int currMaxEntityId;
     SpiderSpawn spiderSpawner;
     List<String> usables = List.of("invincibility_potion", "invisibility_potion", "bomb");
-
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
@@ -41,23 +40,23 @@ public class Dungeon {
     }
 
     // Dungeon Respose
-    public DungeonResponse createDungeonResponse(){
+    public DungeonResponse createDungeonResponse() {
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
-            createItemResponse(), createBattleResponse(), getBuildable(), goal.toString());
+                createItemResponse(), createBattleResponse(), getBuildable(), "");
     }
 
-    public List<EntityResponse> createEntityResponse(){
+    public List<EntityResponse> createEntityResponse() {
         List<EntityResponse> entityResponses = new ArrayList<>();
-        for(Entity entity : entities){
+        for (Entity entity : entities) {
             entityResponses.add(new EntityResponse(Integer.toString(entity.getEntityId()), entity.getType(),
-                                 entity.getPosition(), entity.isInteractable()));
+                    entity.getPosition(), entity.isInteractable()));
         }
         return entityResponses;
     }
 
     public List<ItemResponse> createItemResponse() {
         List<ItemResponse> inventory = new ArrayList<>();
-        for(Storeable item : player.getInventoryItems()){
+        for (Storeable item : player.getInventoryItems()) {
             inventory.add(new ItemResponse(Integer.toString(item.getItemId()), item.getType()));
         }
         return inventory;
@@ -67,9 +66,10 @@ public class Dungeon {
         // no clue what to do here
         return new ArrayList<>();
     }
+
     public List<String> getBuildable() {
         List<String> buildable = new ArrayList<>();
-        for(String item : player.getBuildableItems()){
+        for (String item : player.getBuildableItems()) {
             buildable.add(item);
         }
         return buildable;
@@ -103,20 +103,20 @@ public class Dungeon {
         return entities;
     }
 
-    public List<Entity> getEntitiesOfType(String type){
+    public List<Entity> getEntitiesOfType(String type) {
         List<Entity> foundMatches = new ArrayList<>();
-        for(Entity entity : entities){
-            if(entity.getType().equals(type)){
+        for (Entity entity : entities) {
+            if (entity.getType().equals(type)) {
                 foundMatches.add(entity);
             }
         }
         return foundMatches;
     }
 
-    public List<Entity> getEntitiesOnBlock(Position pos){
+    public List<Entity> getEntitiesOnBlock(Position pos) {
         List<Entity> foundMatches = new ArrayList<>();
-        for(Entity entity : entities){
-            if(entity.getPosition().equals(pos)){
+        for (Entity entity : entities) {
+            if (entity.getPosition().equals(pos)) {
                 foundMatches.add(entity);
             }
         }
@@ -126,18 +126,19 @@ public class Dungeon {
     public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
-    
+
     public void addEntity(Entity entity) {
         this.entities.add(entity);
         currMaxEntityId += 1;
     }
 
-    // TODO: check defined behaviour for item/entity removal in terms of ID (always unique?)
-    public void removeEntity(Entity removing) { 
-        for (Entity entity : entities){
-            if (entity.equals(removing)){
+    // TODO: check defined behaviour for item/entity removal in terms of ID (always
+    // unique?)
+    public void removeEntity(Entity removing) {
+        for (Entity entity : entities) {
+            if (entity.equals(removing)) {
                 entities.remove(removing);
-                //currMaxEntityId -= 1;
+                // currMaxEntityId -= 1;
             }
         }
     }
@@ -156,6 +157,7 @@ public class Dungeon {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.mc = new MovementController(player);
     }
 
     public Goal getGoal() {
@@ -171,7 +173,7 @@ public class Dungeon {
     }
 
     public Entity getEntityById(int id) {
-        for (Entity entity: entities) {
+        for (Entity entity : entities) {
             if (entity.getEntityId() == id) {
                 return entity;
             }
@@ -189,7 +191,7 @@ public class Dungeon {
 
     public boolean canBuild(String itemString) {
         return player.getBuildableItems().contains(itemString);
-    }    
+    }
 
     public void useItem(int id) {
         if (player.itemType(id).equals(usables.get(0))) {
@@ -208,7 +210,7 @@ public class Dungeon {
 
     public void updateMovement(Direction playerMovement) {
         mc.movePlayer(playerMovement);
-        //mc.updateEntityPositions();
+        // mc.updateEntityPositions();
     }
 
 }

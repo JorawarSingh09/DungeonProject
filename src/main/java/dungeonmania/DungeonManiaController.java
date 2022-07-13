@@ -37,12 +37,12 @@ public class DungeonManiaController {
     }
 
     /**
-     * Returns a list of 
+     * Returns a list of
      * /dungeons
      */
     public static List<String> dungeons() {
-            return FileLoader.listFileNamesInResourceDirectory("dungeons");
-        
+        return FileLoader.listFileNamesInResourceDirectory("dungeons");
+
     }
 
     /**
@@ -61,16 +61,21 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         }
         try {
-            String jsonDungeon = new String(Files.readAllBytes(Paths.get("src/main/resources/dungeons/" + dungeonName + ".json")));
+            String jsonDungeon = new String(FileLoader.loadResourceFile("dungeons/" + dungeonName + ".json"));
+            // Files.readAllBytes(Paths.get("src/main/resources/dungeons/" + dungeonName +
+            // ".json")));
             JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();
             JsonArray entitiesArray = jsonObject.get("entities").getAsJsonArray();
             JsonObject goals = jsonObject.get("goal-condition").getAsJsonObject();
             EntityController entityController = new EntityController();
-            String jsonConfig = new String(Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName + ".json")));
+            String jsonConfig = new String(FileLoader.loadResourceFile("configs/" + configName + ".json"));
+            // Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName +
+            // ".json")));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
+            currMaxDungeonId += 1;
             dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
             dungeons.put(currMaxDungeonId, dungeon);
-            currMaxDungeonId += 1;
+
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -91,8 +96,10 @@ public class DungeonManiaController {
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         int itemId = Integer.parseInt(itemUsedId);
         Dungeon dungeon = dungeons.get(1);
-        if (!dungeon.itemInPlayerInventory(itemId)) throw new InvalidActionException("item not in player inventory");
-        if (!dungeon.itemIsUsable(itemId)) throw new InvalidActionException("item not usable");
+        if (!dungeon.itemInPlayerInventory(itemId))
+            throw new InvalidActionException("item not in player inventory");
+        if (!dungeon.itemIsUsable(itemId))
+            throw new InvalidActionException("item not usable");
         return dungeon.createDungeonResponse();
     }
 
@@ -110,10 +117,12 @@ public class DungeonManiaController {
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         Dungeon dungeon = dungeons.get(1);
-        //If buildable is not one of bow, shield
-        if (!buildable.equals("bow") && !buildable.equals("shield")) throw new IllegalArgumentException("not buildable item");
-        //If the player does not have sufficient items to craft the buildable
-        if (!dungeon.canBuild(buildable)) throw new InvalidActionException("the player does not have sufficient items to craft the buildable");
+        // If buildable is not one of bow, shield
+        if (!buildable.equals("bow") && !buildable.equals("shield"))
+            throw new IllegalArgumentException("not buildable item");
+        // If the player does not have sufficient items to craft the buildable
+        if (!dungeon.canBuild(buildable))
+            throw new InvalidActionException("the player does not have sufficient items to craft the buildable");
         dungeon.build(buildable);
         return dungeon.createDungeonResponse();
     }
@@ -124,5 +133,5 @@ public class DungeonManiaController {
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         return null;
     }
-    
+
 }

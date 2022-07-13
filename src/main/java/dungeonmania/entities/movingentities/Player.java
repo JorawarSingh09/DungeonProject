@@ -25,15 +25,15 @@ public class Player extends Entity implements Moveable {
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
     PlayerState state;
-    
-    public Player(int id, Position position, boolean interactable, boolean collidable, 
-                    int player_attack, int player_health, int bowDurability, int shieldDurability) {
+
+    public Player(int id, Position position, boolean interactable, boolean collidable,
+            int player_attack, int player_health, int bowDurability, int shieldDurability) {
         super(id, position, interactable, collidable);
-        this.health = player_health;                                                                                                                         
+        this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
         this.state = new AliveState(this);
-    }    
+    }
 
     public PlayerState getPlayerState() {
         return state;
@@ -54,7 +54,7 @@ public class Player extends Entity implements Moveable {
     public int getHealth() {
         return health;
     }
-    
+
     public int getAttack() {
         return attack;
     }
@@ -87,8 +87,10 @@ public class Player extends Entity implements Moveable {
             if (item.getRemainingDuration() == 0) {
                 queueItems.remove();
                 inventory.removeItemById(item.getItemId());
-            };
-            if (queueItems.size() > 0) nextItem();
+            }
+            ;
+            if (queueItems.size() > 0)
+                nextItem();
         } else {
             state.tick(0);
         }
@@ -141,6 +143,11 @@ public class Player extends Entity implements Moveable {
     @Override
     public void updatePosition() {
         // TODO Auto-generated method stub
-        
+
+    }
+
+    @Override
+    public String getType() {
+        return "player";
     }
 }

@@ -8,6 +8,7 @@ public class MovementController {
     Player player;
     
     public MovementController(Player player) {
+        this.player = player;
     }
 
     public void movePlayer(Direction movement) {
