@@ -1,5 +1,6 @@
 package dungeonmania.entities.collectableentities;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Collectable;
@@ -16,10 +17,9 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
         this.duration = duration;
     }
 
-    @Override
-    public void pickup() {
-        // TODO Auto-generated method stub
-        
+    public void pickup(Player player, Dungeon dungeon) {
+        player.addItem(this);
+        dungeon.removeEntity(this);
     }
 
     @Override

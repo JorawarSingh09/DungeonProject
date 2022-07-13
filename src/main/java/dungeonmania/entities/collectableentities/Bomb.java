@@ -23,16 +23,20 @@ public class Bomb extends Entity implements Collectable, Storeable, Static{
         //boom
     }
 
-    @Override
-    public void pickup() {
-        // TODO Auto-generated method stub
-        
+    public void pickup(Player player, Dungeon dungeon) {
+        //if bomb collidable cant pickup 
+        //if picked up bomb set collidable 
+        if(!this.isCollidable()){
+            player.addItem(this);
+            dungeon.removeEntity(this);
+            this.setCollidable(true);
+        }
+
     }
 
     /**
      * drop da bomb
      */
-    @Override
     public void use() {
         // TODO Auto-generated method stub
         
@@ -42,11 +46,13 @@ public class Bomb extends Entity implements Collectable, Storeable, Static{
         return getEntityId();
     }
 
+    @Override
     public String getType() {
         return "bomb";
     }
 
-    @Override
+
+
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
         // TODO Auto-generated method stub
         

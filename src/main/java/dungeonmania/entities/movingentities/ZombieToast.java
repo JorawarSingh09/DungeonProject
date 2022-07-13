@@ -3,6 +3,7 @@ package dungeonmania.entities.movingentities;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class ZombieToast extends Entity implements Moveable, Health {
@@ -38,6 +39,12 @@ public class ZombieToast extends Entity implements Moveable, Health {
     public void updatePosition() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public Position getNextPosition(Direction movement) {
+        // TODO Auto-generated method stub
+        return null;
     }    
     
 }

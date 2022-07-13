@@ -8,15 +8,19 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Exit extends Entity implements Static {
-    
+
     public Exit(int id, Position position, boolean interactable, boolean collidable) {
         super(id, position, interactable, collidable);
     }
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        // TODO Auto-generated method stub
-        
-    }  
-    
+        player.updatePosition(direction);
+
+    }
+
+    @Override
+    public String getType() {
+        return "exit";
+    }
 }
