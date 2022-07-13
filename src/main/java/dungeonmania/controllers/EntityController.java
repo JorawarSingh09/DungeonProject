@@ -111,7 +111,7 @@ public class EntityController {
     }
 
     public DungeonResponse getGameState(Dungeon dungeon) {
-        String dId = Integer.toString(dungeon.getDungeonId());
+        String dId = dungeon.getDungeonId();
         String dName = dungeon.getDungeonString();
         // TODO: entities, inventory, battles, buildables, goals
         return null;

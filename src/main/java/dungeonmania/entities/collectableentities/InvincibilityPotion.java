@@ -26,7 +26,7 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     }
 
     public int getItemId() {
-        return getEntityId();
+        return Integer.parseInt(getEntityId());
     }
     
 }

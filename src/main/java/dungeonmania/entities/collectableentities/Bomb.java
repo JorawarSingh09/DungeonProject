@@ -34,7 +34,7 @@ public class Bomb extends Entity implements Collectable, Storeable{
     }
 
     public int getItemId() {
-        return getEntityId();
+        return Integer.parseInt(getEntityId());
     }
     
 }
