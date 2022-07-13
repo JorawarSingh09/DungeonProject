@@ -100,7 +100,9 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        return null;
+        Dungeon dungeon = dungeons.get(1);
+        dungeon.updateMovement(movementDirection);
+        return dungeon.createDungeonResponse();
     }
 
     /**

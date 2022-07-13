@@ -4,13 +4,14 @@ import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class InvisibilityPotion extends Entity implements Collectable, Storeable, Regenerative {
     
     private int duration;
 
-    public InvisibilityPotion(int id, int xPos, int yPos, boolean interactable, boolean collidable, int duration) {
-        super(id, xPos, yPos, interactable, collidable);
+    public InvisibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
+        super(id, position, interactable, collidable);
         this.duration = duration;
     }
 

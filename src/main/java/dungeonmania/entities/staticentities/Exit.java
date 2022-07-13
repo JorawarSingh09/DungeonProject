@@ -4,8 +4,8 @@ import dungeonmania.entities.Entity;
 
 public class Exit extends Entity {
     
-    public Exit(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
-        super(id, xPos, yPos, interactable, collidable);
+    public Exit(int id, Position position, boolean interactable, boolean collidable) {
+        super(id, position, interactable, collidable);
     }  
     
 }

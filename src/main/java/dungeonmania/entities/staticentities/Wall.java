@@ -4,8 +4,8 @@ import dungeonmania.entities.Entity;
 
 public class Wall extends Entity {
     
-    public Wall(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
-        super(id, xPos, yPos, interactable, collidable);
-    }  
+    public Wall(int id, Position position, boolean interactable, boolean collidable) {
+        super(id, position, interactable, collidable);
+    }   
     
 }

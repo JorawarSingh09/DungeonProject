@@ -144,70 +144,70 @@ public class EntityController {
             String type = ((JsonObject) entity).get("type").getAsString();
             switch (type) {
                 case "player":
-                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health, 
+                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.player_attack, this.player_health, 
                                                     bow_durability, shield_durability));
                     dungeon.setSpiderSpawner(new SpiderSpawn(new Position(x, y), spider_spawn_rate));
                     break;
                 case "wall":
-                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), x, y, false, true));
+                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
                     break;
                 case "exit":
-                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), x, y, false, true));
+                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
                     break;
                 case "boulder":
-                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), x, y, false, true));    
+                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));    
                     break;
                 case "switch":
-                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), x, y, false, true));
+                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
                     break;
                 case "door":
-                    dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), x, y, false, true));
+                    dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
                     break;
                 case "portal":
-                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), x, y, false, true));
+                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
                     break;
                 case "zombie_toast_spawner":
-                    dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), x, y, true, true, this.zombie_spawn_rate));
+                    dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true, true, this.zombie_spawn_rate));
                     break;
                 case "spider":
-                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), x, y, false, false, this.spider_attack, this.spider_health));
+                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.spider_attack, this.spider_health));
                     break;
                 case "zombie_toast":
-                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(), x, y, false, false, this.zombie_attack, this.zombie_health));
+                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(),new Position(x, y), false, false, this.zombie_attack, this.zombie_health));
                     break;
                 case "mercenary":
-                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), x, y, false, false, this.ally_attack,
+                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.ally_attack,
                                                     this.ally_defence, this.mercenary_attack, this.mercenary_health, this.bribe_radius, this.bribe_amount));
                     break;
                 case "treasure":
-                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), x, y, false, false));
+                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(),new Position(x, y), false, false));
                     break;
                 case "key":
-                    dungeon.addEntity(new Key(dungeon.getCurrMaxEntityId(), x, y, false, false));
+                    dungeon.addEntity(new Key(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
                 case "invincibility_potion":
-                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), x, y, false, false, this.invincibility_potion_duration));
+                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.invincibility_potion_duration));
                     break;
                 case "invisibility_potion":
-                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), x, y, false, false, this.invisibility_potion_duration));
+                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(),new Position(x, y), false, false, this.invisibility_potion_duration));
                     break;
                 case "wood":
-                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), x, y, false, false));
+                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
                 case "arrow":
-                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), x, y, false, false));
+                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
                 case "bomb":
-                    dungeon.addEntity(new Bomb(dungeon.getCurrMaxEntityId(), x, y, false, false, this.bomb_radius));
+                    dungeon.addEntity(new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.bomb_radius));
                     break;
                 case "sword":
-                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), x, y, false, false, this.sword_attack, this.sword_durability));
+                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false, this.sword_attack, this.sword_durability));
                     break;
                 case "bow":
                     dungeon.addEntity(new Bow(dungeon.getCurrMaxEntityId(), this.bow_durability));
                     break;
                 case "shield":
-                    dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));
+                    dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), false, false, this.shield_durability, this.shield_defence));
                     break;
 
             } 

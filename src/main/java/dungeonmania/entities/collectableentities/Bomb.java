@@ -3,13 +3,14 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class Bomb extends Entity implements Collectable, Storeable{
     private int bomb_radius;
     private boolean inInventory;
     
-    public Bomb(int id, int xPos, int yPos, boolean interactable, boolean collidable, int bomb_radius) {
-        super(id, xPos, yPos, interactable, collidable);
+    public Bomb(int id, Position position, boolean interactable, boolean collidable, int bomb_radius) {
+        super(id, position, interactable, collidable);
         this.bomb_radius = bomb_radius;
         this.inInventory = false;
     }

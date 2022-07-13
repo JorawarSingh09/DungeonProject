@@ -15,6 +15,7 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.spawners.SpiderSpawn;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Dungeon {
@@ -203,6 +204,11 @@ public class Dungeon {
     public void build(String item) {
         player.build(item, currMaxEntityId);
         currMaxEntityId += 1;
+    }
+
+    public void updateMovement(Direction playerMovement) {
+        mc.movePlayer(playerMovement);
+        //mc.updateEntityPositions();
     }
 
 }

@@ -10,8 +10,8 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     
     private int duration;
 
-    public InvincibilityPotion(int id, int xPos, int yPos, boolean interactable, boolean collidable, int duration) {
-        super(id, xPos, yPos, interactable, collidable);
+    public InvincibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
+        super(id, position, interactable, collidable);
         this.duration = duration;
     }
 

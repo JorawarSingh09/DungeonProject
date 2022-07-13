@@ -12,6 +12,8 @@ import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 
@@ -24,9 +26,9 @@ public class Player extends Entity implements Moveable {
     Queue<Regenerative> queueItems = new LinkedList<>();
     PlayerState state;
     
-    public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
+    public Player(int id, Position position, boolean interactable, boolean collidable, 
                     int player_attack, int player_health, int bowDurability, int shieldDurability) {
-        super(id, xPos, yPos, interactable, collidable);
+        super(id, position, interactable, collidable);
         this.health = player_health;                                                                                                                         
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
@@ -69,7 +71,8 @@ public class Player extends Entity implements Moveable {
         return inventory;
     }
 
-    public void updatePosition() {
+    public void updatePosition(Direction movement) {
+        this.setPosition(this.getPosition().translateBy(movement));
         // TODO Auto-generated method stub
     }
 
@@ -133,5 +136,11 @@ public class Player extends Entity implements Moveable {
 
     public void build(String item, int nextItemId) {
         inventory.build(item, nextItemId);
+    }
+
+    @Override
+    public void updatePosition() {
+        // TODO Auto-generated method stub
+        
     }
 }

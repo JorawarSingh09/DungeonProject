@@ -3,11 +3,12 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.util.Position;
 
 public class Arrow extends Entity implements Collectable, Storeable{
     
-    public Arrow(int id, int xPos, int yPos, boolean interactable, boolean collidable) {
-        super(id, xPos, yPos, interactable, collidable);
+    public Arrow(int id, Position position, boolean interactable, boolean collidable) {
+        super(id, position, interactable, collidable);
     }
 
     @Override

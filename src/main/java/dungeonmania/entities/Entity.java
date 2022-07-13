@@ -4,17 +4,13 @@ import dungeonmania.util.Position;
 
 public class Entity {
     int entityId;
-    int xPos;
-    int yPos;
-    Position pos;
+    Position position;
     boolean Collidable;
     boolean Interactable;
 
-    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable) {
+    public Entity(int entityId, Position position, boolean interactable, boolean collidable) {
         this.entityId = entityId;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        setPosition();
+        this.position = position;
         this.Interactable = interactable;
         this.Collidable = collidable;
     }
@@ -29,22 +25,6 @@ public class Entity {
 
     public void setEntityId(int entityId) {
         this.entityId = entityId;
-    }
-
-    public int getXPos() {
-        return this.xPos;
-    }
-
-    public void setXPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getYPos() {
-        return this.yPos;
-    }
-
-    public void setYPos(int yPos) {
-        this.yPos = yPos;
     }
 
     public boolean isCollidable() {
@@ -63,18 +43,18 @@ public class Entity {
         this.Interactable = isInteractable;
     }
 
-    public void moveTo(int xPos, int yPos) {
-        setXPos(xPos);
-        setYPos(yPos);
-        setPosition();
-    }
+    // public void moveTo(int xPos, int yPos) {
+    //     setXPos(xPos);
+    //     setYPos(yPos);
+    //     setPosition();
+    // }
 
-    public void setPosition() {
-        this.pos = new Position(this.xPos, this.yPos);
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public Position getPosition() {
-        return pos;
+        return position;
     }
 
 }
