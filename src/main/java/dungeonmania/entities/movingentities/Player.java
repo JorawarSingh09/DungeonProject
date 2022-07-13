@@ -1,7 +1,9 @@
 package dungeonmania.entities.movingentities;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
@@ -10,6 +12,7 @@ import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Moveable;
+import dungeonmania.interfaces.Storeable;
 
 public class Player extends Entity implements Moveable {
 
@@ -17,6 +20,7 @@ public class Player extends Entity implements Moveable {
     private int attack;
     Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
+    Queue<Storeable> queueItems = new LinkedList<>();
     PlayerState state;
     
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
@@ -25,7 +29,7 @@ public class Player extends Entity implements Moveable {
         this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
-        this.state = new AliveState();
+        this.state = new AliveState(this);
     }    
 
     public PlayerState getPlayerState() {
@@ -61,19 +65,22 @@ public class Player extends Entity implements Moveable {
         
     }
 
-    public void engageBattle() {
-        ;
+    public void engageBattle(boolean playerDied) {
+        state.engageBattle(playerDied);;
     }
 
     public void tick() {
-        ;
+        state.tick();;
     }
 
-    public void drinkInvis() {
-        ;
+    public void drinkInvis(int itemId) {
+        state.drinkInvis();
     }
 
-    public void drinkInvinc() {
-        ;
+    public void drinkInvinc(int itemId) {
+        Storeable invincPotion = inventory.getItemFromId(itemId);
+        queueItems.add(invincPotion);
+        state.drinkInvinc();
     }
+
 }

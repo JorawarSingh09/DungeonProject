@@ -1,11 +1,16 @@
 package dungeonmania.entities.movingentities.playerstates;
 
-public class InvisibleSate implements PlayerState {
+import dungeonmania.entities.movingentities.Player;
 
+public class InvisibleState extends PlayerState {
+
+    public InvisibleState(Player player) {
+        super(player);
+    }
+    
     @Override
     public void engageBattle(boolean playerDied) {
-        // TODO Auto-generated method stub
-        
+        // Do nothing as cannot engage
     }
 
     @Override

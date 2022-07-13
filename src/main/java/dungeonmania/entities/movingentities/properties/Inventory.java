@@ -50,6 +50,10 @@ public class Inventory {
         items.put(item.getItemId(), item);
     }
 
+    public Storeable getItemFromId(int id) {
+        return items.get(id);
+    }
+
     public List<Storeable> getInventoryItems() {
         return inventoryItems;
     }

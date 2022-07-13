@@ -1,11 +1,17 @@
 package dungeonmania.entities.movingentities.playerstates;
 
-public class InvincibleState implements PlayerState {
+import dungeonmania.entities.movingentities.Player;
+
+public class InvincibleState extends PlayerState {
+
+    public InvincibleState(Player player) {
+        super(player);
+        //TODO Auto-generated constructor stub
+    }
 
     @Override
     public void engageBattle(boolean playerDied) {
-        // TODO Auto-generated method stub
-        
+        player.setPlayerState(new AliveState(player));       
     }
 
     @Override
