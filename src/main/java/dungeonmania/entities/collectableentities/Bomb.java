@@ -14,7 +14,7 @@ public class Bomb extends Entity implements Collectable, Storeable{
         this.inInventory = false;
     }
 
-    public void explode(){
+    public void explode() {
         //check if explodable, and if so explode 
     }
 
@@ -36,5 +36,5 @@ public class Bomb extends Entity implements Collectable, Storeable{
     public int getItemId() {
         return getEntityId();
     }
-    
+
 }

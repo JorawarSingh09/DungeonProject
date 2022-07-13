@@ -6,7 +6,7 @@ import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
 
-public class Sword extends Entity implements Storeable, Attacking, Durability, Collectable{
+public class Sword extends Entity implements Storeable, Attacking, Durability, Collectable {
     
     private int attack;
     private int durability; 
@@ -54,5 +54,5 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     public int getItemId() {
         return getEntityId();
     }
-    
+
 }
