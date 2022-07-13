@@ -31,7 +31,7 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
 
     @Override
     public void reducedurability() {
-        // TODO Auto-generated method stub
+        durability -= 1;
         
     }
 
@@ -60,5 +60,5 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     public int getItemId() {
         return Integer.parseInt(getEntityId());
     }
-    
+
 }

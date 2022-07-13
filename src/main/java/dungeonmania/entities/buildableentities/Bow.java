@@ -12,7 +12,7 @@ import dungeonmania.interfaces.Storeable;
 public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
     
     private int battleBonus = 2;
-    private int bow_durability;
+    private int durability;
 
     // Bow will never have a pos, set to INF? can only ever appear in inventory
     // bow(String id, int bow_durability) default values for the rest
@@ -69,8 +69,7 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
      */
     @Override
     public void reducedurability() {
-        // TODO Auto-generated method stub
-        //
+        durability -= 1;
         
     }
 
