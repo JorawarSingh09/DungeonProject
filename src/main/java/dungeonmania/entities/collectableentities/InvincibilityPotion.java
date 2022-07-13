@@ -4,7 +4,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 
-public class InvincibilityPotion extends Entity implements Storeable, Collectable{
+public class InvincibilityPotion extends Entity implements Storeable, Collectable {
     
     private int duration;
 
@@ -23,6 +23,10 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     public void use() {
         // TODO Auto-generated method stub
         
+    }
+
+    public int getItemId() {
+        return getEntityId();
     }
     
 }

@@ -21,5 +21,9 @@ public class Arrow extends Entity implements Collectable, Storeable{
         // TODO Auto-generated method stub
         
     }
+
+    public int getItemId() {
+        return getEntityId();
+    }
     
 }

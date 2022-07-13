@@ -10,14 +10,16 @@ import dungeonmania.goals.Goal;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
+import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
+import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.util.Position;
 
 public class Dungeon {
 
-    String dungeonId;
+    int dungeonId;
     String dungeonName;
     int tickCount;
     List<Entity> entities = new ArrayList<>();
@@ -26,15 +28,18 @@ public class Dungeon {
     MovementController mc;
     Player player;
     int currMaxEntityId;
+    SpiderSpawn spiderSpawner;
 
-    public Dungeon() {
+    public Dungeon(String dungeonName, int dungeonId) {
+        this.dungeonId = dungeonId;
+        this.dungeonName = dungeonName;
         currMaxEntityId = 0;
         tickCount = 0;
     }
 
     //Dungeon Respose
     public DungeonResponse createDungeonResponse(){
-        return new DungeonResponse(dungeonId, dungeonName, createEntityResponse(),
+        return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
             createItemResponse(), createBattleResponse(), getBuildable(), goal.toString());
     }
 
@@ -69,10 +74,10 @@ public class Dungeon {
     }
 
     public String getDungeonId() {
-        return this.dungeonId;
+        return Integer.toString(this.dungeonId);
     }
 
-    public void setDungeonId(String dungeonId) {
+    public void setDungeonId(int dungeonId) {
         this.dungeonId = dungeonId;
     }
 
@@ -125,11 +130,12 @@ public class Dungeon {
         currMaxEntityId += 1;
     }
 
-    public void removeEntity(Entity removing){
-        for(Entity entity : entities){
-            if(entity.equals(removing)){
+    // TODO: check defined behaviour for item/entity removal in terms of ID (always unique?)
+    public void removeEntity(Entity removing) { 
+        for (Entity entity : entities){
+            if (entity.equals(removing)){
                 entities.remove(removing);
-                currMaxEntityId -= 1;
+                //currMaxEntityId -= 1;
             }
         }
     }
@@ -158,6 +164,8 @@ public class Dungeon {
         this.goal = goal;
     }
 
-
+    public void setSpiderSpawner(SpiderSpawn spawner) {
+        this.spiderSpawner = spawner;
+    }
 
 }

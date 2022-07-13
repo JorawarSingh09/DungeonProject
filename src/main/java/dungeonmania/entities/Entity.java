@@ -10,7 +10,7 @@ public class Entity {
     boolean Collidable;
     boolean Interactable;
 
-    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable){
+    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable) {
         this.entityId = entityId;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -63,17 +63,18 @@ public class Entity {
         this.Interactable = isInteractable;
     }
 
-    public void moveTo(int xPos, int yPos){
+    public void moveTo(int xPos, int yPos) {
         setXPos(xPos);
         setYPos(yPos);
         setPosition();
     }
 
-    public void setPosition(){
+    public void setPosition() {
         this.pos = new Position(this.xPos, this.yPos);
     }
-    public Position getPosition(){
+
+    public Position getPosition() {
         return pos;
     }
-}
 
+}

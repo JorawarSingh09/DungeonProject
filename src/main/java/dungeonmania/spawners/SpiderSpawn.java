@@ -9,14 +9,14 @@ public class SpiderSpawn {
     List<Position> spawnBlocks = new ArrayList<>();
     int spawnRate;
     
-    public SpiderSpawn(){
+    public SpiderSpawn(int spawnRate){
         this.spawnBlocks = 
             List.of(new Position(0, 1),
                     new Position(1, 1),
                     new Position(0, 0),
                     new Position(1, 0));
 
-        this.spawnRate = 1;
+        this.spawnRate = spawnRate;
     }
 
     public SpiderSpawn(Position spiderSpawnLocation, int spawnRate){

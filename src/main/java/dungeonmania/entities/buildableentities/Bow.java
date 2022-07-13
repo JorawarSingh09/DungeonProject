@@ -9,8 +9,9 @@ import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
 
-public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking{
+public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
     
+    private int battleBonus = 2;
     private int bow_durability;
 
     // Bow will never have a pos, set to INF? can only ever appear in inventory
@@ -34,32 +35,31 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
      */   
     @Override
     public void build(Player player) {
-        player.addInventoryItem(this);
+        //player.addInventoryItem(this);
         consumeItems(player);
     }
 
     /**
      * remove items to make a bow, 3 arrows one wood
      */
-    @Override
-    public void consumeItems(Player player) {
-        List<Storeable> inventory = player.getInventoryItems();
-        boolean wood = false;
-        int arrows = 3;
-        for(Storeable item : player.getInventoryItems()){
-            Entity newItem = (Entity) item;
-            if(newItem.getType().equals("Wood") && !wood){
-                player.removeInventoryItem(newItem);
-            }
+    // @Override
+    // public void consumeItems(Player player) {
+    //     List<Storeable> inventory = player.getInventoryItems();
+    //     boolean wood = false;
+    //     int arrows = 3;
+    //     for(Storeable item : player.getInventoryItems()){
+    //         Entity newItem = (Entity) item;
+    //         if(newItem.getType().equals("Wood") && !wood){
+    //             player.removeInventoryItem(newItem);
+    //         }
 
-            if(newItem.getType().equals("Arrow") && arrows > 0){
-                player.removeInventoryItem(newItem);
-            }
-        }
+    //         if(newItem.getType().equals("Arrow") && arrows > 0){
+    //             player.removeInventoryItem(newItem);
+    //         }
+    //     }
         
-    }
+    // }
 
-    @Override
     public void use() {
         //dont really have a use for bow        
     }
@@ -74,15 +74,32 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         
     }
 
-    @Override
-    public void breakEntity(Player player) {
-        player.removeInventoryItem(this);
+    // @Override
+    // public void breakEntity(Player player) {
+    //     player.removeInventoryItem(this);
         
-    }
+    // }
 
     @Override
     public Boolean isAdditive() {
         // TODO Auto-generated method stub
         return false;
     }
+
+    public int getItemId() {
+        return Integer.parseInt(getEntityId());
+    }
+
+    @Override
+    public void breakEntity(Player player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void consumeItems(Player player) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

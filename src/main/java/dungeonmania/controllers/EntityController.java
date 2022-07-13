@@ -1,13 +1,10 @@
 package dungeonmania.controllers;
 
-import java.util.concurrent.locks.Condition;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dungeonmania.Dungeon;
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
@@ -37,6 +34,8 @@ import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalCondition;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.spawners.SpiderSpawn;
+import dungeonmania.util.Position;
 
 public class EntityController {
 
@@ -65,11 +64,12 @@ public class EntityController {
     private int zombie_health;
     private int zombie_spawn_rate;
 
-    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs) {
-        Dungeon dungeon = new Dungeon();
+    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId, String dungeonName) {
+        Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
         dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
+        getGameState(dungeon);
     }
 
     public Goal prepareGoals(JsonObject goals) {
@@ -110,7 +110,10 @@ public class EntityController {
         return null;
     }
 
-    public DungeonResponse getGameState(JsonObject goals) {
+    public DungeonResponse getGameState(Dungeon dungeon) {
+        String dId = Integer.toString(dungeon.getDungeonId());
+        String dName = dungeon.getDungeonString();
+        // TODO: entities, inventory, battles, buildables, goals
         return null;
     }
 
@@ -148,7 +151,9 @@ public class EntityController {
             String type = ((JsonObject) entity).get("type").getAsString();
             switch (type) {
                 case "player":
-                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health));
+                    dungeon.addEntity(new Player(dungeon.getCurrMaxEntityId(), x, y, false, false, this.player_attack, this.player_health, 
+                                                    bow_durability, shield_durability));
+                    dungeon.setSpiderSpawner(new SpiderSpawn(new Position(x, y), spider_spawn_rate));
                     break;
                 case "wall":
                     dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), x, y, false, true));
@@ -211,7 +216,6 @@ public class EntityController {
                 case "shield":
                     dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));
                     break;
-
 
             } 
         }

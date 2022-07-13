@@ -4,40 +4,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.interfaces.Moveable;
 
-public class Player extends Entity {
+public class Player extends Entity implements Moveable {
 
     private int health;
     private int attack;
     Inventory inventory;
-    List<Attacking> attackItems = new ArrayList<>();
-    List<Defending> defenceItems = new ArrayList<>();
+    List<Mercenary> mercenaries = new ArrayList<>();
+    PlayerState state;
     
-    public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, int player_attack, int player_health) {
+    public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
+                    int player_attack, int player_health, int bowDurability, int shieldDurability) {
         super(id, xPos, yPos, interactable, collidable);
         this.health = player_health;
         this.attack = player_attack;
+        this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
+        this.state = new AliveState();
     }    
+
+    public PlayerState getPlayerState() {
+        return state;
+    }
+
+    public void setPlayerState(PlayerState state) {
+        this.state = state;
+    }
+
+    public int getHealth() {
+        return health;
+    }
     
-    public List<Storeable> getInventoryItems(){
-        return inventory.getInventoryItems();
+    public int getAttack() {
+        return attack;
     }
 
-    public void addInventoryItem(Entity item){
-        Storeable newItem = (Storeable) item;
-        inventory.addItem(newItem);
+    public void addAlly(Mercenary mercenary) {
+        mercenaries.add(mercenary);
     }
 
-    public void removeInventoryItem(Entity item){
-        Storeable newItem = (Storeable) item;
-        inventory.removeItem(newItem);
+    public List<Mercenary> getAllies() {
+        return mercenaries;
     }
-    public List<Storeable> getBuildableItems(){
-        return inventory.getBuildableItems();
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void updatePosition() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void engageBattle() {
+        ;
+    }
+
+    public void tick() {
+        ;
+    }
+
+    public void drinkInvis() {
+        ;
+    }
+
+    public void drinkInvinc() {
+        ;
     }
 }
