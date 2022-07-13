@@ -3,6 +3,7 @@ package dungeonmania.entities.movingentities.properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.reflections.Store;
@@ -57,10 +58,10 @@ public class Inventory {
 
     public List<String> getBuildableItems() {
         List<String> buildables = new ArrayList<>();
-        int wood = countWood();
-        int arrows = countArrow();
-        int treasure = countTreasure();
-        int key = countKey();
+        int wood = countItem(Wood.class);
+        int arrows = countItem(Arrow.class);
+        int treasure = countItem(Treasure.class);
+        int key = countItem(Key.class);;
         if ((key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
         } else if (wood >= 1 && arrows >= 3) {
@@ -78,6 +79,7 @@ public class Inventory {
                 buildableItems.add(shield);
                 weapons.add(shield);
                 defendingItems.add(shield);
+                removeShieldItems();
                 break;
             case "bow":
                 Bow bow = new Bow(nextItemMaxId, playerPos.getX(), playerPos.getY(), false, false, bowDurability);
@@ -85,6 +87,7 @@ public class Inventory {
                 buildableItems.add(bow);
                 weapons.add(bow);
                 attackingItems.add(bow);
+                removeBowItems();
                 break;
         }
     }
@@ -103,40 +106,10 @@ public class Inventory {
         }
     }
 
-    private int countWood() {
+    private int countItem(Class<?> t) {
         int count = 0;
         for (Storeable item : inventoryItems) {
-            if (item instanceof Wood) {
-                count += 1;
-            }
-        }
-        return count;
-    }
-
-    private int countArrow() {
-        int count = 0;
-        for (Storeable item : inventoryItems) {
-            if (item instanceof Arrow) {
-                count += 1;
-            }
-        }
-        return count;
-    }
-
-    private int countTreasure() {
-        int count = 0;
-        for (Storeable item : inventoryItems) {
-            if (item instanceof Treasure) {
-                count += 1;
-            }
-        }
-        return count;
-    }
-
-    private int countKey() {
-        int count = 0;
-        for (Storeable item : inventoryItems) {
-            if (item instanceof Key) {
+            if (item.getClass().equals(t)) {
                 count += 1;
             }
         }
@@ -144,7 +117,27 @@ public class Inventory {
     }
 
     private void removeShieldItems() {
-        
+        removeItem(2, Wood.class);
+        if (!removeItem(1, Treasure.class)) {
+            removeItem(1, Key.class);
+        }
+    }
+
+    private void removeBowItems() {
+        removeItem(1, Wood.class);
+        removeItem(3, Arrow.class);
+    }
+
+    private boolean removeItem(int removeAmount, Class<?> t) {
+        int itemRemoved = 0;
+        ListIterator<Storeable> inventory = inventoryItems.listIterator();
+        while(inventory.hasNext()) {
+            if (inventory.next().getClass().equals(t) && itemRemoved < removeAmount) {
+                inventory.remove();
+                itemRemoved += 1;
+            }
+        }
+        return (itemRemoved == removeAmount);
     }
 
 }

@@ -96,12 +96,12 @@ public class Dungeon {
         currMaxEntityId += 1;
     }
 
-    // TODO: check defined behaviour for item/entity removal (always unique?)
+    // TODO: check defined behaviour for item/entity removal in terms of ID (always unique?)
     public void removeEntity(Entity removing) { 
         for (Entity entity : entities){
             if (entity.equals(removing)){
                 entities.remove(removing);
-                currMaxEntityId -= 1;
+                //currMaxEntityId -= 1;
             }
         }
     }
