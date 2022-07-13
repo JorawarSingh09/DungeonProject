@@ -3,19 +3,18 @@ package dungeonmania.entities;
 import dungeonmania.util.Position;
 
 public class Entity {
-    String entityId;
+    int entityId;
     int xPos;
     int yPos;
     Position pos;
     boolean Collidable;
     boolean Interactable;
 
-    public Entity(String entityId, int xPos, int yPos, boolean interactable, boolean collidable){
+    public Entity(int entityId, int xPos, int yPos, boolean interactable, boolean collidable){
         this.entityId = entityId;
         this.xPos = xPos;
         this.yPos = yPos;
         setPosition();
-        
         this.Interactable = interactable;
         this.Collidable = collidable;
     }
@@ -25,10 +24,10 @@ public class Entity {
     }
 
     public String getEntityId() {
-        return this.entityId;
+        return Integer.toString(this.entityId);
     }
 
-    public void setEntityId(String entityId) {
+    public void setEntityId(int entityId) {
         this.entityId = entityId;
     }
 
@@ -64,8 +63,10 @@ public class Entity {
         this.Interactable = isInteractable;
     }
 
-    public void moveTo(Position pos){
-        // stuff goes here
+    public void moveTo(int xPos, int yPos){
+        setXPos(xPos);
+        setYPos(yPos);
+        setPosition();
     }
 
     public void setPosition(){

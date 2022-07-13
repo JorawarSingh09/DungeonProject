@@ -3,6 +3,8 @@ package dungeonmania.entities.movingentities.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.reflections.Store;
+
 import dungeonmania.interfaces.Storeable;
 
 public class Inventory {
@@ -19,6 +21,14 @@ public class Inventory {
     public List<Storeable> getBuildableItems() {
         // TO DO
         return inventoryItems;
+    }
+
+    public void addItem(Storeable item){
+        inventoryItems.add(item);
+    }
+
+    public void removeItem(Storeable item){
+        inventoryItems.remove(item);
     }
 
     public void build() {

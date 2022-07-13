@@ -28,6 +28,15 @@ public class Player extends Entity {
         return inventory.getInventoryItems();
     }
 
+    public void addInventoryItem(Entity item){
+        Storeable newItem = (Storeable) item;
+        inventory.addItem(newItem);
+    }
+
+    public void removeInventoryItem(Entity item){
+        Storeable newItem = (Storeable) item;
+        inventory.removeItem(newItem);
+    }
     public List<Storeable> getBuildableItems(){
         return inventory.getBuildableItems();
     }
