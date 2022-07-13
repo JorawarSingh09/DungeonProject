@@ -206,7 +206,7 @@ public class EntityController {
                     dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), x, y, false, false, this.sword_attack, this.sword_durability));
                     break;
                 case "bow":
-                    dungeon.addEntity(new Bow(dungeon.getCurrMaxEntityId(), x, y, false, false, this.bow_durability));
+                    dungeon.addEntity(new Bow(dungeon.getCurrMaxEntityId(), this.bow_durability));
                     break;
                 case "shield":
                     dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), x, y, false, false, this.shield_durability, this.shield_defence));

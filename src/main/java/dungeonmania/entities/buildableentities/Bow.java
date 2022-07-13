@@ -75,14 +75,14 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     }
 
     @Override
-    public void breakEntity() {
-        // TODO Auto-generated method stub
+    public void breakEntity(Player player) {
+        player.removeInventoryItem(this);
         
     }
 
     @Override
     public Boolean isAdditive() {
         // TODO Auto-generated method stub
-        return null;
+        return false;
     }
 }
