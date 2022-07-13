@@ -1,5 +1,5 @@
 package dungeonmania.entities.movingentities.playerstates;
 
-public class Alive {
+public class AliveState implements PlayerState {
     
 }

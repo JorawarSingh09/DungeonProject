@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
@@ -15,6 +17,7 @@ public class Player extends Entity implements Moveable {
     private int attack;
     Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
+    PlayerState state;
     
     public Player(int id, int xPos, int yPos, boolean interactable, boolean collidable, 
                     int player_attack, int player_health, int bowDurability, int shieldDurability) {
@@ -22,6 +25,7 @@ public class Player extends Entity implements Moveable {
         this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
+        this.state = AliveState();
     }    
 
     public int getHealth() {
