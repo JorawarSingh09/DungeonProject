@@ -25,8 +25,16 @@ public class Player extends Entity implements Moveable {
         this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
-        this.state = AliveState();
+        this.state = new AliveState();
     }    
+
+    public PlayerState getPlayerState() {
+        return state;
+    }
+
+    public void setPlayerState(PlayerState state) {
+        this.state = state;
+    }
 
     public int getHealth() {
         return health;
@@ -51,5 +59,21 @@ public class Player extends Entity implements Moveable {
     public void updatePosition() {
         // TODO Auto-generated method stub
         
+    }
+
+    public void engageBattle() {
+        ;
+    }
+
+    public void tick() {
+        ;
+    }
+
+    public void drinkInvis() {
+        ;
+    }
+
+    public void drinkInvinc() {
+        ;
     }
 }
