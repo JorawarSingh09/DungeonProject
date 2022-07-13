@@ -7,6 +7,9 @@ import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
 import dungeonmania.goals.Goal;
+import dungeonmania.interfaces.Collectable;
+import dungeonmania.interfaces.Health;
+import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
@@ -113,11 +116,31 @@ public class Dungeon {
         return foundMatches;
     }
 
-    public List<Entity> getEntitiesOnBlock(Position pos) {
-        List<Entity> foundMatches = new ArrayList<>();
+    public List<Static> getStaticsOnBlock(Position pos) {
+        List<Static> foundMatches = new ArrayList<>();
         for (Entity entity : entities) {
-            if (entity.getPosition().equals(pos)) {
-                foundMatches.add(entity);
+            if (entity.getPosition().equals(pos) && entity instanceof Static) {
+                foundMatches.add((Static) entity);
+            }
+        }
+        return foundMatches;
+    }
+
+    public List<Collectable> getCollectablesOnBlock(Position pos) {
+        List<Collectable> foundMatches = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity.getPosition().equals(pos) && entity instanceof Collectable) {
+                foundMatches.add((Collectable) entity);
+            }
+        }
+        return foundMatches;
+    }
+
+    public List<Health> getEnemiesOnBlock(Position pos) {
+        List<Health> foundMatches = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity.getPosition().equals(pos) && entity instanceof Health) {
+                foundMatches.add((Health) entity);
             }
         }
         return foundMatches;
@@ -157,7 +180,7 @@ public class Dungeon {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.mc = new MovementController(player);
+        this.mc = new MovementController(player, this);
     }
 
     public Goal getGoal() {
@@ -211,6 +234,14 @@ public class Dungeon {
     public void updateMovement(Direction playerMovement) {
         mc.movePlayer(playerMovement);
         // mc.updateEntityPositions();
+    }
+
+    public void startBattle(Health enemy) {
+        if (bc.newBattle(player, enemy)) {
+            removeEntity(getEntityById(enemy.getEntityId()));
+        } else {
+            removeEntity(player);
+        }
     }
 
 }

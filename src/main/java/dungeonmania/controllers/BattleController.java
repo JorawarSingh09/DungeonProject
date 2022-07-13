@@ -18,7 +18,7 @@ public class BattleController {
         this.enemiesKilled = 0;
     }
 
-    public void newBattle(Player player, Health enemy) {
+    public boolean newBattle(Player player, Health enemy) {
         Battle battle = new Battle(enemy, player, player.getInventory());
         battles.add(battle);
         if (battle.startBattle()) {
@@ -27,6 +27,7 @@ public class BattleController {
             this.playerDied = true;
         }
         player.engageBattle(playerDied);
+        return (!playerDied);
     }
 
     public int getEnemiesKilled() {
@@ -40,4 +41,5 @@ public class BattleController {
     public BattleResponse getBattleResponseObj() {
         return null;
     }
+
 }

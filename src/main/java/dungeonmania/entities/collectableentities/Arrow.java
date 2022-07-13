@@ -5,7 +5,7 @@ import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
-public class Arrow extends Entity implements Collectable, Storeable{
+public class Arrow extends Entity implements Collectable, Storeable {
     
     public Arrow(int id, Position position, boolean interactable, boolean collidable) {
         super(id, position, interactable, collidable);
