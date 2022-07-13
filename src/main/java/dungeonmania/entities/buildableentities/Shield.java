@@ -36,12 +36,6 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     @Override
-    public void breakEntity() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public void reduceEnemyAttack() {
         // TODO Auto-generated method stub
         
@@ -49,6 +43,12 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
 
     @Override
     public void consumeItems(Player player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void breakEntity(Player player) {
         // TODO Auto-generated method stub
         
     }
