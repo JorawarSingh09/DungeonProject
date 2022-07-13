@@ -9,11 +9,11 @@ import dungeonmania.interfaces.Storeable;
 public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
     
     private int battleBonus = 2;
-    private int bow_durability;
+    private int durability;
 
     public Bow(int id, int xPos, int yPos, boolean interactable, boolean collidable, int bow_durability) {
         super(id, xPos, yPos, interactable, collidable);
-        this.bow_durability = bow_durability;
+        this.durability = bow_durability;
     }
 
     public Entity build() {
@@ -27,7 +27,7 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     }
 
     public void reducedurability() {
-        // TODO Auto-generated method stub
+        durability -= 1;
         
     }
 

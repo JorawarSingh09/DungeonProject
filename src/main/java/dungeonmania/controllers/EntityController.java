@@ -64,12 +64,13 @@ public class EntityController {
     private int zombie_health;
     private int zombie_spawn_rate;
 
-    public void startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId, String dungeonName) {
+    public Dungeon startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId, String dungeonName) {
         Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
         dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
         makeEntities(entities, dungeon);
         getGameState(dungeon);
+        return dungeon;
     }
 
     public Goal prepareGoals(JsonObject goals) {
