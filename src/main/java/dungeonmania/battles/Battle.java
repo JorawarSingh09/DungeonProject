@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Health;
 
@@ -13,11 +14,15 @@ public class Battle {
     Health enemy;
     Player player;
     Inventory playerInventory;
+    int initialPlayerHealth;
+    int initialEnemyHealth;
 
     public Battle(Health enemy, Player player, Inventory playerInventory) {
         this.enemy = enemy;
         this.player = player;
         this.playerInventory = playerInventory;
+        this.initialEnemyHealth = enemy.getHealth();
+        this.initialPlayerHealth = player.getHealth();
     }
 
     /* returns if player won */
@@ -32,9 +37,16 @@ public class Battle {
     }
 
     public void startRound() {
-        rounds.add(new Round(player.getAttack(), enemy.getAttackDamage(), 
-                            playerInventory.getAttackingItems(), playerInventory.getDefendingItems(), 
-                            player.getAllies()));
+        Round round = new Round(player.getAttack(), enemy.getAttackDamage(), 
+                                playerInventory.getAttackingItems(), playerInventory.getDefendingItems(), 
+                                player.getAllies());
+        rounds.add(round);
+        if (player.getPlayerState() == player.getInvincState()) {
+            enemy.setHealth(0);
+        } else {
+            enemy.loseHealth(round.enemyHealthChange());
+            player.loseHealth(round.playerHealthChange());
+        }
     }
 
     private boolean isGameOver() {
@@ -47,6 +59,22 @@ public class Battle {
 
     private void updateWeaponDurability() {
         playerInventory.updateWeaponsDurability();
+    }
+
+    public Health getEnemy() {
+        return this.enemy;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public int getInitialPlayerHealth() {
+        return initialPlayerHealth;
+    }
+
+    public int getInitialEnemyHealth() {
+        return initialEnemyHealth;
     }
 
 }

@@ -14,7 +14,6 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
-import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -71,8 +70,7 @@ public class Dungeon {
     }
 
     public List<BattleResponse> createBattleResponse() {
-        // no clue what to do here
-        return new ArrayList<>();
+        return bc.getBattleResponseObj(player);
     }
 
     public BattleController getBattleController() {

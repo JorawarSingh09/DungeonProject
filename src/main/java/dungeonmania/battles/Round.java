@@ -3,6 +3,7 @@ package dungeonmania.battles;
 import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;
@@ -30,6 +31,17 @@ public class Round {
 
     public int enemyHealthChange() {
         return ((-calculatePlayerAttackDamage())/5);
+    }
+
+    public List<Integer> weaponryUsed() {
+        List<Integer> weapons =  new ArrayList<>();
+        for (Attacking attackItem : attackWeaponryUsed) {
+            weapons.add(attackItem.getItemId());
+        }
+        for (Defending defendItem : defenceWeaponryUsed) {
+            weapons.add(defendItem.getItemId());
+        }
+        return weapons;
     }
 
     private int calculatePlayerAttackDamage() {

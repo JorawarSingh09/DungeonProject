@@ -7,7 +7,6 @@ public class DeadState extends PlayerState {
 
     public DeadState(Player player) {
         super(player);
-        //TODO Auto-generated constructor stub
     }
     
 }

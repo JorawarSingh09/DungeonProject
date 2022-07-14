@@ -51,10 +51,12 @@ public class Mercenary extends Entity implements Moveable, Health {
         return bribe_amount;
     }
 
-    @Override
-    public void loseHealth() {
-        // TODO Auto-generated method stub
-        
+    public void loseHealth(int deltaHealth) {
+        health = health + health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public void updatePosition() {

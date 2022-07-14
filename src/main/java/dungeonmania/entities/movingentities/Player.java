@@ -9,6 +9,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
 import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.DeadState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Storeable;
@@ -24,7 +27,13 @@ public class Player extends Entity implements Moveable {
     Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
+    
     PlayerState state;
+    PlayerState aliveState = new AliveState(this);
+    PlayerState deadState =  new DeadState(this);
+    PlayerState invincState =  new InvincibleState(this);
+    PlayerState invisState = new InvisibleState(this);
+    
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
             int player_attack, int player_health, int bowDurability, int shieldDurability) {
@@ -32,7 +41,7 @@ public class Player extends Entity implements Moveable {
         this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
-        this.state = new AliveState(this);
+        this.state = aliveState;
     }
 
     public PlayerState getPlayerState() {
@@ -53,6 +62,10 @@ public class Player extends Entity implements Moveable {
 
     public int getHealth() {
         return health;
+    }
+
+    public int loseHealth(int deltaHealth) {
+        return health = health + deltaHealth;
     }
 
     public int getAttack() {
@@ -77,14 +90,13 @@ public class Player extends Entity implements Moveable {
 
     public void updatePosition(Direction movement) {
         this.setPosition(getNextPosition(movement));
-        // TODO Auto-generated method stub
     }
 
     public void engageBattle(boolean playerDied) {
         state.engageBattle(playerDied);
     }
 
-    public void tick() {
+    public void tickPotion() {
         if (queueItems.size() > 0) {
             Regenerative item = queueItems.peek();
             item.decrementDuration();
@@ -92,9 +104,11 @@ public class Player extends Entity implements Moveable {
                 queueItems.remove();
                 inventory.removeItemById(item.getItemId());
             }
-            ;
-            if (queueItems.size() > 0)
-                nextItem();
+            if (queueItems.size() > 0) {
+                nextItem(); 
+            } else {
+                state = aliveState;
+            }
         } else {
             state.tick(0);
         }
@@ -132,6 +146,10 @@ public class Player extends Entity implements Moveable {
         return inventory.hasItem(id);
     }
 
+    public Storeable getItemFromId(int id) {
+        return inventory.getItemFromId(id);
+    }
+
     public void addItem(Entity item) {
         inventory.addItem((Storeable) item);
     }
@@ -166,4 +184,22 @@ public class Player extends Entity implements Moveable {
     public String getType() {
         return "player";
     }
+
+    public PlayerState getAliveState() {
+        return aliveState;
+    }
+
+    public PlayerState getDeadState() {
+        return deadState;
+    }
+
+    public PlayerState getInvincState() {
+        return invincState;
+    }
+
+    public PlayerState getInvisState() {
+        return invisState;
+    }
+
+    
 }

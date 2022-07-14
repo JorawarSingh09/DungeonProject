@@ -1,6 +1,5 @@
 package dungeonmania.interfaces;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 
 public interface Buildable {

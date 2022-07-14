@@ -10,7 +10,7 @@ public class InvisibleState extends PlayerState {
 
     @Override
     public void drinkInvinc() {
-        player.setPlayerState(new InvincibleState(player));
+        player.setPlayerState(player.getInvincState());
         
     }
     
