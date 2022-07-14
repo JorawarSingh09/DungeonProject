@@ -1,12 +1,6 @@
 package dungeonmania.goals;
 
-import java.util.List;
-
 import dungeonmania.Dungeon;
-import dungeonmania.entities.Entity;
-import dungeonmania.entities.staticentities.FloorSwitch;
-import dungeonmania.entities.staticentities.Boulder;
-import dungeonmania.interfaces.Static;
 
 public class BoulderGoal implements Goal {
 
