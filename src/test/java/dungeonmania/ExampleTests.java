@@ -141,35 +141,35 @@ public class ExampleTests {
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_complexGoalsTest_andAll", "c_complexGoalsTest_andAll");
         System.out.println(getGoals(res));
-        // assertTrue(getGoals(res).contains(":exit"));
-        // assertTrue(getGoals(res).contains(":treasure"));
-        // assertTrue(getGoals(res).contains(":boulders"));
-        // assertTrue(getGoals(res).contains(":enemies"));
+        assertTrue(getGoals(res).contains(":exit"));
+        assertTrue(getGoals(res).contains(":treasure"));
+        assertTrue(getGoals(res).contains(":boulders"));
+        assertTrue(getGoals(res).contains(":enemies"));
 
-        // // kill spider
-        // res = dmc.tick(Direction.RIGHT);
-        // assertTrue(getGoals(res).contains(":exit"));
-        // assertTrue(getGoals(res).contains(":treasure"));
-        // assertTrue(getGoals(res).contains(":boulders"));
-        // assertFalse(getGoals(res).contains(":enemies"));
+        // kill spider
+        res = dmc.tick(Direction.RIGHT);
+        assertTrue(getGoals(res).contains(":exit"));
+        assertTrue(getGoals(res).contains(":treasure"));
+        assertTrue(getGoals(res).contains(":boulders"));
+        assertFalse(getGoals(res).contains(":enemies"));
 
-        // // move boulder onto switch
-        // res = dmc.tick(Direction.RIGHT);
-        // assertTrue(getGoals(res).contains(":exit"));
-        // assertTrue(getGoals(res).contains(":treasure"));
-        // assertFalse(getGoals(res).contains(":boulders"));
-        // assertFalse(getGoals(res).contains(":enemies"));
+        // move boulder onto switch
+        res = dmc.tick(Direction.RIGHT);
+        assertTrue(getGoals(res).contains(":exit"));
+        assertTrue(getGoals(res).contains(":treasure"));
+        assertFalse(getGoals(res).contains(":boulders"));
+        assertFalse(getGoals(res).contains(":enemies"));
 
-        // // pickup treasure
-        // res = dmc.tick(Direction.DOWN);
-        // assertTrue(getGoals(res).contains(":exit"));
-        // assertFalse(getGoals(res).contains(":treasure"));
-        // assertFalse(getGoals(res).contains(":boulders"));
-        // assertFalse(getGoals(res).contains(":enemies"));
+        // pickup treasure
+        res = dmc.tick(Direction.DOWN);
+        assertTrue(getGoals(res).contains(":exit"));
+        assertFalse(getGoals(res).contains(":treasure"));
+        assertFalse(getGoals(res).contains(":boulders"));
+        assertFalse(getGoals(res).contains(":enemies"));
 
-        // // move to exit
-        // res = dmc.tick(Direction.DOWN);
-        // assertEquals("", getGoals(res));
+        // move to exit
+        res = dmc.tick(Direction.DOWN);
+        assertEquals("", getGoals(res));
     }
 
     private static DungeonResponse genericMercenarySequence(DungeonManiaController controller, String configFile) {

@@ -66,8 +66,8 @@ public class EntityController {
     public Dungeon startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId,
             String dungeonName) {
         Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
-        dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
+        dungeon.setGoals(prepareGoals(goals));
         makeEntities(entities, dungeon);
         prepareGoals(goals).toString(dungeon);
         System.out.println(prepareGoals(goals).toString(dungeon));
