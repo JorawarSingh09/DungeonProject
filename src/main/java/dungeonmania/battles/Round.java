@@ -3,7 +3,6 @@ package dungeonmania.battles;
 import java.util.ArrayList;
 import java.util.List;
 
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Defending;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Health;
 

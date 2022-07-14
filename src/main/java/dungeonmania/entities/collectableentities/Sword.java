@@ -20,10 +20,13 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         this.durability = durability;
     }
 
-    @Override
-    public void reducedurability() {
-        // TODO Auto-generated method stub
+    public void reduceDurability() {
+        this.durability -= 1;
         
+    }
+
+    public int getDurability() {
+        return durability;
     }
 
     @Override
@@ -42,11 +45,6 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         player.addItem(this);
         dungeon.removeEntity(this);
 
-    }
-
-    @Override
-    public void breakEntity(Player player) {
-        // TODO Auto-generated method stub
     }
 
     public int battleBonus() {
