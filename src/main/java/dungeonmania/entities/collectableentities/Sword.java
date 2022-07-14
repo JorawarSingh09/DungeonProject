@@ -35,11 +35,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         return true;
     }
 
-    @Override
-    public void use() {
-        // TODO Auto-generated method stub
-        
-    }
+   
 
     public void pickup(Player player, Dungeon dungeon) {
         player.addItem(this);

@@ -29,7 +29,7 @@ public class BattleController {
         Battle battle = new Battle(enemy, player, player.getInventory());
         battles.add(battle);
         if (battle.startBattle()) {
-            enemiesKilled += 1;
+            enemiesKilled++;
         } else {
             this.playerDied = true;
         }
@@ -39,6 +39,10 @@ public class BattleController {
 
     public int getEnemiesKilled() {
         return enemiesKilled;
+    }
+
+    public void addKill() {
+        enemiesKilled++;
     }
 
     public boolean isPlayerAlive() {

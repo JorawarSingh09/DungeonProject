@@ -19,12 +19,6 @@ public class Wood extends Entity implements Collectable, Storeable {
 
     }
 
-    @Override
-    public void use() {
-        // TODO Auto-generated method stub
-        
-    }
-
     public int getItemId() {
         return getEntityId();
     }

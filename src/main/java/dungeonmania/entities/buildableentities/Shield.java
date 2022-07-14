@@ -24,12 +24,6 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void use() {
-        // TODO Auto-generated method stub
-        
-    }
-
     public void reduceDurability() {
         this.durability -= 1;
         

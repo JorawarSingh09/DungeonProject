@@ -2,6 +2,8 @@ package dungeonmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
@@ -196,10 +198,13 @@ public class Dungeon {
         currMaxEntityId += 1;
     }
 
-    // TODO: check defined behaviour for item/entity removal in terms of ID (always
     // unique?)
     public void removeEntity(Entity removing) {
         entities.remove(removing);
+    }
+
+    public void addKillCount() {
+        bc.addKill();
     }
 
     public int getCurrMaxEntityId() {
@@ -262,7 +267,7 @@ public class Dungeon {
         } else if (player.itemType(id).equals(usables.get(1))) {
             player.drinkInvis(id);
         } else {
-            player.putDownBomb(id);
+            player.putDownBomb(this, id);
         }
     }
 
@@ -276,12 +281,29 @@ public class Dungeon {
         // mc.updateEntityPositions();
     }
 
+    public List<Integer> getEntityIds() {
+        return entities.stream().map(Entity::getEntityId).collect(Collectors.toList());
+    }
+
+    public void removeEntityById(int id) {
+        removeEntity(getEntityById(id));
+    }
+
     public void startBattle(Health enemy) {
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));
         } else {
             removeEntity(player);
         }
+    }
+
+    public boolean tryBreakZomSpawn(ZombieToastSpawner zomSpawn) {
+        if (player.getPosition().getCardinallyAdjacentPositions().contains(zomSpawn.getPosition())
+                && player.hasWeapon()) {
+            removeEntity(zomSpawn);
+            return true;
+        }
+        return false;
     }
 
 }

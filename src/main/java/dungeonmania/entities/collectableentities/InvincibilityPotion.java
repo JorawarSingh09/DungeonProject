@@ -22,11 +22,6 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
         dungeon.removeEntity(this);
     }
 
-    @Override
-    public void use() {
-        duration -= 1;
-    }
-
     public int getItemId() {
         return getEntityId();    }
 

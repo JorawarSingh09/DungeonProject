@@ -27,10 +27,4 @@ public class Arrow extends Entity implements Collectable, Storeable {
         return "arrow";
     }
 
-    @Override
-    public void use() {
-        // TODO Auto-generated method stub
-        
-    }
-
 }

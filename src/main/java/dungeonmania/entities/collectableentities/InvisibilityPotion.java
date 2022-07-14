@@ -17,7 +17,6 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
         this.duration = duration;
     }
 
-    @Override
     public void use() {
         duration -= 1;
     }

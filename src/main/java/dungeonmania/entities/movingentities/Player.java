@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
 import dungeonmania.entities.collectableentities.InvisibilityPotion;
@@ -21,6 +22,7 @@ import dungeonmania.util.Position;
 import javassist.compiler.MemberResolver;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
+import dungeonmania.entities.collectableentities.Bomb;
 
 public class Player extends Entity {
 
@@ -172,8 +174,8 @@ public class Player extends Entity {
         return inventory.itemHistory.get(id);
     }
 
-    public void putDownBomb(int id) {
-        inventory.getItemFromId(id).use();
+    public void putDownBomb(Dungeon dungeon, int id) {
+        ((Bomb) inventory.getItemFromId(id)).drop(dungeon, this);
     }
 
     public void build(String item, int nextItemId) {
@@ -224,6 +226,10 @@ public class Player extends Entity {
 
     public PlayerState getInvisState() {
         return invisState;
+    }
+
+    public boolean hasWeapon() {
+        return inventory.getAttackingItems().size() > 0;
     }
 
 }
