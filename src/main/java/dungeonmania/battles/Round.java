@@ -9,13 +9,13 @@ import dungeonmania.interfaces.Defending;
 
 public class Round {
 
-    private int playerAttackDamage;
-    private int enemyAttackDamage;
+    private double playerAttackDamage;
+    private double enemyAttackDamage;
     private List<Attacking> attackWeaponryUsed;
     private List<Defending> defenceWeaponryUsed;
     private List<Mercenary> allies;
 
-    public Round(int playerAttackDamage, int enemyAttackDamage, List<Attacking> attackWeaponryUsed,
+    public Round(double playerAttackDamage, double enemyAttackDamage, List<Attacking> attackWeaponryUsed,
             List<Defending> defenceWeaponryUsed, List<Mercenary> allies) {
         this.playerAttackDamage = playerAttackDamage;
         this.enemyAttackDamage = enemyAttackDamage;
@@ -24,16 +24,16 @@ public class Round {
         this.allies = allies;
     }
 
-    public int playerHealthChange() {
-        return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus())/10);
+    public double playerHealthChange() {
+        return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus()) / 10);
     }
 
-    public int enemyHealthChange() {
-        return ((-calculatePlayerAttackDamage())/5);
+    public double enemyHealthChange() {
+        return ((-calculatePlayerAttackDamage()) / 5);
     }
 
     public List<Integer> weaponryUsed() {
-        List<Integer> weapons =  new ArrayList<>();
+        List<Integer> weapons = new ArrayList<>();
         for (Attacking attackItem : attackWeaponryUsed) {
             weapons.add(attackItem.getItemId());
         }
@@ -43,9 +43,9 @@ public class Round {
         return weapons;
     }
 
-    private int calculatePlayerAttackDamage() {
+    private double calculatePlayerAttackDamage() {
         int additiveBonus = 0;
-        int multiplicativeBonus = 0;
+        int multiplicativeBonus = 1;    
         for (Attacking item : attackWeaponryUsed) {
             if (item.isAdditive()) {
                 additiveBonus += item.battleBonus();
@@ -56,11 +56,11 @@ public class Round {
         return ((playerAttackDamage + additiveBonus + allyAttackBonus()) * multiplicativeBonus);
     }
 
-    private int calculateEnemyAttackDamage() {
+    private double calculateEnemyAttackDamage() {
         return enemyAttackDamage;
     }
 
-    private int calculatePlayerDefenceBonus() {
+    private double calculatePlayerDefenceBonus() {
         int defenceBonus = 0;
         for (Defending item : defenceWeaponryUsed) {
             defenceBonus += item.battleBonus();

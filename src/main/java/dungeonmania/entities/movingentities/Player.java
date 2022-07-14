@@ -21,21 +21,20 @@ import dungeonmania.util.Position;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
-    private int health;
-    private int attack;
+    private double health;
+    private double attack;
     Inventory inventory;
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
-    
+
     PlayerState state;
     Position prevPosition;
     PlayerState aliveState = new AliveState(this);
-    PlayerState deadState =  new DeadState(this);
-    PlayerState invincState =  new InvincibleState(this);
+    PlayerState deadState = new DeadState(this);
+    PlayerState invincState = new InvincibleState(this);
     PlayerState invisState = new InvisibleState(this);
-    
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
             int player_attack, int player_health, int bowDurability, int shieldDurability) {
@@ -63,15 +62,19 @@ public class Player extends Entity{
         this.state = state;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public int loseHealth(int deltaHealth) {
-        return health = health + deltaHealth;
+    public double loseHealth(double deltaHealth) {
+        health = health + deltaHealth;
+        if (health < 0)
+            health = 0;
+        
+        return health;
     }
 
-    public int getAttack() {
+    public double getAttack() {
         return attack;
     }
 
@@ -110,7 +113,7 @@ public class Player extends Entity{
                 inventory.removeItemById(item.getItemId());
             }
             if (queueItems.size() > 0) {
-                nextItem(); 
+                nextItem();
             } else {
                 state = aliveState;
             }
@@ -183,12 +186,14 @@ public class Player extends Entity{
         return prevPosition;
     }
 
-    public boolean attemptBribe(Mercenary mercenary){
-        //check money
-        //check position
-        if(inventory.countItem(Treasure.class) < mercenary.getBribeAmount()) return false;
-        if(Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > 
-            mercenary.getbribeRadius()) return false;
+    public boolean attemptBribe(Mercenary mercenary) {
+        // check money
+        // check position
+        if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
+            return false;
+        if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
+                .getbribeRadius())
+            return false;
         addAlly(mercenary);
         return true;
     }
@@ -214,5 +219,4 @@ public class Player extends Entity{
         return invisState;
     }
 
-    
 }

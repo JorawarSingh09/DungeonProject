@@ -12,8 +12,8 @@ import dungeonmania.util.Position;
 
 public class Spider extends Entity implements Moveable, Health {
 
-    private int attack;
-    private int health;
+    private double attack;
+    private double health;
     int moveState;
     boolean clockwise;
 
@@ -30,13 +30,13 @@ public class Spider extends Entity implements Moveable, Health {
     }
 
     @Override
-    public int getHealth() {
+    public double getHealth() {
         // TODO Auto-generated method stub
         return health;
     }
 
     @Override
-    public int getAttackDamage() {
+    public double getAttackDamage() {
         // TODO Auto-generated method stub
         return attack;
     }
@@ -49,11 +49,13 @@ public class Spider extends Entity implements Moveable, Health {
         Collections.reverse(movePath);
     }
 
-    public void loseHealth(int deltaHealth) {
-        health = health + health;
+    public void loseHealth(double deltaHealth) {
+        health = health + deltaHealth;
+        if (health < 0)
+            health = 0;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 
@@ -73,5 +75,4 @@ public class Spider extends Entity implements Moveable, Health {
         return "spider";
     }
 
-    
 }

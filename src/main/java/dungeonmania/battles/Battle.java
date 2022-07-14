@@ -13,8 +13,8 @@ public class Battle {
     Health enemy;
     Player player;
     Inventory playerInventory;
-    int initialPlayerHealth;
-    int initialEnemyHealth;
+    double initialPlayerHealth;
+    double initialEnemyHealth;
 
     public Battle(Health enemy, Player player, Inventory playerInventory) {
         this.enemy = enemy;
@@ -32,19 +32,21 @@ public class Battle {
 
         updateWeaponDurability();
         return (isPlayerAlive());
-        //Update player state
+        // Update player state
     }
 
     public void startRound() {
-        Round round = new Round(player.getAttack(), enemy.getAttackDamage(), 
-                                playerInventory.getAttackingItems(), playerInventory.getDefendingItems(), 
-                                player.getAllies());
+        Round round = new Round(player.getAttack(), enemy.getAttackDamage(),
+                playerInventory.getAttackingItems(), playerInventory.getDefendingItems(),
+                player.getAllies());
         rounds.add(round);
         if (player.getPlayerState() == player.getInvincState()) {
             enemy.setHealth(0);
         } else {
             enemy.loseHealth(round.enemyHealthChange());
             player.loseHealth(round.playerHealthChange());
+            System.out.println(round.enemyHealthChange());
+            System.out.println("player: " + round.playerHealthChange());
         }
     }
 
@@ -68,11 +70,11 @@ public class Battle {
         return rounds;
     }
 
-    public int getInitialPlayerHealth() {
+    public double getInitialPlayerHealth() {
         return initialPlayerHealth;
     }
 
-    public int getInitialEnemyHealth() {
+    public double getInitialEnemyHealth() {
         return initialEnemyHealth;
     }
 

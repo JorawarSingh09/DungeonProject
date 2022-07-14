@@ -9,10 +9,9 @@ import dungeonmania.util.Position;
 
 public class ZombieToast extends Entity implements Moveable, Health {
 
-    private int attack;
-    private int health;
+    private double attack;
+    private double health;
 
-    
     public ZombieToast(int id, Position position, boolean interactable, boolean collidable, int attack, int health) {
         super(id, position, interactable, collidable);
         this.attack = attack;
@@ -20,35 +19,37 @@ public class ZombieToast extends Entity implements Moveable, Health {
     }
 
     @Override
-    public int getHealth() {
+    public double getHealth() {
         // TODO Auto-generated method stub
         return health;
     }
 
     @Override
-    public int getAttackDamage() {
+    public double getAttackDamage() {
         // TODO Auto-generated method stub
         return attack;
     }
 
-    public void loseHealth(int deltaHealth) {
-        health = health + health;
+    public void loseHealth(double deltaHealth) {
+        health = health + deltaHealth;
+        if (health < 0)
+            health = 0;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 
     @Override
     public void updatePosition(Dungeon dungeon, Player player) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public Position getNextPosition() {
         // TODO Auto-generated method stub
         return null;
-    }  
-    
+    }
+
 }
