@@ -2,6 +2,7 @@ package dungeonmania.entities.movingentities;
 
 import java.util.Collections;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.CircularMovement;
 import dungeonmania.interfaces.Health;
@@ -40,7 +41,7 @@ public class Spider extends Entity implements Moveable, Health {
         return attack;
     }
 
-    public Position getNextPosition(Direction movement) {
+    public Position getNextPosition() {
         return movePath.get(moveState);
     }
 
@@ -55,7 +56,7 @@ public class Spider extends Entity implements Moveable, Health {
     }
 
     @Override
-    public void updatePosition() {
+    public void updatePosition(Dungeon dungeon, Player player) {
         // if you hit a boulder reverse
         setPosition(movePath.get(moveState));
         moveState++;
@@ -70,4 +71,6 @@ public class Spider extends Entity implements Moveable, Health {
     public String getType() {
         return "spider";
     }
+
+    
 }

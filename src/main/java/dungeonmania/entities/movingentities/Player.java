@@ -8,6 +8,7 @@ import java.util.Queue;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
 import dungeonmania.entities.collectableentities.InvisibilityPotion;
+import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
@@ -17,7 +18,7 @@ import dungeonmania.util.Position;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 
-public class Player extends Entity implements Moveable {
+public class Player extends Entity{
 
     private int health;
     private int attack;
@@ -25,10 +26,12 @@ public class Player extends Entity implements Moveable {
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
     PlayerState state;
+    Position prevPosition;
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
             int player_attack, int player_health, int bowDurability, int shieldDurability) {
         super(id, position, interactable, collidable);
+        this.prevPosition = position;
         this.health = player_health;
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
@@ -61,6 +64,7 @@ public class Player extends Entity implements Moveable {
 
     public void addAlly(Mercenary mercenary) {
         mercenaries.add(mercenary);
+        mercenary.setAlly();
     }
 
     public List<Mercenary> getAllies() {
@@ -76,6 +80,7 @@ public class Player extends Entity implements Moveable {
     }
 
     public void updatePosition(Direction movement) {
+        this.prevPosition = this.getPosition();
         this.setPosition(getNextPosition(movement));
         // TODO Auto-generated method stub
     }
@@ -156,14 +161,24 @@ public class Player extends Entity implements Moveable {
         return inventory.hasRightKey(keyPair);
     }
 
-    @Override
-    public void updatePosition() {
-        // TODO Auto-generated method stub
+    public Position getPreviousPosition() {
+        return prevPosition;
+    }
 
+    public boolean attemptBribe(Mercenary mercenary){
+        //check money
+        //check position
+        if(inventory.countItem(Treasure.class) < mercenary.getBribeAmount()) return false;
+        if(Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > 
+            mercenary.getbribeRadius()) return false;
+        addAlly(mercenary);
+        return true;
     }
 
     @Override
     public String getType() {
         return "player";
     }
+
+    
 }

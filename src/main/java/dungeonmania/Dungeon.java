@@ -12,6 +12,7 @@ import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.entities.movingentities.Spider;
@@ -116,6 +117,10 @@ public class Dungeon {
             addEntity(spiderSpawner.spawnSpider(getCurrMaxEntityId()));
         }
         this.tickCount++;
+
+        player.tick();
+        mc.updateEntityPositions();
+
     }
 
     public List<Entity> getEntities() {
@@ -208,6 +213,9 @@ public class Dungeon {
         this.mc = new MovementController(player, this);
     }
 
+    public boolean bribeMercenary(Mercenary mercenary){
+        return player.attemptBribe(mercenary);
+    }
     public Goal getGoal() {
         return goal;
     }
