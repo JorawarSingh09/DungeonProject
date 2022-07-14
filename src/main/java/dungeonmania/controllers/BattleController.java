@@ -15,9 +15,12 @@ import dungeonmania.response.models.RoundResponse;
 public class BattleController {
     List<Battle> battles = new ArrayList<>();
     private int enemiesKilled;
-    private boolean playerDied;    
+    private boolean playerDied;
 
-    /*To start a new battle simply call newBattle from bc with the player and battling entity*/
+    /*
+     * To start a new battle simply call newBattle from bc with the player and
+     * battling entity
+     */
     public BattleController() {
         this.enemiesKilled = 0;
     }
@@ -49,12 +52,12 @@ public class BattleController {
             for (Round round : battle.getRounds()) {
                 List<ItemResponse> weapons = new ArrayList<>();
                 for (Integer id : round.weaponryUsed()) {
-                    Storeable item = player.getItemFromId(id);
-                    weapons.add(new ItemResponse(Integer.toString(item.getItemId()), item.getType()));
+                    weapons.add(new ItemResponse(Integer.toString(id), player.itemType(id)));
                 }
                 roundResponses.add(new RoundResponse(round.playerHealthChange(), round.enemyHealthChange(), weapons));
             }
-            battleList.add(new BattleResponse(battle.getEnemy().getType(), roundResponses, battle.getInitialPlayerHealth(), battle.getInitialEnemyHealth()));
+            battleList.add(new BattleResponse(battle.getEnemy().getType(), roundResponses,
+                    battle.getInitialPlayerHealth(), battle.getInitialEnemyHealth()));
         }
         return battleList;
     }

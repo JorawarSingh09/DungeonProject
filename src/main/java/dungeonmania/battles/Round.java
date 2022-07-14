@@ -45,7 +45,7 @@ public class Round {
 
     private double calculatePlayerAttackDamage() {
         int additiveBonus = 0;
-        int multiplicativeBonus = 1;    
+        int multiplicativeBonus = 1;
         for (Attacking item : attackWeaponryUsed) {
             if (item.isAdditive()) {
                 additiveBonus += item.battleBonus();

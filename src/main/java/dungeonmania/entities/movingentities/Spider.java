@@ -19,7 +19,8 @@ public class Spider extends Entity implements Moveable, Health {
 
     CircularMovement<Position> movePath = new CircularMovement<>();
 
-    public Spider(int id, Position position, boolean interactable, boolean collidable, int attack, int health) {
+    public Spider(int id, Position position, boolean interactable, boolean collidable,
+            double attack, double health) {
         super(id, position, interactable, collidable);
         this.attack = attack;
         this.health = health;

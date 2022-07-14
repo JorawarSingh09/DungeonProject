@@ -12,7 +12,8 @@ public class ZombieToast extends Entity implements Moveable, Health {
     private double attack;
     private double health;
 
-    public ZombieToast(int id, Position position, boolean interactable, boolean collidable, int attack, int health) {
+    public ZombieToast(int id, Position position, boolean interactable, boolean collidable,
+            double attack, double health) {
         super(id, position, interactable, collidable);
         this.attack = attack;
         this.health = health;
@@ -54,6 +55,11 @@ public class ZombieToast extends Entity implements Moveable, Health {
     public Position getNextPosition() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getType() {
+        return "zombie_toast";
     }
 
 }
