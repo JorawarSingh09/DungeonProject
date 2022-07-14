@@ -11,6 +11,6 @@ public class BoulderGoal implements Goal {
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
             return "";
-        return ":boulder";
+        return ":boulders";
     }
 }

@@ -28,9 +28,10 @@ public class Inventory {
     List<Defending> defendingItems = new ArrayList<>();
     List<Durability> weapons = new ArrayList<>();
     Map<Integer, Storeable> items = new HashMap<>();
+    public Map<Integer, String> itemHistory = new HashMap<>();
     private int bowDurability;
     private int shieldDurability;
-    //private Position playerPos;    
+    // private Position playerPos;
 
     public Inventory(int bowDurability, int shieldDurability, Position playerPos) {
         this.bowDurability = bowDurability;
@@ -49,6 +50,7 @@ public class Inventory {
             weapons.add((Durability) item);
         }
         items.put(item.getItemId(), item);
+        itemHistory.put(item.getItemId(), item.getType());
     }
 
     public Storeable getItemFromId(int id) {
@@ -68,7 +70,8 @@ public class Inventory {
         int wood = countItem(Wood.class);
         int arrows = countItem(Arrow.class);
         int treasure = countItem(Treasure.class);
-        int key = countItem(Key.class);;
+        int key = countItem(Key.class);
+        ;
         if ((key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
         } else if (wood >= 1 && arrows >= 3) {
@@ -78,7 +81,7 @@ public class Inventory {
     }
 
     public void build(String itemBuild, int nextItemMaxId) {
-        switch(itemBuild) {
+        switch (itemBuild) {
             case "shield":
                 Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, 2);
                 inventoryItems.add(shield);
@@ -140,7 +143,7 @@ public class Inventory {
     private boolean removeItem(int removeAmount, Class<?> t) {
         int itemRemoved = 0;
         ListIterator<Storeable> inventory = inventoryItems.listIterator();
-        while(inventory.hasNext()) {
+        while (inventory.hasNext()) {
             if (inventory.next().getClass().equals(t) && itemRemoved < removeAmount) {
                 inventory.remove();
                 itemRemoved += 1;
@@ -148,7 +151,8 @@ public class Inventory {
         }
         List<Integer> remainingIds = inventoryItems.stream().map(Storeable::getItemId).collect(Collectors.toList());
         for (Integer key : items.keySet()) {
-            if (!remainingIds.contains(key)) items.remove(key);
+            if (!remainingIds.contains(key))
+                items.remove(key);
         }
         return (itemRemoved == removeAmount);
     }
@@ -158,19 +162,20 @@ public class Inventory {
         items.remove(id);
     }
 
-    public boolean hasRightKey(int keyPair){
+    public boolean hasRightKey(int keyPair) {
         boolean foundKey = false;
         Storeable foundItem = null;
-        for(Storeable item : inventoryItems){
-            if(item instanceof Key){
-                if(((Key) item).getKeyPair() == keyPair){
+        for (Storeable item : inventoryItems) {
+            if (item instanceof Key) {
+                if (((Key) item).getKeyPair() == keyPair) {
                     foundKey = true;
                     foundItem = item;
                     break;
                 }
             }
         }
-        if(foundKey) removeItemById(foundItem.getItemId());
+        if (foundKey)
+            removeItemById(foundItem.getItemId());
         return foundKey;
     }
 }

@@ -38,7 +38,7 @@ public class Player extends Entity {
     PlayerState invisState = new InvisibleState(this);
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
-            int player_attack, int player_health, int bowDurability, int shieldDurability) {
+            double player_attack, double player_health, int bowDurability, int shieldDurability) {
         super(id, position, interactable, collidable);
         this.prevPosition = position;
         this.health = player_health;
@@ -169,7 +169,7 @@ public class Player extends Entity {
     }
 
     public String itemType(int id) {
-        return inventory.getItemFromId(id).getType();
+        return inventory.itemHistory.get(id);
     }
 
     public void putDownBomb(int id) {

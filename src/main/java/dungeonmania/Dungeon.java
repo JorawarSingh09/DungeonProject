@@ -14,6 +14,7 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.staticentities.ZombieToastSpawner;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -118,6 +119,12 @@ public class Dungeon {
         mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
             addEntity(spiderSpawner.spawnSpider(getCurrMaxEntityId()));
+        }
+        for (Entity zombieToastSpawner : getEntitiesOfType("zombie_toast_spawner")) {
+            if (((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() != 0 &&
+                    tickCount % ((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() == 0) {
+                addEntity(((ZombieToastSpawner) zombieToastSpawner).spawnZombieToast(getCurrMaxEntityId()));
+            }
         }
         this.tickCount++;
     }

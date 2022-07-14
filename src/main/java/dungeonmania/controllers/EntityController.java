@@ -66,9 +66,11 @@ public class EntityController {
     public Dungeon startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId,
             String dungeonName) {
         Dungeon dungeon = new Dungeon(dungeonName, dungeonId);
-        dungeon.setGoals(prepareGoals(goals));
         addConfigs(configs);
+        dungeon.setGoals(prepareGoals(goals));
         makeEntities(entities, dungeon);
+        prepareGoals(goals).toString(dungeon);
+        System.out.println(prepareGoals(goals).toString(dungeon));
         return dungeon;
     }
 
@@ -149,7 +151,8 @@ public class EntityController {
                             bow_durability, shield_durability);
                     dungeon.addEntity(player);
                     dungeon.setPlayer(player);
-                    dungeon.setSpiderSpawner(new SpiderSpawn(spider_spawn_rate, new Position(x, y)));
+                    dungeon.setSpiderSpawner(
+                            new SpiderSpawn(spider_spawn_rate, new Position(x, y), spider_attack, spider_health));
                     break;
                 case "wall":
                     dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
@@ -172,7 +175,7 @@ public class EntityController {
                     break;
                 case "zombie_toast_spawner":
                     dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true,
-                            true, this.zombie_spawn_rate));
+                            true, this.zombie_spawn_rate, zombie_attack, zombie_health));
                     break;
                 case "spider":
                     dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,

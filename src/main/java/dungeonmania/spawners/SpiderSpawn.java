@@ -13,14 +13,19 @@ public class SpiderSpawn {
     List<Position> spawnArea = new ArrayList<>();
     int spawnRate;
     int radius;
+    double spiderAttack;
+    double spiderHealth;
     
-    public SpiderSpawn(int spawnRate, Position playerSpawnBlock){
+    public SpiderSpawn(int spawnRate, Position playerSpawnBlock, 
+                        double spiderAttack, double spiderHealth){
         this.radius = 4;
         this.spawnArea = playerSpawnBlock.getAdjacentPositions();
         this.spawnArea.removeAll(playerSpawnBlock.getCardinallyAdjacentPositions());
         this.spawnArea = this.spawnArea.stream().map(p -> p.scale(radius)).
                                     collect(Collectors.toList());
         this.spawnRate = spawnRate;
+        this.spiderAttack = spiderAttack;
+        this.spiderHealth = spiderHealth;
         
     }
 
@@ -45,8 +50,8 @@ public class SpiderSpawn {
             r.nextInt(maxY-minY) + minY), 
             false, 
             false, 
-            10, 
-            10);
+            spiderAttack, 
+            spiderHealth);
     }
 
     public int getSpawnRate(){
@@ -56,4 +61,6 @@ public class SpiderSpawn {
     public void setSpawnRate(int spawnRate){
         this.spawnRate = spawnRate;
     }
+
+    
 }
