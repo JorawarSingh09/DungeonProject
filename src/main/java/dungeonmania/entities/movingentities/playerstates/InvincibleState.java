@@ -10,11 +10,11 @@ public class InvincibleState extends PlayerState {
     }
 
     public void engageBattle(boolean playerDied) {
-        player.setPlayerState(new AliveState(player));       
+        player.setPlayerState(player.getAliveState());       
     }
 
     public void drinkInvis() {
-        player.setPlayerState(new InvisibleState(player));
+        player.setPlayerState(player.getInvisState());
         
     }
     

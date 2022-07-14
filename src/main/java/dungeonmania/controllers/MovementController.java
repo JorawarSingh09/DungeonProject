@@ -44,7 +44,7 @@ public class MovementController {
             entity.pickup(player, dungeon);
         }
     
-        updateEntityPositions();
+        //updateEntityPositions();
 
         // post move check
         checkSwitchBehaviour();
@@ -86,8 +86,11 @@ public class MovementController {
                 }
                 enemy.updatePosition(dungeon, player);
             }
+            else{
+                enemy.updatePosition(dungeon, player);
+            }
         }
-        checkBattles();
+        // checkBattles();
     }
 
     private void checkBattles(){

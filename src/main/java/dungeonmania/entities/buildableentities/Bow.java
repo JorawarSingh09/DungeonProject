@@ -1,7 +1,5 @@
 package dungeonmania.entities.buildableentities;
 
-import java.util.List;
-
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Attacking;
@@ -65,20 +63,14 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         //dont really have a use for bow        
     }
 
-    /**
-     * reduce durability after each round 
-     */
-    @Override
-    public void reducedurability() {
-        durability -= 1;
+    public void reduceDurability() {
+        this.durability -= 1;
         
     }
 
-    // @Override
-    // public void breakEntity(Player player) {
-    //     player.removeInventoryItem(this);
-        
-    // }
+    public int getDurability() {
+        return durability;
+    }
 
     public boolean isAdditive() {
         // TODO Auto-generated method stub
@@ -87,12 +79,6 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
 
     public int getItemId() {
         return getEntityId();
-    }
-
-    @Override
-    public void breakEntity(Player player) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

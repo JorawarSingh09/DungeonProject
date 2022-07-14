@@ -7,18 +7,12 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -63,15 +57,11 @@ public class DungeonManiaController {
         }
         try {
             String jsonDungeon = new String(FileLoader.loadResourceFile("dungeons/" + dungeonName + ".json"));
-            // Files.readAllBytes(Paths.get("src/main/resources/dungeons/" + dungeonName +
-            // ".json")));
             JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();
             JsonArray entitiesArray = jsonObject.get("entities").getAsJsonArray();
             JsonObject goals = jsonObject.get("goal-condition").getAsJsonObject();
             EntityController entityController = new EntityController();
             String jsonConfig = new String(FileLoader.loadResourceFile("configs/" + configName + ".json"));
-            // Files.readAllBytes(Paths.get("src/main/resources/configs/" + configName +
-            // ".json")));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
             currMaxDungeonId += 1;
             dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
@@ -134,9 +124,9 @@ public class DungeonManiaController {
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        Dungeon dungeon = dungeons.get(0);
+        Dungeon dungeon = dungeons.get(1);
         if(dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")){
-            if(!dungeons.get(0).
+            if(!dungeons.get(1).
                 bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))){
                     throw new InvalidActionException("unable to bribe");
                 }

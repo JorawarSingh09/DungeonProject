@@ -15,7 +15,6 @@ import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
-import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -72,8 +71,7 @@ public class Dungeon {
     }
 
     public List<BattleResponse> createBattleResponse() {
-        // no clue what to do here
-        return new ArrayList<>();
+        return bc.getBattleResponseObj(player);
     }
 
     public BattleController getBattleController() {
@@ -113,14 +111,12 @@ public class Dungeon {
     }
 
     public void tick() {
+        player.tickPotion();
+        mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
             addEntity(spiderSpawner.spawnSpider(getCurrMaxEntityId()));
         }
         this.tickCount++;
-
-        player.tick();
-        mc.updateEntityPositions();
-
     }
 
     public List<Entity> getEntities() {
@@ -227,6 +223,7 @@ public class Dungeon {
     public void setSpiderSpawner(SpiderSpawn spawner) {
         this.spiderSpawner = spawner;
     }
+
 
     public Entity getEntityById(int id) {
         for (Entity entity : entities) {

@@ -30,7 +30,7 @@ public class Inventory {
     Map<Integer, Storeable> items = new HashMap<>();
     private int bowDurability;
     private int shieldDurability;
-    private Position playerPos;    
+    //private Position playerPos;    
 
     public Inventory(int bowDurability, int shieldDurability, Position playerPos) {
         this.bowDurability = bowDurability;
@@ -108,7 +108,10 @@ public class Inventory {
 
     public void updateWeaponsDurability() {
         for (Durability weapon : weapons) {
-            weapon.reducedurability();
+            weapon.reduceDurability();
+            if (weapon.getDurability() <= 0) {
+                removeItemById(weapon.getItemId());
+            }
         }
     }
 

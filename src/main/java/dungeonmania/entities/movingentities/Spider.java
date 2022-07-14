@@ -49,10 +49,12 @@ public class Spider extends Entity implements Moveable, Health {
         Collections.reverse(movePath);
     }
 
-    @Override
-    public void loseHealth() {
-        // TODO Auto-generated method stub
+    public void loseHealth(int deltaHealth) {
+        health = health + health;
+    }
 
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     @Override
@@ -64,7 +66,6 @@ public class Spider extends Entity implements Moveable, Health {
 
     private void calculatePath() {
         this.movePath.populatePath(this.getPosition().getAdjacentPositions());
-
     }
 
     @Override

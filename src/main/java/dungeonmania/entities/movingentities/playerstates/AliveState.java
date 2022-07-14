@@ -11,18 +11,18 @@ public class AliveState extends PlayerState {
 
     public void engageBattle(boolean playerDied) {
         if (playerDied) {
-            player.setPlayerState(new DeadState(player));
+            player.setPlayerState(player.getDeadState());
         }
     }
 
     @Override
     public void drinkInvis() {
-        player.setPlayerState(new InvisibleState(player));
+        player.setPlayerState(player.getInvisState());
     }
 
     @Override
     public void drinkInvinc() {
-        player.setPlayerState(new InvincibleState(player));
+        player.setPlayerState(player.getInvincState());
     }
     
 }

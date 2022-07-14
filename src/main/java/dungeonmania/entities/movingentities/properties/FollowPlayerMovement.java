@@ -11,6 +11,9 @@ public class FollowPlayerMovement {
         if(isAlly && followed == follower){ 
             return player.getPreviousPosition();
         }
+        else if(followed == follower){
+            return follower;
+        }
         return findMoveableBlock(dungeon, followed, follower);
     }
 
@@ -19,7 +22,6 @@ public class FollowPlayerMovement {
         double minDistance = Double.POSITIVE_INFINITY;
 
         for(Position pos : follower.getCardinallyAdjacentPositions()){
-
             if(Position.getDistanceBetweenTwoPositions(pos, followed) < minDistance
                 && dungeon.getStaticsOnBlock(pos).size() < 1){
                 minDistance = Position.getDistanceBetweenTwoPositions(pos, followed);

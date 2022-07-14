@@ -33,7 +33,6 @@ import dungeonmania.goals.EnemiesGoal;
 import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalCondition;
-import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.util.Position;
 
