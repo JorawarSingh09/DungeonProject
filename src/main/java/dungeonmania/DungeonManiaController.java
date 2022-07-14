@@ -91,6 +91,7 @@ public class DungeonManiaController {
             throw new InvalidActionException("item not in player inventory");
         if (!dungeon.itemIsUsable(itemId))
             throw new InvalidActionException("item not usable");
+        dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }
 
@@ -100,8 +101,8 @@ public class DungeonManiaController {
     public DungeonResponse tick(Direction movementDirection) {
         Dungeon dungeon = dungeons.get(1);
         dungeon.updateMovement(movementDirection);
-        
-        dungeon.tick();
+
+        dungeon.tick(true);
         return dungeon.createDungeonResponse();
     }
 
@@ -117,6 +118,7 @@ public class DungeonManiaController {
         if (!dungeon.canBuild(buildable))
             throw new InvalidActionException("the player does not have sufficient items to craft the buildable");
         dungeon.build(buildable);
+        dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }
 
@@ -124,14 +126,15 @@ public class DungeonManiaController {
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+        System.out.println("lets interact");
         Dungeon dungeon = dungeons.get(1);
-        if(dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")){
-            if(!dungeons.get(1).
-                bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))){
-                    throw new InvalidActionException("unable to bribe");
-                }
-            //tick dungeon
-            dungeon.tick();
+        if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")) {
+            System.out.print("heres a buddy");
+            if (!dungeons.get(1).bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))) {
+                throw new InvalidActionException("unable to bribe");
+            }
+            // tick dungeon
+            dungeon.tick(false);
         }
         return dungeon.createDungeonResponse();
     }

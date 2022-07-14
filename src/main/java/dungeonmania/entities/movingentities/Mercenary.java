@@ -40,13 +40,15 @@ public class Mercenary extends Entity implements Moveable, Health {
         return ally_defence;
     }
 
-    public boolean getIsAlly() {
+    public boolean isAlly() {
         return isAlly;
     }
 
     public void setAlly() {
         this.isAlly = true;
     }
+
+
 
     public double getHealth() {
         return health;

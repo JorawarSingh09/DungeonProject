@@ -18,6 +18,7 @@ import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import javassist.compiler.MemberResolver;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 
@@ -70,7 +71,7 @@ public class Player extends Entity {
         health = health + deltaHealth;
         if (health < 0)
             health = 0;
-        
+
         return health;
     }
 
@@ -81,6 +82,7 @@ public class Player extends Entity {
     public void addAlly(Mercenary mercenary) {
         mercenaries.add(mercenary);
         mercenary.setAlly();
+        mercenary.setInteractable(false);
     }
 
     public List<Mercenary> getAllies() {
@@ -96,7 +98,7 @@ public class Player extends Entity {
     }
 
     public void updatePosition(Direction movement) {
-        this.prevPosition = this.getPosition();
+        setPreviousPosition(this.getPosition());
         this.setPosition(getNextPosition(movement));
     }
 
@@ -186,6 +188,10 @@ public class Player extends Entity {
         return prevPosition;
     }
 
+    public void setPreviousPosition(Position prevPosition) {
+        this.prevPosition = prevPosition;
+    }
+
     public boolean attemptBribe(Mercenary mercenary) {
         // check money
         // check position
@@ -195,6 +201,7 @@ public class Player extends Entity {
                 .getbribeRadius())
             return false;
         addAlly(mercenary);
+        System.out.println("bribing a mercenary");
         return true;
     }
 

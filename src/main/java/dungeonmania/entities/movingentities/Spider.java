@@ -70,6 +70,10 @@ public class Spider extends Entity implements Moveable, Health {
         this.movePath.populatePath(this.getPosition().getAdjacentPositions());
     }
 
+    public boolean isAlly() {
+        return false;
+    }
+
     @Override
     public String getType() {
         return "spider";

@@ -110,7 +110,10 @@ public class Dungeon {
         this.tickCount = tickCount;
     }
 
-    public void tick() {
+    public void tick(boolean hasMoved) {
+
+        if (!hasMoved)
+            player.setPreviousPosition(player.getPosition());
         player.tickPotion();
         mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
@@ -209,9 +212,10 @@ public class Dungeon {
         this.mc = new MovementController(player, this);
     }
 
-    public boolean bribeMercenary(Mercenary mercenary){
+    public boolean bribeMercenary(Mercenary mercenary) {
         return player.attemptBribe(mercenary);
     }
+
     public Goal getGoal() {
         return goal;
     }
@@ -223,7 +227,6 @@ public class Dungeon {
     public void setSpiderSpawner(SpiderSpawn spawner) {
         this.spiderSpawner = spawner;
     }
-
 
     public Entity getEntityById(int id) {
         for (Entity entity : entities) {

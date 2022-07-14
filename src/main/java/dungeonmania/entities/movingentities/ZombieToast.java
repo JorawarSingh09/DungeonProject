@@ -40,6 +40,10 @@ public class ZombieToast extends Entity implements Moveable, Health {
         this.health = health;
     }
 
+    public boolean isAlly() {
+        return false;
+    }
+
     @Override
     public void updatePosition(Dungeon dungeon, Player player) {
         // TODO Auto-generated method stub

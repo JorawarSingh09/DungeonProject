@@ -45,8 +45,6 @@ public class Battle {
         } else {
             enemy.loseHealth(round.enemyHealthChange());
             player.loseHealth(round.playerHealthChange());
-            System.out.println(round.enemyHealthChange());
-            System.out.println("player: " + round.playerHealthChange());
         }
     }
 

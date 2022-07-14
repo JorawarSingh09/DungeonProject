@@ -183,7 +183,7 @@ public class EntityController {
                             this.zombie_attack, this.zombie_health));
                     break;
                 case "mercenary":
-                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y), true, false,
                             this.ally_attack,
                             this.ally_defence, this.mercenary_attack, this.mercenary_health, this.bribe_radius,
                             this.bribe_amount));

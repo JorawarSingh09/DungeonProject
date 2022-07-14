@@ -75,7 +75,7 @@ public class MovementController {
     }
 
     public void updateEntityPositions() {
-        
+
         for (Moveable enemy : dungeon.getEnemies()) {
             if (enemy instanceof Spider) {
                 if (dungeon.getStaticsOnBlock(enemy.getNextPosition()).stream()
@@ -93,7 +93,8 @@ public class MovementController {
     private void checkBattles() {
         List<Health> enemiesOnNextBlock = dungeon.getEnemiesOnBlock(player.getPosition());
         for (Health enemy : enemiesOnNextBlock) {
-            dungeon.startBattle(enemy);
+            if (!enemy.isAlly())
+                dungeon.startBattle(enemy);
         }
     }
 }
