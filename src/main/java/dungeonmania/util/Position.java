@@ -78,6 +78,11 @@ public final class Position {
         return new Position(b.x - a.x, b.y - a.y);
     }
 
+    public static final double getDistanceBetweenTwoPositions(Position a, Position b){
+        Position vector = calculatePositionBetween(a, b);
+        return Math.sqrt(Math.pow(vector.getX(), 2) + Math.pow(vector.getY(), 2));
+    }
+
     public static final boolean isAdjacent(Position a, Position b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y) == 1;
     }

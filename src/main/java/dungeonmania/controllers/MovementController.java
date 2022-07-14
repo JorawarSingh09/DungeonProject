@@ -42,13 +42,10 @@ public class MovementController {
         for (Collectable entity : collectablesOnNextBlock) {
             entity.pickup(player, dungeon);
         }
-        // List<Health> enemiesOnNextBlock = dungeon.getEnemiesOnBlock(newPosition);
-        // for (Health enemy: enemiesOnNextBlock) {
-        // dungeon.startBattle(enemy);
-        // }
-        updateEntityPositions();
+    
+        //updateEntityPositions();
 
-        // post move checks
+        // post move check
         checkSwitchBehaviour();
     }
 
@@ -82,12 +79,23 @@ public class MovementController {
         // spider
         for (Moveable enemy : dungeon.getEnemies()) {
             if (enemy instanceof Spider) {
-                if (dungeon.getStaticsOnBlock(enemy.getNextPosition(null)).stream()
+                if (dungeon.getStaticsOnBlock(enemy.getNextPosition()).stream()
                 .filter(i -> i instanceof Boulder).collect(Collectors.toList()).size() > 0) {
                     ((Spider) enemy).reversePath();
                 }
-                enemy.updatePosition();
+                enemy.updatePosition(dungeon, player);
             }
+            else{
+                enemy.updatePosition(dungeon, player);
+            }
+        }
+        // checkBattles();
+    }
+
+    private void checkBattles(){
+        List<Health> enemiesOnNextBlock = dungeon.getEnemiesOnBlock(player.getPosition());
+        for (Health enemy: enemiesOnNextBlock) {
+        dungeon.startBattle(enemy);
         }
     }
 }

@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
+import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -123,7 +124,16 @@ public class DungeonManiaController {
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Dungeon dungeon = dungeons.get(1);
+        if(dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")){
+            if(!dungeons.get(1).
+                bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))){
+                    throw new InvalidActionException("unable to bribe");
+                }
+            //tick dungeon
+            dungeon.tick();
+        }
+        return dungeon.createDungeonResponse();
     }
 
 }

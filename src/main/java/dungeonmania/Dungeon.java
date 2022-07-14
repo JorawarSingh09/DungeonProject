@@ -12,6 +12,7 @@ import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
@@ -110,6 +111,8 @@ public class Dungeon {
     }
 
     public void tick() {
+        player.tickPotion();
+        mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
             addEntity(spiderSpawner.spawnSpider(getCurrMaxEntityId()));
         }
@@ -206,6 +209,9 @@ public class Dungeon {
         this.mc = new MovementController(player, this);
     }
 
+    public boolean bribeMercenary(Mercenary mercenary){
+        return player.attemptBribe(mercenary);
+    }
     public Goal getGoal() {
         return goal;
     }
@@ -217,6 +223,7 @@ public class Dungeon {
     public void setSpiderSpawner(SpiderSpawn spawner) {
         this.spiderSpawner = spawner;
     }
+
 
     public Entity getEntityById(int id) {
         for (Entity entity : entities) {

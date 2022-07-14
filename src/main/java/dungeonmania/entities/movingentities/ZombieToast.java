@@ -1,5 +1,6 @@
 package dungeonmania.entities.movingentities;
 
+import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
@@ -10,6 +11,7 @@ public class ZombieToast extends Entity implements Moveable, Health {
 
     private int attack;
     private int health;
+
     
     public ZombieToast(int id, Position position, boolean interactable, boolean collidable, int attack, int health) {
         super(id, position, interactable, collidable);
@@ -38,15 +40,15 @@ public class ZombieToast extends Entity implements Moveable, Health {
     }
 
     @Override
-    public void updatePosition() {
+    public void updatePosition(Dungeon dungeon, Player player) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public Position getNextPosition(Direction movement) {
+    public Position getNextPosition() {
         // TODO Auto-generated method stub
         return null;
-    }    
+    }  
     
 }
