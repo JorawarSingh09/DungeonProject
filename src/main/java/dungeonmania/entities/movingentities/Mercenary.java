@@ -72,6 +72,10 @@ public class Mercenary extends Entity implements Moveable, Health {
         this.health = health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public void updatePosition(Dungeon dungeon, Player player) {
         setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player, 
                         player.getPosition(), this.getPosition()));

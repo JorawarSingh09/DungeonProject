@@ -10,7 +10,6 @@ import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.entities.staticentities.Boulder;
 import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
