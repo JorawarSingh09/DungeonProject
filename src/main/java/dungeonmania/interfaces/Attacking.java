@@ -6,5 +6,6 @@ public interface Attacking {
      */
     public boolean isAdditive();
     public int battleBonus();
+    public int getItemId();
     
 }

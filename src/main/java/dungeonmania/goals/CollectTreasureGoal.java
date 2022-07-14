@@ -1,12 +1,8 @@
 package dungeonmania.goals;
 
-import java.util.List;
-
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.Inventory;
-import dungeonmania.interfaces.Storeable;
-import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.Treasure;
 
 public class CollectTreasureGoal implements Goal {

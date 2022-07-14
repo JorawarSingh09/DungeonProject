@@ -30,10 +30,13 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
         
     }
 
-    @Override
-    public void reducedurability() {
-        durability -= 1;
+    public void reduceDurability() {
+        this.durability -= 1;
         
+    }
+
+    public int getDurability() {
+        return durability;
     }
 
     @Override
@@ -44,12 +47,6 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
 
     @Override
     public void consumeItems(Player player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void breakEntity(Player player) {
         // TODO Auto-generated method stub
         
     }

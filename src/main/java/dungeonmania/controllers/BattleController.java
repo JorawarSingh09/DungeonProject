@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.battles.Battle;
+import dungeonmania.battles.Round;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Health;
+import dungeonmania.interfaces.Storeable;
 import dungeonmania.response.models.BattleResponse;
+import dungeonmania.response.models.ItemResponse;
+import dungeonmania.response.models.RoundResponse;
 
 public class BattleController {
     List<Battle> battles = new ArrayList<>();
@@ -38,8 +42,21 @@ public class BattleController {
         return (!playerDied);
     }
 
-    public BattleResponse getBattleResponseObj() {
-        return null;
+    public List<BattleResponse> getBattleResponseObj(Player player) {
+        List<BattleResponse> battleList = new ArrayList<>();
+        for (Battle battle : battles) {
+            List<RoundResponse> roundResponses = new ArrayList<>();
+            for (Round round : battle.getRounds()) {
+                List<ItemResponse> weapons = new ArrayList<>();
+                for (Integer id : round.weaponryUsed()) {
+                    Storeable item = player.getItemFromId(id);
+                    weapons.add(new ItemResponse(Integer.toString(item.getItemId()), item.getType()));
+                }
+                roundResponses.add(new RoundResponse(round.playerHealthChange(), round.enemyHealthChange(), weapons));
+            }
+            battleList.add(new BattleResponse(battle.getEnemy().getType(), roundResponses, battle.getInitialPlayerHealth(), battle.getInitialEnemyHealth()));
+        }
+        return battleList;
     }
 
 }

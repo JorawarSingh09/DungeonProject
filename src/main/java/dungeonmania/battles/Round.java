@@ -32,6 +32,17 @@ public class Round {
         return ((-calculatePlayerAttackDamage())/5);
     }
 
+    public List<Integer> weaponryUsed() {
+        List<Integer> weapons =  new ArrayList<>();
+        for (Attacking attackItem : attackWeaponryUsed) {
+            weapons.add(attackItem.getItemId());
+        }
+        for (Defending defendItem : defenceWeaponryUsed) {
+            weapons.add(defendItem.getItemId());
+        }
+        return weapons;
+    }
+
     private int calculatePlayerAttackDamage() {
         int additiveBonus = 0;
         int multiplicativeBonus = 0;

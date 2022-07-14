@@ -1,7 +1,5 @@
 package dungeonmania.entities.collectableentities;
 
-import java.time.chrono.ThaiBuddhistChronology;
-
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
