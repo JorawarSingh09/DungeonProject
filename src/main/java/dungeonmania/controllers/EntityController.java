@@ -1,5 +1,6 @@
 package dungeonmania.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,8 +144,8 @@ public class EntityController {
 
     public void makeEntities(JsonArray entities, Dungeon dungeon) {
         Map<String, List<Portal>> portals = new HashMap<>();
-        //create portal, add it to hashmap
-        //send hashMap to portal factory at the end
+        // create portal, add it to hashmap
+        // send hashMap to portal factory at the end
         for (JsonElement entity : entities) {
             int x = Integer.parseInt(((JsonObject) entity).get("x").toString());
             int y = Integer.parseInt(((JsonObject) entity).get("y").toString());
@@ -176,8 +177,16 @@ public class EntityController {
                             Integer.parseInt(((JsonObject) entity).get("key").toString())));
                     break;
                 case "portal":
-                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), 
-                                    false, true));
+                    String colour = ((JsonObject) entity).get("colour").toString();
+                    Portal portal = new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y));
+                    dungeon.addEntity(portal);
+                    if (portals.containsKey(colour)) {
+                        portals.get(colour).add(portal);
+                    } else {
+                        List<Portal> portalsPair = new ArrayList<>();
+                        portalsPair.add(portal);
+                        portals.put(colour, portalsPair);
+                    }
                     break;
                 case "zombie_toast_spawner":
                     dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true,
@@ -235,6 +244,13 @@ public class EntityController {
                     break;
 
             }
+        }
+        portalFactory(portals);
+    }
+
+    private void portalFactory(Map<String, List<Portal>> portals) {
+        for (List<Portal> portalPair : portals.values()) {
+            portalPair.get(0).setPair(portalPair.get(1));
         }
     }
 }

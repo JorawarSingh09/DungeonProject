@@ -40,7 +40,6 @@ public class Dungeon {
     Player player;
     int currMaxEntityId;
     SpiderSpawn spiderSpawner;
-
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
         this.dungeonName = dungeonName;

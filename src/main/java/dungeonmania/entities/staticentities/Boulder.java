@@ -1,5 +1,7 @@
 package dungeonmania.entities.staticentities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
@@ -20,13 +22,23 @@ public class Boulder extends Entity implements Static {
         Position playerPos = player.getPosition();
         Position boulderPos = getPosition();
 
-        if(checkNextPos(getPosition().translateBy(direction), dungeon)){
+        if (checkNextPos(getPosition().translateBy(direction), dungeon, player, direction)) {
             player.setPosition(this.getPosition());
             setPosition(getPosition().translateBy(direction));
         }
     }
 
-    private boolean checkNextPos(Position position, Dungeon dungeon) {
+    private boolean checkNextPos(Position position, Dungeon dungeon, Player player, Direction direction) {
+        for (Static portal : dungeon.getStaticsOnBlock(position)) { // get portals from thingy
+            if (portal instanceof Portal) {
+                Position pos = getPosition();
+                ((Portal) portal).boulderMoveOnto(this, dungeon, direction);
+                if (!pos.equals(getPosition())) {
+                    player.setPosition(pos);
+                }
+                return false;
+            }
+        }
         return !(dungeon.getStaticsOnBlock(position).stream().filter(entity -> entity.isCollidable())
                 .collect(Collectors.toList()).size() > 0);
     }
@@ -35,10 +47,9 @@ public class Boulder extends Entity implements Static {
     public String getType() {
         return "boulder";
     }
-    
+
     public boolean isRepellent() {
         return true;
     }
-    
-    
+
 }
