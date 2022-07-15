@@ -80,17 +80,6 @@ public class MovementController {
         for (Moveable enemy: dungeon.getEnemies()) {
             enemy.updatePosition(dungeon, player);
         }
-        // for (Moveable enemy : dungeon.getEnemies()) {
-        //     if (enemy instanceof Spider) {
-        //         if (dungeon.getStaticsOnBlock(enemy.getNextPosition()).stream()
-        //                 .filter(i -> i instanceof Boulder).collect(Collectors.toList()).size() > 0) {
-        //             ((Spider) enemy).reversePath();
-        //         }
-        //         enemy.updatePosition(dungeon, player);
-        //     } else {
-        //         enemy.updatePosition(dungeon, player);
-        //     }
-        // }
         checkBattles();
         checkSwitchBehaviour();
     }
