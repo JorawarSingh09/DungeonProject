@@ -13,7 +13,6 @@ public class EnemiesGoal implements Goal {
     public boolean isGoalCompleted(Dungeon dungeon) {
         BattleController bc = dungeon.getBattleController();
         int enemiesKilled = bc.getEnemiesKilled();
-        System.out.println(enemiesKilled + " out of " + enemies + " is " + (enemiesKilled >= enemies));
         return (enemiesKilled >= enemies);
     }
 

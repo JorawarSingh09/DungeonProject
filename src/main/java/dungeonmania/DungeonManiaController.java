@@ -2,6 +2,7 @@ package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
 import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.entities.staticentities.ZombieToastSpawner;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -91,6 +92,7 @@ public class DungeonManiaController {
             throw new InvalidActionException("item not in player inventory");
         if (!dungeon.itemIsUsable(itemId))
             throw new InvalidActionException("item not usable");
+        dungeon.useItem(itemId);
         dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }
@@ -125,18 +127,23 @@ public class DungeonManiaController {
     /**
      * /game/interact
      */
-    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        System.out.println("lets interact");
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {        
         Dungeon dungeon = dungeons.get(1);
         if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")) {
-            System.out.print("heres a buddy");
             if (!dungeons.get(1).bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))) {
                 throw new InvalidActionException("unable to bribe");
             }
             // tick dungeon
             dungeon.tick(false);
         }
+
+        if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("zombie_toast_spawner")) {
+            if(!dungeons.get(1).tryBreakZomSpawn((ZombieToastSpawner)dungeon.getEntityById(Integer.parseInt(entityId)))){
+                throw new InvalidActionException("Cannot break spawner");
+            }
+        }
         return dungeon.createDungeonResponse();
     }
-
 }
+
+

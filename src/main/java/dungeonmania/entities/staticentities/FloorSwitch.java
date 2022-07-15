@@ -37,7 +37,7 @@ public class FloorSwitch extends Entity implements Static {
         for (Position position : this.getPosition().getCardinallyAdjacentPositions()) {
             for (Static foundItem : dungeon.getStaticsOnBlock(position)) {
                 if (foundItem instanceof Bomb) {
-                    ((Bomb) foundItem).explode();
+                    ((Bomb) foundItem).explode(dungeon);
                 }
             }
         }

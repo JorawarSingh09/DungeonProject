@@ -140,17 +140,24 @@ public class Inventory {
         removeItem(3, Arrow.class);
     }
 
-    private boolean removeItem(int removeAmount, Class<?> t) {
+    public boolean removeItem(int removeAmount, Class<?> t) {
         int itemRemoved = 0;
-        ListIterator<Storeable> inventory = inventoryItems.listIterator();
-        while (inventory.hasNext()) {
-            if (inventory.next().getClass().equals(t) && itemRemoved < removeAmount) {
-                inventory.remove();
-                itemRemoved += 1;
+        List<Storeable> toRemove = new ArrayList<>();
+
+            for(Storeable item : inventoryItems){
+                if(item.getClass().equals(t)
+                && itemRemoved < removeAmount){
+                    toRemove.add(item);
+                    itemRemoved++;
+                }
             }
-        }
+            inventoryItems.removeAll(toRemove);
+        
+
         List<Integer> remainingIds = inventoryItems.stream().map(Storeable::getItemId).collect(Collectors.toList());
-        for (Integer key : items.keySet()) {
+        List<Integer> keys = new ArrayList<>();
+        keys.addAll(items.keySet());
+        for (Integer key : keys) {
             if (!remainingIds.contains(key))
                 items.remove(key);
         }

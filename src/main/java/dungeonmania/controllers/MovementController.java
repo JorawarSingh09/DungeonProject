@@ -59,7 +59,7 @@ public class MovementController {
                     boulderCount++;
                     ((FloorSwitch) entity).setTriggered(true);
                     ((FloorSwitch) entity).setCollidable(true);
-                    // ((FloorSwitch) entity).checkBomb(dungeon);
+                    ((FloorSwitch) entity).checkBomb(dungeon);
                 } else {
                     ((FloorSwitch) entity).setTriggered(false);
                     ((FloorSwitch) entity).setCollidable(false);
@@ -88,6 +88,7 @@ public class MovementController {
             }
         }
         checkBattles();
+        checkSwitchBehaviour();
     }
 
     private void checkBattles() {

@@ -16,12 +16,6 @@ public class Key extends Entity implements Storeable, Collectable {
     }
 
     @Override
-    public void use() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void pickup(Player player, Dungeon dungeon) {
         player.addItem(this);
         dungeon.removeEntity(this);

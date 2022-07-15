@@ -69,8 +69,6 @@ public class EntityController {
         addConfigs(configs);
         dungeon.setGoals(prepareGoals(goals));
         makeEntities(entities, dungeon);
-        prepareGoals(goals).toString(dungeon);
-        System.out.println(prepareGoals(goals).toString(dungeon));
         return dungeon;
     }
 
