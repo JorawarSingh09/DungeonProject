@@ -2,7 +2,8 @@ package dungeonmania.entities.movingentities;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.movingentities.properties.FollowPlayerMovement;
+import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Direction;
@@ -18,10 +19,11 @@ public class Mercenary extends Entity implements Moveable, Health {
     private int bribe_radius;
     private int bribe_amount;
     Position prevPosition;
+    MovementStrategy moveStrat;
 
-    public Mercenary(int id, Position position, boolean interactable, boolean collidable, 
-                    double ally_attack, double ally_defence, double mercenary_attack, 
-                    double mercenary_health, int bribe_radius, int bribe_amount) {
+    public Mercenary(int id, Position position, boolean interactable, boolean collidable,
+            double ally_attack, double ally_defence, double mercenary_attack,
+            double mercenary_health, int bribe_radius, int bribe_amount) {
 
         super(id, position, interactable, collidable);
         this.ally_attack = ally_attack;
@@ -31,6 +33,7 @@ public class Mercenary extends Entity implements Moveable, Health {
         this.bribe_radius = bribe_radius;
         this.bribe_amount = bribe_amount;
         this.isAlly = false;
+        moveStrat = new FollowPlayerMovementStrategy(this);
     }
 
     public double getAllyAttackDamage() {
@@ -48,8 +51,6 @@ public class Mercenary extends Entity implements Moveable, Health {
     public void setAlly() {
         this.isAlly = true;
     }
-
-
 
     public double getHealth() {
         return health;
@@ -78,19 +79,33 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player,
-                player.getPosition(), this.getPosition()));
-    }
-
-    @Override
-    public Position getNextPosition() {
-        // TODO Auto-generated method stub
-        return null;
+        System.out.println("updatePosition in mercenary");
+        moveStrat.updateMovement(dungeon, player);
+        // setPosition(moveStrat.getNextPosition(dungeon, player));
+        // setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player,
+        // player.getPosition(), this.getPosition()));
     }
 
     @Override
     public String getType() {
         return "mercenary";
+    }
+
+    public boolean isTangible() {
+        return true;
+    }
+
+    public MovementStrategy getMovementStrategy() {
+        return moveStrat;
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+        moveStrat = movementStrategy;
+
+    }
+
+    public boolean isAllyToPlayer() {
+        return isAlly;
     }
 
 }

@@ -22,4 +22,8 @@ public class Wall extends Entity implements Static {
         return "wall";
     }
 
+    public boolean isRepellent() {
+        return false;
+    }
+    
 }

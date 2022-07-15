@@ -29,7 +29,7 @@ public class Door extends Entity implements Static {
         // cant move
         if (player.hasKey(keyPair) || doorOpen) {
             // set door open
-            player.updatePosition(direction);
+            player.setPosition(this.getPosition());
             setCollidable(false);
             this.doorOpen = true;
         }
@@ -39,6 +39,10 @@ public class Door extends Entity implements Static {
     @Override
     public String getType() {
         return "door";
+    }
+
+    public boolean isRepellent() {
+        return false;
     }
 
 }

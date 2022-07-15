@@ -15,12 +15,16 @@ public class Exit extends Entity implements Static {
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        player.updatePosition(direction);
-
+        player.setPosition(this.getPosition());
     }
 
     @Override
     public String getType() {
         return "exit";
     }
+
+    public boolean isRepellent() {
+        return false;
+    }
+
 }

@@ -1,5 +1,9 @@
 package dungeonmania.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -138,6 +142,9 @@ public class EntityController {
     }
 
     public void makeEntities(JsonArray entities, Dungeon dungeon) {
+        Map<String, List<Portal>> portals = new HashMap<>();
+        //create portal, add it to hashmap
+        //send hashMap to portal factory at the end
         for (JsonElement entity : entities) {
             int x = Integer.parseInt(((JsonObject) entity).get("x").toString());
             int y = Integer.parseInt(((JsonObject) entity).get("y").toString());
@@ -169,7 +176,8 @@ public class EntityController {
                             Integer.parseInt(((JsonObject) entity).get("key").toString())));
                     break;
                 case "portal":
-                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
+                    dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), 
+                                    false, true, ((JsonObject) entity).get("colour").toString()));
                     break;
                 case "zombie_toast_spawner":
                     dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true,

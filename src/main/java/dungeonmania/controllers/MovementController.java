@@ -30,20 +30,22 @@ public class MovementController {
     }
 
     public void movePlayer(Direction movement) {
-        Position newPosition = (new Position(player.getPosition().getX(), player.getPosition().getY()))
-                .translateBy(movement);
-        List<Static> entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);
-        // Check for zombie Spawner
-        for (Static entity : entitiesOnNextBlock) {
-            entity.playerOnTo(player, dungeon, movement);
-        }
-        if (entitiesOnNextBlock.size() < 1)
-            player.updatePosition(movement);
-        List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
-        for (Collectable entity : collectablesOnNextBlock) {
-            entity.pickup(player, dungeon);
-        }
+        // Position newPosition = (new Position(player.getPosition().getX(), player.getPosition().getY()))
+        //         .translateBy(movement);
+        // List<Static> entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);
+        // // Check for zombie Spawner
+        // for (Static entity : entitiesOnNextBlock) {
+        //     entity.playerOnTo(player, dungeon, movement);
+        // }
+        // if (entitiesOnNextBlock.size() < 1)
+        //     player.updatePosition(movement);
+        // List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
+        // for (Collectable entity : collectablesOnNextBlock) {
+        //     entity.pickup(player, dungeon);
+        // }
         // post move check
+        player.setMovement(movement);
+        player.updatePosition(dungeon, movement);
         checkBattles();
         checkSwitchBehaviour();
     }
@@ -75,17 +77,8 @@ public class MovementController {
     }
 
     public void updateEntityPositions() {
-
-        for (Moveable enemy : dungeon.getEnemies()) {
-            if (enemy instanceof Spider) {
-                if (dungeon.getStaticsOnBlock(enemy.getNextPosition()).stream()
-                        .filter(i -> i instanceof Boulder).collect(Collectors.toList()).size() > 0) {
-                    ((Spider) enemy).reversePath();
-                }
-                enemy.updatePosition(dungeon, player);
-            } else {
-                enemy.updatePosition(dungeon, player);
-            }
+        for (Moveable enemy: dungeon.getEnemies()) {
+            enemy.updatePosition(dungeon, player);
         }
         checkBattles();
         checkSwitchBehaviour();

@@ -16,19 +16,22 @@ import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import javassist.compiler.MemberResolver;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.entities.collectableentities.Bomb;
 
-public class Player extends Entity {
+public class Player extends Entity implements Moveable {
 
     private double health;
     private double attack;
     Inventory inventory;
+    MovementStrategy moveStrat;
+    Direction movement;
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
 
@@ -47,10 +50,19 @@ public class Player extends Entity {
         this.attack = player_attack;
         this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
         this.state = aliveState;
+        this.moveStrat = new PlayerMovementStrategy(this);
     }
 
     public PlayerState getPlayerState() {
         return state;
+    }
+
+    public Direction getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Direction movement) {
+        this.movement = movement;
     }
 
     public List<Storeable> getInventoryItems() {
@@ -101,9 +113,10 @@ public class Player extends Entity {
         return this.getPosition().translateBy(movement);
     }
 
-    public void updatePosition(Direction movement) {
-        setPreviousPosition(this.getPosition());
-        this.setPosition(getNextPosition(movement));
+    public void updatePosition(Dungeon dungeon, Direction movement) {
+        // setPreviousPosition(this.getPosition());
+        // this.setPosition(getNextPosition(movement));
+        moveStrat.updateMovement(dungeon, this);
     }
 
     public void engageBattle(boolean playerDied) {
@@ -199,8 +212,13 @@ public class Player extends Entity {
     public boolean attemptBribe(Mercenary mercenary) {
         // check money
         // check position
+        System.out.println(inventory.countItem(Treasure.class) < mercenary.getBribeAmount());
         if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
             return false;
+
+        System.out.println(
+                Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
+                        .getbribeRadius());
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
             return false;
@@ -231,6 +249,28 @@ public class Player extends Entity {
 
     public boolean hasWeapon() {
         return inventory.getAttackingItems().size() > 0;
+    }
+
+    public void updatePosition(Dungeon dungeon, Player player) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public boolean isTangible() {
+        return true;
+    }
+
+    public MovementStrategy getMovementStrategy() {
+        return moveStrat;
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+        this.moveStrat = movementStrategy;
+
+    }
+
+    public boolean isAllyToPlayer() {
+        return true;
     }
 
 }

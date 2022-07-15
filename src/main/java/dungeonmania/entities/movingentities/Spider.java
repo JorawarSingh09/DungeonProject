@@ -4,7 +4,9 @@ import java.util.Collections;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.movingentities.properties.CircularMovement;
+import dungeonmania.entities.movingentities.properties.movements.CircularMovement;
+import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Direction;
@@ -14,6 +16,7 @@ public class Spider extends Entity implements Moveable, Health {
 
     private double attack;
     private double health;
+    MovementStrategy moveStrat;
     int moveState;
     boolean clockwise;
 
@@ -24,10 +27,10 @@ public class Spider extends Entity implements Moveable, Health {
         super(id, position, interactable, collidable);
         this.attack = attack;
         this.health = health;
-        this.clockwise = true;
-        calculatePath();
-        // reversePath();
-        this.moveState = 0;
+        moveStrat = new CircularMovementStrategy(this);
+        // this.clockwise = true;
+        // calculatePath();
+        // this.moveState = 0;
     }
 
     @Override
@@ -42,12 +45,17 @@ public class Spider extends Entity implements Moveable, Health {
         return attack;
     }
 
-    public Position getNextPosition() {
-        return movePath.get(moveState);
+    // public Position getNextPosition() {
+    //     return movePath.get(moveState);
+    // }
+
+    public Position getNextPosition(Dungeon dungeon, Player player) {
+        return moveStrat.getNextPosition(dungeon, player);
     }
 
+
     public void reversePath() {
-        Collections.reverse(movePath);
+        moveStrat.reversePath();
     }
 
     public void loseHealth(double deltaHealth) {
@@ -60,16 +68,23 @@ public class Spider extends Entity implements Moveable, Health {
         this.health = health;
     }
 
-    @Override
+    // @Override
+    // public void updatePosition(Dungeon dungeon, Player player) {
+    //     // if you hit a boulder reverse
+    //     setPosition(movePath.get(moveState));
+    //     moveState++;
+    // }
+
     public void updatePosition(Dungeon dungeon, Player player) {
         // if you hit a boulder reverse
-        setPosition(movePath.get(moveState));
+        moveStrat.updateMovement(dungeon, player);
+        //setPosition(moveStrat.getNextPosition(dungeon, player));
         moveState++;
     }
 
-    private void calculatePath() {
-        this.movePath.populatePath(this.getPosition().getAdjacentPositions());
-    }
+    // private void calculatePath() {
+    //     this.movePath.populatePath(this.getPosition().getAdjacentPositions());
+    // }
 
     public boolean isAlly() {
         return false;
@@ -78,6 +93,25 @@ public class Spider extends Entity implements Moveable, Health {
     @Override
     public String getType() {
         return "spider";
+    }
+
+    @Override
+    public boolean isTangible() {
+        return false;
+    }
+
+    @Override
+    public MovementStrategy getMovementStrategy() {
+        return moveStrat;
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+        moveStrat = movementStrategy;
+        
+    }
+
+    public boolean isAllyToPlayer() {
+        return false;
     }
 
 }
