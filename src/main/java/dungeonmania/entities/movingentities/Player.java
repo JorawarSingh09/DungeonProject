@@ -1,5 +1,6 @@
 package dungeonmania.entities.movingentities;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -127,28 +128,28 @@ public class Player extends Entity implements Moveable {
         if (queueItems.size() > 0) {
             Regenerative item = queueItems.peek();
             item.decrementDuration();
-            if (item.getRemainingDuration() == 0) {
+            if (item.getRemainingDuration() <= 1) {
                 queueItems.remove();
-                inventory.removeItemById(item.getItemId());
-            }
-            if (queueItems.size() > 0) {
-                nextItem();
-            } else {
-                state = aliveState;
-            }
+
+                if (queueItems.size() > 0) {
+                    nextItem();
+                }
+            } 
         } else {
             state.tick(0);
+            // state = aliveState;
         }
     }
 
     public void drinkInvis(int itemId) {
         if (inventory.getItemFromId(itemId) instanceof Regenerative) {
-            Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
-            queueItems.add(invincPotion);
+            Regenerative invisPotion = (Regenerative) inventory.getItemFromId(itemId);
+            queueItems.add(invisPotion);
             if (queueItems.size() == 1) {
                 state.drinkInvis();
             }
         }
+        inventory.removeItemById(itemId);
     }
 
     public void drinkInvinc(int itemId) {
@@ -159,13 +160,16 @@ public class Player extends Entity implements Moveable {
                 state.drinkInvinc();
             }
         }
+        inventory.removeItemById(itemId);
     }
 
     private void nextItem() {
         if (queueItems.peek() instanceof InvisibilityPotion) {
-            drinkInvis(queueItems.peek().getItemId());
+            // drinkInvis(queueItems.peek().getItemId());
+            state.drinkInvis();
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
-            drinkInvinc(queueItems.peek().getItemId());
+            // drinkInvinc(queueItems.peek().getItemId());
+            state.drinkInvinc();
         }
     }
 

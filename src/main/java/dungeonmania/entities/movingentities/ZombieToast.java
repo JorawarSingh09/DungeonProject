@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.interfaces.Health;
@@ -17,14 +18,18 @@ public class ZombieToast extends Entity implements Moveable, Health {
 
     private double attack;
     private double health;
-    MovementStrategy moveStrat;
+    MovementStrategy currMoveStrat;
+    MovementStrategy standard = new RandomMovementStrategy(this);
+    MovementStrategy playerInvinc = new FollowPlayerMovementStrategy(this);
+
 
     public ZombieToast(int id, Position position, boolean interactable, boolean collidable,
             double attack, double health) {
         super(id, position, interactable, collidable);
         this.attack = attack;
         this.health = health;
-        moveStrat = new RandomMovementStrategy(this);
+        currMoveStrat = standard;
+        playerInvinc.reversePath();
     }
 
     public double getHealth() {
@@ -50,7 +55,12 @@ public class ZombieToast extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        moveStrat.updateMovement(dungeon, player);
+        if (player.getPlayerState() == player.getInvincState()) {
+            currMoveStrat = playerInvinc;
+        } else {
+            currMoveStrat = standard;
+        }
+        currMoveStrat.updateMovement(dungeon, player);
     }
 
     @Override
@@ -64,11 +74,11 @@ public class ZombieToast extends Entity implements Moveable, Health {
 
 
     public MovementStrategy getMovementStrategy() {
-        return moveStrat;
+        return currMoveStrat;
     }
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
-        moveStrat = movementStrategy;
+        currMoveStrat = movementStrategy;
         
     }
 

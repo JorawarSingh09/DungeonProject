@@ -23,6 +23,10 @@ public abstract class MovementStrategy {
         return;
     }
 
+    public boolean isReversed() {
+        return false;
+    }
+
     public boolean nextStepIsMoveable(Dungeon dungeon, Player player) {
         if (movingEntity.isTangible()) { 
             return (dungeon.getStaticsOnBlock(getNextPosition(dungeon, player)).stream()

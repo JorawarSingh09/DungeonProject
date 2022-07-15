@@ -4,6 +4,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
@@ -18,7 +19,9 @@ public class Mercenary extends Entity implements Moveable, Health {
     private int bribe_radius;
     private int bribe_amount;
     Position prevPosition;
-    MovementStrategy moveStrat;
+    MovementStrategy currMoveStrat;
+    MovementStrategy playerInvis = new RandomMovementStrategy(this);
+    MovementStrategy standard = new FollowPlayerMovementStrategy(this);
 
     public Mercenary(int id, Position position, boolean interactable, boolean collidable,
             double ally_attack, double ally_defence, double mercenary_attack,
@@ -32,7 +35,7 @@ public class Mercenary extends Entity implements Moveable, Health {
         this.bribe_radius = bribe_radius;
         this.bribe_amount = bribe_amount;
         this.isAlly = false;
-        moveStrat = new FollowPlayerMovementStrategy(this);
+        currMoveStrat = standard;
     }
 
     public double getAllyAttackDamage() {
@@ -78,7 +81,18 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        moveStrat.updateMovement(dungeon, player);
+        if (player.getPlayerState().equals(player.getInvisState())) {
+            currMoveStrat = playerInvis;
+        } else if (player.getPlayerState().equals(player.getInvincState()) && !isAlly && !currMoveStrat.isReversed()) {
+            currMoveStrat = standard;
+            currMoveStrat.reversePath();
+        } else if (player.getPlayerState().equals(player.getAliveState()) && currMoveStrat.isReversed()) {
+            currMoveStrat = standard;
+            currMoveStrat.reversePath();
+        } else {
+            currMoveStrat = standard;
+        }
+        currMoveStrat.updateMovement(dungeon, player);
     }
 
     @Override
@@ -91,11 +105,11 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public MovementStrategy getMovementStrategy() {
-        return moveStrat;
+        return currMoveStrat;
     }
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
-        moveStrat = movementStrategy;
+        currMoveStrat = movementStrategy;
 
     }
 
