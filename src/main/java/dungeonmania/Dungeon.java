@@ -169,7 +169,7 @@ public class Dungeon {
     public List<Moveable> getEnemies() {
         List<Moveable> foundMatches = new ArrayList<>();
         for (Entity entity : entities) {
-            if (entity instanceof Moveable && !(entity instanceof Player)) {
+            if (entity instanceof Moveable) {
                 foundMatches.add((Moveable) entity);
             }
         }
