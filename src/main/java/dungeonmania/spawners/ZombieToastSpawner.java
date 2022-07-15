@@ -1,4 +1,4 @@
-package dungeonmania.entities.staticentities;
+package dungeonmania.spawners;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,11 +9,12 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.ZombieToast;
+import dungeonmania.interfaces.Spawn;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class ZombieToastSpawner extends Entity implements Static {
+public class ZombieToastSpawner extends Entity implements Static, Spawn {
 
     private int spawnRate;
     private double attack;
@@ -27,7 +28,7 @@ public class ZombieToastSpawner extends Entity implements Static {
         this.health = health;
     }
 
-    public ZombieToast spawnZombieToast(int currentMaxId, Dungeon dungeon) {
+    public ZombieToast spawnEntity(int currentMaxId, Dungeon dungeon) {
         List<Position> positions = getPosition().getCardinallyAdjacentPositions();
         Collections.shuffle(positions);
         for (Position position : positions) {
@@ -44,6 +45,10 @@ public class ZombieToastSpawner extends Entity implements Static {
 
     public int getSpawnRate() {
         return spawnRate;
+    }
+
+    public void setSpawnRate(int spawnRate){
+        this.spawnRate = spawnRate;
     }
 
     @Override

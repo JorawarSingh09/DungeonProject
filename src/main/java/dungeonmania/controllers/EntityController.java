@@ -29,7 +29,6 @@ import dungeonmania.entities.staticentities.Exit;
 import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.entities.staticentities.Wall;
-import dungeonmania.entities.staticentities.ZombieToastSpawner;
 import dungeonmania.goals.BoulderGoal;
 import dungeonmania.goals.CollectTreasureGoal;
 import dungeonmania.goals.ComplexGoal;
@@ -38,6 +37,7 @@ import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalCondition;
 import dungeonmania.spawners.SpiderSpawn;
+import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.util.Position;
 
 public class EntityController {
