@@ -81,7 +81,6 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
     }
 
     public void updateMovement(Dungeon dungeon, Player player) {
-        System.out.print(reversed);
         movingEntity.setPosition(getNextPosition(dungeon, player));
     }
 

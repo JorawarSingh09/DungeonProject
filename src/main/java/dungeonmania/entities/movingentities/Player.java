@@ -18,6 +18,8 @@ import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.Usable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -114,8 +116,6 @@ public class Player extends Entity implements Moveable {
     }
 
     public void updatePosition(Dungeon dungeon, Direction movement) {
-        // setPreviousPosition(this.getPosition());
-        // this.setPosition(getNextPosition(movement));
         moveStrat.updateMovement(dungeon, this);
     }
 
@@ -209,21 +209,14 @@ public class Player extends Entity implements Moveable {
         this.prevPosition = prevPosition;
     }
 
-    public boolean attemptBribe(Mercenary mercenary) {
-        // check money
-        // check position
-        System.out.println(inventory.countItem(Treasure.class) < mercenary.getBribeAmount());
+    public String attemptBribe(Mercenary mercenary) {
         if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
-            return false;
-
-        System.out.println(
-                Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
-                        .getbribeRadius());
+            return ErrorString.BRIBETREAS.toString();
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
-            return false;
+            return ErrorString.BRIBERAD.toString();
         addAlly(mercenary);
-        return true;
+        return ErrorString.SUCCESS.toString();
     }
 
     @Override
@@ -271,6 +264,14 @@ public class Player extends Entity implements Moveable {
 
     public boolean isAllyToPlayer() {
         return true;
+    }
+
+    public void drinkPotion(int id) {
+        if (itemType(id).equals(Usable.INVINCE.toString())) {
+            drinkInvinc(id);
+        } else if (itemType(id).equals(Usable.INVIS.toString())) {
+            drinkInvis(id);
+        }
     }
 
 }

@@ -6,7 +6,6 @@ import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMov
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health {
@@ -79,11 +78,7 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        System.out.println("updatePosition in mercenary");
         moveStrat.updateMovement(dungeon, player);
-        // setPosition(moveStrat.getNextPosition(dungeon, player));
-        // setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player,
-        // player.getPosition(), this.getPosition()));
     }
 
     @Override

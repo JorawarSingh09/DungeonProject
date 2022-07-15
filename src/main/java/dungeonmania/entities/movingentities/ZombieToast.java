@@ -27,15 +27,11 @@ public class ZombieToast extends Entity implements Moveable, Health {
         moveStrat = new RandomMovementStrategy(this);
     }
 
-    @Override
     public double getHealth() {
-        // TODO Auto-generated method stub
         return health;
     }
 
-    @Override
     public double getAttackDamage() {
-        // TODO Auto-generated method stub
         return attack;
     }
 
@@ -54,18 +50,6 @@ public class ZombieToast extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        // TODO Auto-generated method stub
-        // List<Position> positions = getPosition().getCardinallyAdjacentPositions();
-        // Collections.shuffle(positions);
-        // for (Position position : positions) {
-        //     int collidable = dungeon.getStaticsOnBlock(position).stream().filter(e -> e.isCollidable())
-        //             .collect(Collectors.toList()).size();
-        //     if (collidable == 0) {
-        //         setPosition(position);
-        //         return;
-        //     }
-        // }
-        // setPosition(moveStrat.getNextPosition(dungeon, player));
         moveStrat.updateMovement(dungeon, player);
     }
 

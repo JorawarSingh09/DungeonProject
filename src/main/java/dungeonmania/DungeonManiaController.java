@@ -2,6 +2,7 @@ package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
 import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.enums.ErrorString;
 import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -21,8 +22,7 @@ import com.google.gson.JsonParser;
 public class DungeonManiaController {
 
     private int currMaxDungeonId = 0;
-    List<Dungeon> dungeonList = new ArrayList<>();
-    Map<Integer, Dungeon> dungeons = new HashMap<>();
+    Dungeon dungeon;
 
     public String getSkin() {
         return "default";
@@ -52,7 +52,6 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
-        Dungeon dungeon;
         if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {
             throw new IllegalArgumentException();
         }
@@ -66,8 +65,6 @@ public class DungeonManiaController {
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
             currMaxDungeonId += 1;
             dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
-            dungeons.put(currMaxDungeonId, dungeon);
-
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -79,7 +76,7 @@ public class DungeonManiaController {
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-        return dungeons.get(1).createDungeonResponse();
+        return dungeon.createDungeonResponse();
     }
 
     /**
@@ -87,7 +84,6 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         int itemId = Integer.parseInt(itemUsedId);
-        Dungeon dungeon = dungeons.get(1);
         if (!dungeon.itemInPlayerInventory(itemId))
             throw new InvalidActionException("item not in player inventory");
         if (!dungeon.itemIsUsable(itemId))
@@ -100,10 +96,8 @@ public class DungeonManiaController {
     /**
      * /game/tick/movement
      */
-    public DungeonResponse tick(Direction movementDirection) {
-        Dungeon dungeon = dungeons.get(1);
+    public DungeonResponse tick(Direction movementDirection) {;
         dungeon.updateMovement(movementDirection);
-
         dungeon.tick(true);
         return dungeon.createDungeonResponse();
     }
@@ -112,7 +106,6 @@ public class DungeonManiaController {
      * /game/build
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        Dungeon dungeon = dungeons.get(1);
         // If buildable is not one of bow, shield
         if (!buildable.equals("bow") && !buildable.equals("shield"))
             throw new IllegalArgumentException("not buildable item");
@@ -127,22 +120,12 @@ public class DungeonManiaController {
     /**
      * /game/interact
      */
-    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        Dungeon dungeon = dungeons.get(1);
-        if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")) {
-            if (!dungeons.get(1).bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))) {
-                throw new InvalidActionException("unable to bribe");
-            }
-            // tick dungeon
-            dungeon.tick(false);
-        }
-
-        if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("zombie_toast_spawner")) {
-            if (!dungeons.get(1)
-                    .tryBreakZomSpawn((ZombieToastSpawner) dungeon.getEntityById(Integer.parseInt(entityId)))) {
-                throw new InvalidActionException("Cannot break spawner");
-            }
-        }
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {   
+        int id = Integer.parseInt(entityId);
+        if (!dungeon.itemIsInteractable(id)) throw new IllegalArgumentException(entityId + " is not a valid Entity Id.");
+        String interactAttempt = dungeon.interact(id);
+        if (!interactAttempt.equals(ErrorString.SUCCESS.toString())) throw new InvalidActionException(interactAttempt);
+        dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }
 }
