@@ -211,10 +211,6 @@ public class Dungeon {
         return currMaxEntityId;
     }
 
-    public void print() {
-        System.out.println(entities);
-    }
-
     public Player getPlayer() {
         return this.player;
     }

@@ -144,7 +144,6 @@ public class DungeonManiaController {
         }
         return dungeon.createDungeonResponse();
     }
-
 }
 
 

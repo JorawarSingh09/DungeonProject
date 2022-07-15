@@ -31,7 +31,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
     public void explode(Dungeon dungeon) {
         // for all entities whose distance from bomb is less than equal
         // to explosion radius, DELETE
-
+        System.out.println("boom");
         for (int id : dungeon.getEntityIds()) {
             if (Position.getDistanceBetweenTwoPositions(this.getPosition(),
                     dungeon.getEntityById(id).getPosition()) <= bomb_radius) {
@@ -69,7 +69,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
         setCollidable(true);
         dungeon.addEntity(this);
         player.removeItem(this);
-        System.out.println("hi");
+        System.out.println("drop");
 
     }
 

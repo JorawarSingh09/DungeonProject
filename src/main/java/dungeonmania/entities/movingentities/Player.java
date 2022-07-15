@@ -85,6 +85,8 @@ public class Player extends Entity {
         mercenaries.add(mercenary);
         mercenary.setAlly();
         mercenary.setInteractable(false);
+        inventory.removeItem(mercenary.getBribeAmount(), Treasure.class);
+
     }
 
     public List<Mercenary> getAllies() {
@@ -203,7 +205,6 @@ public class Player extends Entity {
                 .getbribeRadius())
             return false;
         addAlly(mercenary);
-        System.out.println("bribing a mercenary");
         return true;
     }
 

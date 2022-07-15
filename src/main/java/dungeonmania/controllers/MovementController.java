@@ -88,6 +88,7 @@ public class MovementController {
             }
         }
         checkBattles();
+        checkSwitchBehaviour();
     }
 
     private void checkBattles() {
