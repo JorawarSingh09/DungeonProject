@@ -303,6 +303,9 @@ public class Dungeon {
     }
 
     public void startBattle(Health enemy) {
+        if(player.getPlayerState().equals(player.getInvisState())){
+           return; 
+        }
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));
         } else {
