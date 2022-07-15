@@ -1,7 +1,9 @@
 package dungeonmania.entities.staticentities;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
@@ -25,23 +27,28 @@ public class ZombieToastSpawner extends Entity implements Static {
         this.health = health;
     }
 
-    public ZombieToast spawnZombieToast(int currentMaxId) {
+    public ZombieToast spawnZombieToast(int currentMaxId, Dungeon dungeon) {
         List<Position> positions = getPosition().getCardinallyAdjacentPositions();
-        Random r = new Random();
-        Position newPos = positions.get(r.nextInt(4));
-        ZombieToast zombie = new ZombieToast(currentMaxId, newPos, false,
-                false, attack, health);
-        return zombie;
+        Collections.shuffle(positions);
+        for (Position position : positions) {
+            int entities = dungeon.getEntities().stream().filter(e -> e.getPosition().equals(position))
+                    .collect(Collectors.toList()).size();
+            if (entities == 0) {
+                ZombieToast zombie = new ZombieToast(currentMaxId, position, false,
+                        false, attack, health);
+                return zombie;
+            }
+        }
+        return null;
     }
 
-    public int getSpawnRate(){
+    public int getSpawnRate() {
         return spawnRate;
     }
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
         // TODO Auto-generated method stub
-
 
     }
 

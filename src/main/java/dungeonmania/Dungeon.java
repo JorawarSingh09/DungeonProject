@@ -125,7 +125,7 @@ public class Dungeon {
         for (Entity zombieToastSpawner : getEntitiesOfType("zombie_toast_spawner")) {
             if (((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() != 0 &&
                     tickCount % ((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() == 0) {
-                addEntity(((ZombieToastSpawner) zombieToastSpawner).spawnZombieToast(getCurrMaxEntityId()));
+                addEntity(((ZombieToastSpawner) zombieToastSpawner).spawnZombieToast(getCurrMaxEntityId(), this));
             }
         }
         this.tickCount++;
@@ -194,8 +194,10 @@ public class Dungeon {
     }
 
     public void addEntity(Entity entity) {
-        this.entities.add(entity);
-        currMaxEntityId += 1;
+        if (entity != null) {
+            this.entities.add(entity);
+            currMaxEntityId += 1;
+        }
     }
 
     // unique?)
