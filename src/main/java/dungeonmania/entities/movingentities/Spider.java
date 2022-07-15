@@ -75,10 +75,10 @@ public class Spider extends Entity implements Moveable, Health {
     //     moveState++;
     // }
 
-    @Override
     public void updatePosition(Dungeon dungeon, Player player) {
         // if you hit a boulder reverse
-        setPosition(moveStrat.getNextPosition(dungeon, player));
+        moveStrat.updateMovement(dungeon, player);
+        //setPosition(moveStrat.getNextPosition(dungeon, player));
         moveState++;
     }
 
@@ -93,6 +93,25 @@ public class Spider extends Entity implements Moveable, Health {
     @Override
     public String getType() {
         return "spider";
+    }
+
+    @Override
+    public boolean isTangible() {
+        return false;
+    }
+
+    @Override
+    public MovementStrategy getMovementStrategy() {
+        return moveStrat;
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+        moveStrat = movementStrategy;
+        
+    }
+
+    public boolean isAllyToPlayer() {
+        return false;
     }
 
 }

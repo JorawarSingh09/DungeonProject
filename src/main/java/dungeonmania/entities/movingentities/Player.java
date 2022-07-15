@@ -16,11 +16,10 @@ import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import javassist.compiler.MemberResolver;
-import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.entities.collectableentities.Bomb;
 
@@ -29,6 +28,8 @@ public class Player extends Entity {
     private double health;
     private double attack;
     Inventory inventory;
+    MovementStrategy moveStrat;
+    Direction movement;
     List<Mercenary> mercenaries = new ArrayList<>();
     Queue<Regenerative> queueItems = new LinkedList<>();
 
@@ -51,6 +52,14 @@ public class Player extends Entity {
 
     public PlayerState getPlayerState() {
         return state;
+    }
+
+    public Direction getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Direction movement) {
+        this.movement = movement;
     }
 
     public List<Storeable> getInventoryItems() {
@@ -101,9 +110,10 @@ public class Player extends Entity {
         return this.getPosition().translateBy(movement);
     }
 
-    public void updatePosition(Direction movement) {
-        setPreviousPosition(this.getPosition());
-        this.setPosition(getNextPosition(movement));
+    public void updatePosition(Dungeon dungeon, Direction movement) {
+        // setPreviousPosition(this.getPosition());
+        // this.setPosition(getNextPosition(movement));
+        moveStrat.updateMovement(dungeon, this);
     }
 
     public void engageBattle(boolean playerDied) {

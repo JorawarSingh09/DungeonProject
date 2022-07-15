@@ -18,5 +18,9 @@ public class Portal extends Entity implements Static {
         // TODO Auto-generated method stub
         
     }  
+    
+    public boolean isRepellent() {
+        return false;
+    }
 
 }

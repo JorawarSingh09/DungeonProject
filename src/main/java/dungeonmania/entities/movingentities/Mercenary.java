@@ -79,7 +79,8 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        setPosition(moveStrat.getNextPosition(dungeon, player));
+        moveStrat.updateMovement(dungeon, player);
+        //setPosition(moveStrat.getNextPosition(dungeon, player));
         // setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player,
         //         player.getPosition(), this.getPosition()));
     }
@@ -89,7 +90,7 @@ public class Mercenary extends Entity implements Moveable, Health {
         return "mercenary";
     }
 
-    public boolean isTangeable() {
+    public boolean isTangible() {
         return true;
     }
 

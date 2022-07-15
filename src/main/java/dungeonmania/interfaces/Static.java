@@ -7,4 +7,5 @@ import dungeonmania.util.Direction;
 public interface Static {
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction);
     public boolean isCollidable();
+    public boolean isRepellent();
 }

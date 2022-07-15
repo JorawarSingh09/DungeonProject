@@ -115,8 +115,9 @@ public class Dungeon {
 
     public void tick(boolean hasMoved) {
 
-        if (!hasMoved)
+        if (!hasMoved){
             player.setPreviousPosition(player.getPosition());
+        }
         player.tickPotion();
         mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
@@ -275,7 +276,6 @@ public class Dungeon {
 
     public void updateMovement(Direction playerMovement) {
         mc.movePlayer(playerMovement);
-        // mc.updateEntityPositions();
     }
 
     public List<Integer> getEntityIds() {

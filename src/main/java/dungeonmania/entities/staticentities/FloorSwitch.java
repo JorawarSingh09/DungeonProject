@@ -28,7 +28,7 @@ public class FloorSwitch extends Entity implements Static {
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
         if (!isCollidable()) {
-            player.updatePosition(direction);
+            player.updatePosition(dungeon, direction);
         }
 
     }
@@ -46,6 +46,10 @@ public class FloorSwitch extends Entity implements Static {
     @Override
     public String getType() {
         return "switch";
+    }
+
+    public boolean isRepellent() {
+        return false;
     }
 
 }

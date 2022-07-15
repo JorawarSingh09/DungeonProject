@@ -57,4 +57,9 @@ public class ZombieToastSpawner extends Entity implements Static {
         return "zombie_toast_spawner";
     }
 
+	public boolean isRepellent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

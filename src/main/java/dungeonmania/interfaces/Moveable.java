@@ -8,9 +8,11 @@ import dungeonmania.util.Position;
 
 public interface Moveable {
     public void updatePosition(Dungeon dungeon, Player player);
-    public boolean isTangeable();
+    public boolean isTangible();
     public MovementStrategy getMovementStrategy();
     public void changeMovementStrategy(MovementStrategy movementStrategy);
     public boolean isAllyToPlayer();
     public Position getPosition();
+    public void setPosition(Position position);
+
 }

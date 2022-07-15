@@ -28,6 +28,11 @@ public class CircularMovementStrategy extends MovementStrategy{
         this.movePath.populatePath(movingEntity.getPosition().getAdjacentPositions());
     }
     
+    public void updateMovement(Dungeon dungeon, Player player) {
+        movingEntity.setPosition(getNextPosition(dungeon, player));
+        moveState++;
+    }
+    
     @Override
     public void reversePath() {
         Collections.reverse(movePath);

@@ -21,7 +21,7 @@ public class Boulder extends Entity implements Static {
         Position boulderPos = getPosition();
 
         if(checkNextPos(getPosition().translateBy(direction), dungeon)){
-            player.updatePosition(direction);
+            player.updatePosition(dungeon, direction);
             setPosition(getPosition().translateBy(direction));
         }
     }
@@ -35,4 +35,10 @@ public class Boulder extends Entity implements Static {
     public String getType() {
         return "boulder";
     }
+    
+    public boolean isRepellent() {
+        return true;
+    }
+    
+    
 }

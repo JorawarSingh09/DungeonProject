@@ -85,5 +85,8 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
 
     }
+    public boolean isRepellent() {
+        return false;
+    }
 
 }
