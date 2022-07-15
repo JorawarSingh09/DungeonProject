@@ -41,11 +41,6 @@ public class FloorSwitch extends Entity implements Static {
                         ((Bomb) bomb).explode(dungeon);
                     }
                 }
-                // for (Static foundItem : dungeon.getStaticsOnBlock(position)) {
-                // if (foundItem instanceof Bomb) {
-                // ((Bomb) foundItem).explode(dungeon);
-                // }
-                // }
             }
         }
     }
