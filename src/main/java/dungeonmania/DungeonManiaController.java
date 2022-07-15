@@ -1,19 +1,14 @@
 package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
-import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.enums.ErrorString;
-import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

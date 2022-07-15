@@ -80,6 +80,11 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
         }
     }
 
+    @Override
+    public boolean isReversed() {
+        return reversed;
+    }
+
     public void updateMovement(Dungeon dungeon, Player player) {
         movingEntity.setPosition(getNextPosition(dungeon, player));
     }

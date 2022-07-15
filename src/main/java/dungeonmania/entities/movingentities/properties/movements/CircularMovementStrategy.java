@@ -41,4 +41,9 @@ public class CircularMovementStrategy extends MovementStrategy {
         Collections.reverse(movePath);
     }
 
+    @Override
+    public boolean isReversed() {
+        return clockwise;
+    }
+
 }
