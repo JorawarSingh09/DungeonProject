@@ -1,4 +1,4 @@
-package dungeonmania.entities.movingentities.properties;
+package dungeonmania.entities.movingentities.properties.movements;
 
 import java.util.ArrayList;
 import java.util.List;

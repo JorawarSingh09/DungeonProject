@@ -200,7 +200,6 @@ public class Dungeon {
         }
     }
 
-    // unique?)
     public void removeEntity(Entity removing) {
         entities.remove(removing);
     }
