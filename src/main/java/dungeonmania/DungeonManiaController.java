@@ -2,7 +2,7 @@ package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
 import dungeonmania.entities.movingentities.Mercenary;
-import dungeonmania.entities.staticentities.ZombieToastSpawner;
+import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -127,7 +127,7 @@ public class DungeonManiaController {
     /**
      * /game/interact
      */
-    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {        
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         Dungeon dungeon = dungeons.get(1);
         if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")) {
             if (!dungeons.get(1).bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))) {
@@ -138,12 +138,11 @@ public class DungeonManiaController {
         }
 
         if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("zombie_toast_spawner")) {
-            if(!dungeons.get(1).tryBreakZomSpawn((ZombieToastSpawner)dungeon.getEntityById(Integer.parseInt(entityId)))){
+            if (!dungeons.get(1)
+                    .tryBreakZomSpawn((ZombieToastSpawner) dungeon.getEntityById(Integer.parseInt(entityId)))) {
                 throw new InvalidActionException("Cannot break spawner");
             }
         }
         return dungeon.createDungeonResponse();
     }
 }
-
-
