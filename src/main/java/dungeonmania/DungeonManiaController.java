@@ -127,7 +127,7 @@ public class DungeonManiaController {
     /**
      * /game/interact
      */
-    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {        
         Dungeon dungeon = dungeons.get(1);
         if (dungeon.getEntityById(Integer.parseInt(entityId)).getType().equals("mercenary")) {
             if (!dungeons.get(1).bribeMercenary((Mercenary) dungeon.getEntityById(Integer.parseInt(entityId)))) {
@@ -146,3 +146,5 @@ public class DungeonManiaController {
     }
 
 }
+
+

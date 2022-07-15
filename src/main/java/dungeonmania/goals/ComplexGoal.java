@@ -29,17 +29,12 @@ public class ComplexGoal implements Goal {
 
     public String toString(Dungeon dungeon) {
         if (!goal1.isGoalCompleted(dungeon) && !goal2.isGoalCompleted(dungeon)) {
-            System.out.println(
-                    "(" + goal1.toString(dungeon) + " " + condition.name() + " " + goal2.toString(dungeon) + ")");
             return "(" + goal1.toString(dungeon) + " " + condition.name() + " " + goal2.toString(dungeon) + ")";
         } else if (!goal1.isGoalCompleted(dungeon)) {
-            System.out.println(goal1.toString(dungeon));
             return goal1.toString(dungeon);
         } else if (!goal2.isGoalCompleted(dungeon)) {
-            System.out.println(goal2.toString(dungeon));
             return goal2.toString(dungeon);
         }
-        System.out.println("NOTHING");
         return "";
 
     }
