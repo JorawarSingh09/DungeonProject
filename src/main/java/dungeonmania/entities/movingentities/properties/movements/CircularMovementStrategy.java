@@ -7,7 +7,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
 
-public class CircularMovementStrategy extends MovementStrategy{
+public class CircularMovementStrategy extends MovementStrategy {
 
     CircularMovement<Position> movePath = new CircularMovement<>();
     int moveState;
@@ -27,12 +27,15 @@ public class CircularMovementStrategy extends MovementStrategy{
     private void calculatePath() {
         this.movePath.populatePath(movingEntity.getPosition().getAdjacentPositions());
     }
-    
+
     public void updateMovement(Dungeon dungeon, Player player) {
+        if (!nextStepIsMoveable(dungeon, player)) {
+            reversePath();
+        }
         movingEntity.setPosition(getNextPosition(dungeon, player));
         moveState++;
     }
-    
+
     @Override
     public void reversePath() {
         Collections.reverse(movePath);

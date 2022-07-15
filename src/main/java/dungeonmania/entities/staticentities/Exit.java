@@ -15,7 +15,7 @@ public class Exit extends Entity implements Static {
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        player.updatePosition(dungeon, direction);
+        player.setPosition(this.getPosition());
     }
 
     @Override

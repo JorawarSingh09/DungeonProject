@@ -29,7 +29,7 @@ public class Door extends Entity implements Static {
         // cant move
         if (player.hasKey(keyPair) || doorOpen) {
             // set door open
-            player.updatePosition(dungeon, direction);
+            player.setPosition(this.getPosition());
             setCollidable(false);
             this.doorOpen = true;
         }

@@ -21,7 +21,7 @@ public class Boulder extends Entity implements Static {
         Position boulderPos = getPosition();
 
         if(checkNextPos(getPosition().translateBy(direction), dungeon)){
-            player.updatePosition(dungeon, direction);
+            player.setPosition(this.getPosition());
             setPosition(getPosition().translateBy(direction));
         }
     }

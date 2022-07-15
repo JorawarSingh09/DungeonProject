@@ -21,9 +21,9 @@ public class Mercenary extends Entity implements Moveable, Health {
     Position prevPosition;
     MovementStrategy moveStrat;
 
-    public Mercenary(int id, Position position, boolean interactable, boolean collidable, 
-                    double ally_attack, double ally_defence, double mercenary_attack, 
-                    double mercenary_health, int bribe_radius, int bribe_amount) {
+    public Mercenary(int id, Position position, boolean interactable, boolean collidable,
+            double ally_attack, double ally_defence, double mercenary_attack,
+            double mercenary_health, int bribe_radius, int bribe_amount) {
 
         super(id, position, interactable, collidable);
         this.ally_attack = ally_attack;
@@ -79,10 +79,11 @@ public class Mercenary extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
+        System.out.println("updatePosition in mercenary");
         moveStrat.updateMovement(dungeon, player);
-        //setPosition(moveStrat.getNextPosition(dungeon, player));
+        // setPosition(moveStrat.getNextPosition(dungeon, player));
         // setPosition(FollowPlayerMovement.nextStep(dungeon, isAlly, player,
-        //         player.getPosition(), this.getPosition()));
+        // player.getPosition(), this.getPosition()));
     }
 
     @Override
@@ -100,7 +101,7 @@ public class Mercenary extends Entity implements Moveable, Health {
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
         moveStrat = movementStrategy;
-        
+
     }
 
     public boolean isAllyToPlayer() {
