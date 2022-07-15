@@ -30,18 +30,20 @@ public class MovementController {
     }
 
     public void movePlayer(Direction movement) {
-        // Position newPosition = (new Position(player.getPosition().getX(), player.getPosition().getY()))
-        //         .translateBy(movement);
+        // Position newPosition = (new Position(player.getPosition().getX(),
+        // player.getPosition().getY()))
+        // .translateBy(movement);
         // List<Static> entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);
         // // Check for zombie Spawner
         // for (Static entity : entitiesOnNextBlock) {
-        //     entity.playerOnTo(player, dungeon, movement);
+        // entity.playerOnTo(player, dungeon, movement);
         // }
         // if (entitiesOnNextBlock.size() < 1)
-        //     player.updatePosition(movement);
-        // List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
+        // player.updatePosition(movement);
+        // List<Collectable> collectablesOnNextBlock =
+        // dungeon.getCollectablesOnBlock(newPosition);
         // for (Collectable entity : collectablesOnNextBlock) {
-        //     entity.pickup(player, dungeon);
+        // entity.pickup(player, dungeon);
         // }
         // post move check
         player.setMovement(movement);
@@ -51,23 +53,22 @@ public class MovementController {
     }
 
     private void checkSwitchBehaviour() {
-        int floorSwitchCount = 0;
+        List<Entity> floorSwitches = dungeon.getEntitiesOfType("switch");
+        List<Entity> boulders = dungeon.getEntitiesOfType("boulder");
+        int floorSwitchCount = floorSwitches.size();
         int boulderCount = 0;
-
-        for (Entity entity : dungeon.getEntitiesOfType("switch")) {
-            floorSwitchCount++;
-            for (Static foundEntity : dungeon.getStaticsOnBlock(entity.getPosition())) {
-                if (foundEntity instanceof Boulder) {
+        for (Entity floorSwitch : floorSwitches) {
+            boolean switchedOn = false;
+            for (Entity boulder : boulders) {
+                if (floorSwitch.getPosition().equals(boulder.getPosition())) {
                     boulderCount++;
-                    ((FloorSwitch) entity).setTriggered(true);
-                    ((FloorSwitch) entity).setCollidable(true);
-                    ((FloorSwitch) entity).checkBomb(dungeon);
-                } else {
-                    ((FloorSwitch) entity).setTriggered(false);
-                    ((FloorSwitch) entity).setCollidable(false);
+                    switchedOn = true;
+                    break;
                 }
             }
-
+            ((FloorSwitch) floorSwitch).setTriggered(switchedOn);
+            ((FloorSwitch) floorSwitch).setCollidable(switchedOn);
+            ((FloorSwitch) floorSwitch).checkBomb(dungeon);
         }
         this.allSwitchestriggered = (boulderCount == floorSwitchCount);
     }
@@ -77,7 +78,7 @@ public class MovementController {
     }
 
     public void updateEntityPositions() {
-        for (Moveable enemy: dungeon.getEnemies()) {
+        for (Moveable enemy : dungeon.getEnemies()) {
             enemy.updatePosition(dungeon, player);
         }
         checkBattles();
