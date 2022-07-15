@@ -9,12 +9,10 @@ import dungeonmania.util.Position;
 
 public class Portal extends Entity implements Static {
     // add a portal pair
-    String colour;
     Position pairPosition;
 
-    public Portal(int id, Position position, boolean interactable, boolean collidable, String colour) {
-        super(id, position, interactable, collidable);
-        this.colour = colour;
+    public Portal(int id, Position position) {
+        super(id, position, false, true);
     }
 
     @Override
@@ -28,4 +26,11 @@ public class Portal extends Entity implements Static {
         return false;
     }
 
+    public setPairPosition(Position position){
+        this.setPair(portal);
+    }
+
+    public void setPair(Portal portal){
+        this.pairPosition = position;
+    }
 }

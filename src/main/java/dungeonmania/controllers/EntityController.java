@@ -177,7 +177,7 @@ public class EntityController {
                     break;
                 case "portal":
                     dungeon.addEntity(new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), 
-                                    false, true, ((JsonObject) entity).get("colour").toString()));
+                                    false, true));
                     break;
                 case "zombie_toast_spawner":
                     dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true,
