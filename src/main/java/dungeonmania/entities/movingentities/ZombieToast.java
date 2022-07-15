@@ -1,5 +1,9 @@
 package dungeonmania.entities.movingentities;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.interfaces.Health;
@@ -48,7 +52,16 @@ public class ZombieToast extends Entity implements Moveable, Health {
     @Override
     public void updatePosition(Dungeon dungeon, Player player) {
         // TODO Auto-generated method stub
-
+        List<Position> positions = getPosition().getCardinallyAdjacentPositions();
+        Collections.shuffle(positions);
+        for (Position position : positions) {
+            int collidable = dungeon.getStaticsOnBlock(position).stream().filter(e -> e.isCollidable())
+                    .collect(Collectors.toList()).size();
+            if (collidable == 0) {
+                setPosition(position);
+                return;
+            }
+        }
     }
 
     @Override
