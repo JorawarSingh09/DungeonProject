@@ -17,7 +17,7 @@ public class InvisibilityTests {
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.UP);
-        assertDoesNotThrow(()->(dmc.tick("2")));        
+        assertDoesNotThrow(() -> (dmc.tick("2")));
         dmc.tick(Direction.RIGHT);
         assertEquals(0, dmc.getDungeonResponseModel().getBattles().size());
         dmc.tick(Direction.RIGHT);
