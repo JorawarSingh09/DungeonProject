@@ -59,6 +59,7 @@ public class Mercenary extends Entity implements Moveable, Health {
 
     public void setAlly() {
         this.isAlly = true;
+        this.setInteractable(false);
     }
 
     public double getHealth() {

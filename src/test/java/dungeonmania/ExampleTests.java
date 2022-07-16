@@ -140,7 +140,6 @@ public class ExampleTests {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_complexGoalsTest_andAll", "c_complexGoalsTest_andAll");
-        System.out.println(getGoals(res));
         assertTrue(getGoals(res).contains(":exit"));
         assertTrue(getGoals(res).contains(":treasure"));
         assertTrue(getGoals(res).contains(":boulders"));

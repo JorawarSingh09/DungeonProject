@@ -2,7 +2,6 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.Direction;
-import spark.embeddedserver.jetty.websocket.WebSocketHandlerInstanceWrapper;
 
 public class BattleRoundTests {
 
@@ -52,7 +49,6 @@ public class BattleRoundTests {
                 double playerAttackBonus = playerAttack + weaponAttackAddBonus + (allyAttackBonus * numAllies);
                 playerAttackBonus = playerAttackBonus * weaponAttackMultiBonus;
                 double enemyAttackBonus = enemyAttack - (weaponDefenceAddBonus + (allyDefenceBonus * numAllies));
-                System.out.println("expected enemy bonis" + enemyAttackBonus);
                 assertEquals(round.getDeltaCharacterHealth(), -(enemyAttackBonus / 10));
                 assertEquals(round.getDeltaEnemyHealth(), -(playerAttackBonus / 5));
                 enemyHealth += round.getDeltaEnemyHealth();

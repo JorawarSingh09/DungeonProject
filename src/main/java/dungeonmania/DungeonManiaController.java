@@ -86,7 +86,7 @@ public class DungeonManiaController {
         }
         if (!dungeon.itemIsUsable(itemId)){
             dungeon.tick(false);
-            throw new InvalidActionException("item not usable");
+            throw new IllegalArgumentException("item not usable");
         }
         dungeon.useItem(itemId);
         dungeon.tick(false);

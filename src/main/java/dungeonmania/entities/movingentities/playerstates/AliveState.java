@@ -18,7 +18,6 @@ public class AliveState extends PlayerState {
     @Override
     public void drinkInvis() {
         player.setPlayerState(player.getInvisState());
-        System.out.println("change player to invis in alive state");
     }
 
     @Override

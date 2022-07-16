@@ -36,9 +36,14 @@
             "y": 2
         },
         {
-            "type": "exit",
+            "type": "invisibility_potion",
+            "x": 100,
+            "y": 100
+        },
+        {
+            "type": "zombie_toast_spawner",
             "x": 0,
-            "y": 0
+            "y": -2
         }
     ],
     "goal-condition": {"goal": "exit"}
