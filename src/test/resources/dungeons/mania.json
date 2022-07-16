@@ -1,0 +1,56 @@
+
+{
+    "entities": [
+      {
+        "x": 2,
+        "y": 1,
+        "type": "invincibility_potion"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "type": "zombie_toast_spawner"
+      },
+      {
+        "x": 3,
+        "y": 1,
+        "type": "invisibility_potion"
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "type": "player"
+      },
+      {
+        "x": 6,
+        "y": 1,
+        "type": "sword"
+      },
+      {
+        "x": 13,
+        "y": 4,
+        "type": "bomb"
+      },
+      {
+        "x": -2,
+        "y": 1,
+        "type": "mercenary"
+      },
+      {
+        "x": 1,
+        "y": 2,
+        "type": "treasure"
+      }
+    ],
+    "goal-condition": {
+      "goal": "AND",
+      "subgoals": [
+        {
+          "goal": "enemies"
+        },
+        {
+          "goal": "treasure"
+        }
+      ]
+    }
+  }

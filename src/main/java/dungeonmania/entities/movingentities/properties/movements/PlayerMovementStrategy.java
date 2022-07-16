@@ -7,7 +7,6 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class PlayerMovementStrategy extends MovementStrategy {

@@ -79,10 +79,15 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         int itemId = Integer.parseInt(itemUsedId);
-        if (!dungeon.itemInPlayerInventory(itemId))
+        
+        if (!dungeon.itemInPlayerInventory(itemId)) {
+            dungeon.tick(false);
             throw new InvalidActionException("item not in player inventory");
-        if (!dungeon.itemIsUsable(itemId))
-            throw new InvalidActionException("item not usable");
+        }
+        if (!dungeon.itemIsUsable(itemId)){
+            dungeon.tick(false);
+            throw new IllegalArgumentException("item not usable");
+        }
         dungeon.useItem(itemId);
         dungeon.tick(false);
         return dungeon.createDungeonResponse();

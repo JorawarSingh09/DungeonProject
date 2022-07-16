@@ -25,6 +25,12 @@ public enum ErrorString {
         }
     },
 
+    NOTINTERACT {
+        public String toString() {
+            return "Entity is not interactable";
+        }
+    },
+
     SUCCESS {
         public String toString() {
             return "SUCCESS!";
