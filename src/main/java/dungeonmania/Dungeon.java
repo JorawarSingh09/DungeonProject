@@ -54,6 +54,7 @@ public class Dungeon {
 
     // Dungeon Respose
     public DungeonResponse createDungeonResponse() {
+        System.out.println(createBattleResponse().toString() + " battles in dungeon");
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
                 createItemResponse(), createBattleResponse(), getBuildable(), goal.toString(this));
     }
@@ -223,7 +224,7 @@ public class Dungeon {
         this.player = player;
         this.mc = new MovementController(player, this);
     }
-    
+
     public Goal getGoal() {
         return goal;
     }
@@ -304,8 +305,8 @@ public class Dungeon {
     }
 
     public void startBattle(Health enemy) {
-        if(player.getPlayerState().equals(player.getInvisState())){
-           return; 
+        if (player.getPlayerState().equals(player.getInvisState())) {
+            return;
         }
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));

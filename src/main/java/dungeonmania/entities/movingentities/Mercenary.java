@@ -1,12 +1,19 @@
 package dungeonmania.entities.movingentities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
+import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
+import dungeonmania.interfaces.Static;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health {
@@ -92,7 +99,21 @@ public class Mercenary extends Entity implements Moveable, Health {
         } else {
             currMoveStrat = standard;
         }
-        currMoveStrat.updateMovement(dungeon, player);
+        //currMoveStrat.updateMovement(dungeon, player); caused merenary to move twice
+
+        boolean foundPortal = false;
+        for (Static portal : dungeon.getStaticsOnBlock(currMoveStrat.getNextPosition(dungeon, player))) {
+            if (portal instanceof Portal) {
+                ((Portal) portal).mercenaryMoveOnto(this, dungeon, Position.getDirection(this.getPosition(),
+                    currMoveStrat.getNextPosition(dungeon, player)));
+
+                foundPortal = true;
+                break;
+            }
+        }
+
+        if (!foundPortal)
+            currMoveStrat.updateMovement(dungeon, player);
     }
 
     @Override

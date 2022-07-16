@@ -16,6 +16,7 @@ public abstract class MovementStrategy {
     }
 
     public abstract Position getNextPosition(Dungeon dungeon, Player player);
+
     public abstract void updateMovement(Dungeon dungeon, Player player);
 
     public void reversePath() {
@@ -28,17 +29,15 @@ public abstract class MovementStrategy {
     }
 
     public boolean nextStepIsMoveable(Dungeon dungeon, Player player) {
-        if (movingEntity.isTangible()) { 
+        if (movingEntity.isTangible()) {
             return (dungeon.getStaticsOnBlock(getNextPosition(dungeon, player)).stream()
-                                                                          .filter(s -> s.isCollidable())
-                                                                          .collect(Collectors.toList()).size()) < 1;
+                    .filter(s -> s.isCollidable())
+                    .collect(Collectors.toList()).size()) < 1;
         } else {
             return (dungeon.getStaticsOnBlock(getNextPosition(dungeon, player)).stream()
-                                                                          .filter(s -> s.isRepellent())
-                                                                          .collect(Collectors.toList()).size()) < 1;
+                    .filter(s -> s.isRepellent())
+                    .collect(Collectors.toList()).size()) < 1;
         }
     }
 
-
-    
 }
