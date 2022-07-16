@@ -124,7 +124,7 @@ public class ExampleTests {
         // Boulder/Switch Wall Wall
         // Bomb Treasure
         //
-        // Treasure        
+        // Treasure
         //
         assertEquals(0, getEntities(res, "bomb").size());
         assertEquals(0, getEntities(res, "boulder").size());

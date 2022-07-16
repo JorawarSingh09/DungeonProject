@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
+import dungeonmania.entities.Entity;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -79,12 +80,12 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         int itemId = Integer.parseInt(itemUsedId);
-        
+
         if (!dungeon.itemInPlayerInventory(itemId)) {
             dungeon.tick(false);
             throw new InvalidActionException("item not in player inventory");
         }
-        if (!dungeon.itemIsUsable(itemId)){
+        if (!dungeon.itemIsUsable(itemId)) {
             dungeon.tick(false);
             throw new IllegalArgumentException("item not usable");
         }
