@@ -7,7 +7,6 @@ import dungeonmania.battles.Battle;
 import dungeonmania.battles.Round;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;

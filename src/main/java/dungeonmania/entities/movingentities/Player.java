@@ -1,5 +1,6 @@
 package dungeonmania.entities.movingentities;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,8 @@ import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.Usable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -114,8 +117,6 @@ public class Player extends Entity implements Moveable {
     }
 
     public void updatePosition(Dungeon dungeon, Direction movement) {
-        // setPreviousPosition(this.getPosition());
-        // this.setPosition(getNextPosition(movement));
         moveStrat.updateMovement(dungeon, this);
     }
 
@@ -127,28 +128,28 @@ public class Player extends Entity implements Moveable {
         if (queueItems.size() > 0) {
             Regenerative item = queueItems.peek();
             item.decrementDuration();
-            if (item.getRemainingDuration() == 0) {
+            if (item.getRemainingDuration() <= 1) {
                 queueItems.remove();
-                inventory.removeItemById(item.getItemId());
-            }
-            if (queueItems.size() > 0) {
-                nextItem();
-            } else {
-                state = aliveState;
+
+                if (queueItems.size() > 0) {
+                    nextItem();
+                }
             }
         } else {
             state.tick(0);
+            // state = aliveState;
         }
     }
 
     public void drinkInvis(int itemId) {
         if (inventory.getItemFromId(itemId) instanceof Regenerative) {
-            Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
-            queueItems.add(invincPotion);
+            Regenerative invisPotion = (Regenerative) inventory.getItemFromId(itemId);
+            queueItems.add(invisPotion);
             if (queueItems.size() == 1) {
                 state.drinkInvis();
             }
         }
+        inventory.removeItemById(itemId);
     }
 
     public void drinkInvinc(int itemId) {
@@ -159,13 +160,16 @@ public class Player extends Entity implements Moveable {
                 state.drinkInvinc();
             }
         }
+        inventory.removeItemById(itemId);
     }
 
     private void nextItem() {
         if (queueItems.peek() instanceof InvisibilityPotion) {
-            drinkInvis(queueItems.peek().getItemId());
+            // drinkInvis(queueItems.peek().getItemId());
+            state.drinkInvis();
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
-            drinkInvinc(queueItems.peek().getItemId());
+            // drinkInvinc(queueItems.peek().getItemId());
+            state.drinkInvinc();
         }
     }
 
@@ -186,7 +190,7 @@ public class Player extends Entity implements Moveable {
     }
 
     public String itemType(int id) {
-        return inventory.itemHistory.get(id);
+        return inventory.getHistoricalItemType(id);
     }
 
     public void putDownBomb(Dungeon dungeon, int id) {
@@ -209,21 +213,14 @@ public class Player extends Entity implements Moveable {
         this.prevPosition = prevPosition;
     }
 
-    public boolean attemptBribe(Mercenary mercenary) {
-        // check money
-        // check position
-        System.out.println(inventory.countItem(Treasure.class) < mercenary.getBribeAmount());
+    public String attemptBribe(Mercenary mercenary) {
         if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
-            return false;
-
-        System.out.println(
-                Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
-                        .getbribeRadius());
+            return ErrorString.BRIBETREAS.toString();
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
-            return false;
+            return ErrorString.BRIBERAD.toString();
         addAlly(mercenary);
-        return true;
+        return ErrorString.SUCCESS.toString();
     }
 
     @Override
@@ -271,6 +268,14 @@ public class Player extends Entity implements Moveable {
 
     public boolean isAllyToPlayer() {
         return true;
+    }
+
+    public void drinkPotion(int id) {
+        if (itemType(id).equals(Usable.INVINCE.toString())) {
+            drinkInvinc(id);
+        } else if (itemType(id).equals(Usable.INVIS.toString())) {
+            drinkInvis(id);
+        }
     }
 
 }

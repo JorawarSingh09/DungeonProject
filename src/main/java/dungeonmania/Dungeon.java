@@ -1,8 +1,8 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import dungeonmania.controllers.BattleController;
@@ -16,6 +16,9 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.Interactable;
+import dungeonmania.enums.Usable;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -37,7 +40,6 @@ public class Dungeon {
     Player player;
     int currMaxEntityId;
     SpiderSpawn spiderSpawner;
-    List<String> usables = List.of("invincibility_potion", "invisibility_potion", "bomb");
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
@@ -222,10 +224,6 @@ public class Dungeon {
         this.mc = new MovementController(player, this);
     }
 
-    public boolean bribeMercenary(Mercenary mercenary) {
-        return player.attemptBribe(mercenary);
-    }
-
     public Goal getGoal() {
         return goal;
     }
@@ -247,12 +245,25 @@ public class Dungeon {
         return null;
     }
 
+    public String getEntityType(int id) {
+        if (getEntityById(id) != null) {
+            return getEntityById(id).getType();
+        }
+        return "";
+    }
+
     public boolean itemInPlayerInventory(int id) {
         return player.hasItem(id);
     }
 
     public boolean itemIsUsable(int id) {
-        return usables.contains(player.itemType(id));
+        System.out.println("why am i being called in dungeon");
+        return Arrays.stream(Usable.values()).anyMatch((t) -> t.toString().equals(player.itemType(id)));
+    }
+
+    public boolean itemIsInteractable(int id) {
+        System.out.println(getEntityType(id));
+        return Arrays.stream(Interactable.values()).anyMatch((t) -> t.toString().equals(getEntityType(id)));
     }
 
     public boolean canBuild(String itemString) {
@@ -260,12 +271,21 @@ public class Dungeon {
     }
 
     public void useItem(int id) {
-        if (player.itemType(id).equals(usables.get(0))) {
-            player.drinkInvinc(id);
-        } else if (player.itemType(id).equals(usables.get(1))) {
-            player.drinkInvis(id);
-        } else {
+        ;
+        if (player.itemType(id).equals(Usable.BOMB.toString())) {
             player.putDownBomb(this, id);
+        } else {
+            player.drinkPotion(id);
+        }
+    }
+
+    public String interact(int id) {
+        if (getEntityType(id).equals(Interactable.MERC.toString())) {
+            Mercenary mercenary = (Mercenary) getEntityById(id);
+            return player.attemptBribe(mercenary);
+        } else {
+            ZombieToastSpawner zomSpawn = (ZombieToastSpawner) getEntityById(id);
+            return tryBreakZomSpawn(zomSpawn);
         }
     }
 
@@ -287,6 +307,9 @@ public class Dungeon {
     }
 
     public void startBattle(Health enemy) {
+        if (player.getPlayerState().equals(player.getInvisState())) {
+            return;
+        }
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));
         } else {
@@ -294,13 +317,14 @@ public class Dungeon {
         }
     }
 
-    public boolean tryBreakZomSpawn(ZombieToastSpawner zomSpawn) {
-        if (player.getPosition().getCardinallyAdjacentPositions().contains(zomSpawn.getPosition())
-                && player.hasWeapon()) {
-            removeEntity(zomSpawn);
-            return true;
+    public String tryBreakZomSpawn(ZombieToastSpawner zomSpawn) {
+        if (!(player.getPosition().getCardinallyAdjacentPositions().contains(zomSpawn.getPosition()))) {
+            return ErrorString.ZOMRAD.toString();
+        } else if (!player.hasWeapon()) {
+            return ErrorString.NOWEAP.toString();
         }
-        return false;
+        removeEntity(zomSpawn);
+        return ErrorString.SUCCESS.toString();
     }
 
 }

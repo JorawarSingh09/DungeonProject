@@ -6,7 +6,7 @@ public class AliveState extends PlayerState {
 
     public AliveState(Player player) {
         super(player);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     public void engageBattle(boolean playerDied) {
@@ -18,11 +18,12 @@ public class AliveState extends PlayerState {
     @Override
     public void drinkInvis() {
         player.setPlayerState(player.getInvisState());
+        System.out.println("change player to invis in alive state");
     }
 
     @Override
     public void drinkInvinc() {
         player.setPlayerState(player.getInvincState());
     }
-    
+
 }

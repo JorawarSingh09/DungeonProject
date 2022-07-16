@@ -1,6 +1,7 @@
 package dungeonmania.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,7 +79,19 @@ public final class Position {
         return new Position(b.x - a.x, b.y - a.y);
     }
 
-    public static final double getDistanceBetweenTwoPositions(Position a, Position b){
+    public static Direction getDirection(Position a, Position b) {
+        Position offset = calculatePositionBetween(a, b);
+        List<Direction> directions = Arrays.asList(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
+        for (Direction direction : directions) {
+            if (direction.getOffset().equals(offset)) {
+                return direction;
+            }
+        }
+        System.out.println("direction is null");
+        return null;
+    }
+
+    public static final double getDistanceBetweenTwoPositions(Position a, Position b) {
         Position vector = calculatePositionBetween(a, b);
         return Math.sqrt(Math.pow(vector.getX(), 2) + Math.pow(vector.getY(), 2));
     }

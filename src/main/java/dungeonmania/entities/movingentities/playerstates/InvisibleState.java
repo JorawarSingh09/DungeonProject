@@ -9,9 +9,16 @@ public class InvisibleState extends PlayerState {
     }
 
     @Override
+    public void tick(int queueSize) {
+        if (queueSize == 0) {
+            player.setPlayerState(player.getAliveState());
+        }
+    }
+
+    @Override
     public void drinkInvinc() {
         player.setPlayerState(player.getInvincState());
-        
+
     }
-    
+
 }
