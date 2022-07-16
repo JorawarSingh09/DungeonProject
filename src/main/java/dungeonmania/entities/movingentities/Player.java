@@ -86,9 +86,10 @@ public class Player extends Entity implements Moveable {
 
     public double loseHealth(double deltaHealth) {
         health = health + deltaHealth;
-        if (health < 0)
+        if (health <= 0){
             health = 0;
-
+            state = getDeadState();
+        }
         return health;
     }
 
@@ -219,6 +220,7 @@ public class Player extends Entity implements Moveable {
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
             return ErrorString.BRIBERAD.toString();
+        if (!mercenary.isInteractable())  return ErrorString.NOTINTERACT.toString();
         addAlly(mercenary);
         return ErrorString.SUCCESS.toString();
     }

@@ -45,7 +45,7 @@ public class Dungeon {
         this.dungeonId = dungeonId;
         this.dungeonName = dungeonName;
         currMaxEntityId = 0;
-        tickCount = 0;
+        tickCount = 1;
     }
 
     public boolean isGoalCompleted() {
