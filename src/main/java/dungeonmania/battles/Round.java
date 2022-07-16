@@ -19,12 +19,16 @@ public class Round {
             List<Defending> defenceWeaponryUsed, List<Mercenary> allies) {
         this.playerAttackDamage = playerAttackDamage;
         this.enemyAttackDamage = enemyAttackDamage;
-        this.attackWeaponryUsed = attackWeaponryUsed;
-        this.defenceWeaponryUsed = defenceWeaponryUsed;
+        this.attackWeaponryUsed = new ArrayList<>();
+        attackWeaponryUsed.addAll(attackWeaponryUsed);
+        this.defenceWeaponryUsed = new ArrayList<>();
+        this.defenceWeaponryUsed.addAll(defenceWeaponryUsed);
         this.allies = allies;
     }
 
     public double playerHealthChange() {
+        System.out.println(calculatePlayerDefenceBonus());
+        System.out.println("got enemy bonis" + (-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus());
         return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus()) / 10);
     }
 
@@ -45,7 +49,7 @@ public class Round {
 
     private double calculatePlayerAttackDamage() {
         int additiveBonus = 0;
-        int multiplicativeBonus = 1;
+        int multiplicativeBonus = 0;
         for (Attacking item : attackWeaponryUsed) {
             if (item.isAdditive()) {
                 additiveBonus += item.battleBonus();
@@ -53,6 +57,7 @@ public class Round {
                 multiplicativeBonus += item.battleBonus();
             }
         }
+        if (multiplicativeBonus == 0) multiplicativeBonus = 1;
         return ((playerAttackDamage + additiveBonus + allyAttackBonus()) * multiplicativeBonus);
     }
 
@@ -81,6 +86,7 @@ public class Round {
         for (Mercenary ally : allies) {
             defenceBonus += ally.getAllyDefenceBonus();
         }
+        System.out.println(defenceBonus);
         return defenceBonus;
     }
 

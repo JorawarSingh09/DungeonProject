@@ -257,12 +257,10 @@ public class Dungeon {
     }
 
     public boolean itemIsUsable(int id) {
-        System.out.println("why am i being called in dungeon");
         return Arrays.stream(Usable.values()).anyMatch((t) -> t.toString().equals(player.itemType(id)));
     }
 
     public boolean itemIsInteractable(int id) {
-        System.out.println(getEntityType(id));
         return Arrays.stream(Interactable.values()).anyMatch((t) -> t.toString().equals(getEntityType(id)));
     }
 
