@@ -54,8 +54,12 @@ public class Dungeon {
 
     // Dungeon Respose
     public DungeonResponse createDungeonResponse() {
+        String goalComplete = goal.toString(this);
+        if (goal.isGoalCompleted(this)) {
+            goalComplete = "";
+        }
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
-                createItemResponse(), createBattleResponse(), getBuildable(), goal.toString(this));
+                createItemResponse(), createBattleResponse(), getBuildable(), goalComplete);
     }
 
     public List<EntityResponse> createEntityResponse() {
@@ -116,7 +120,6 @@ public class Dungeon {
     }
 
     public void tick(boolean hasMoved) {
-
         if (!hasMoved) {
             player.setPreviousPosition(player.getPosition());
         }

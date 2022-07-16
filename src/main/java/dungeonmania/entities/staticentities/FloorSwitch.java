@@ -30,7 +30,6 @@ public class FloorSwitch extends Entity implements Static {
         if (!isCollidable()) {
             player.setPosition(this.getPosition());
         }
-
     }
 
     public void checkBomb(Dungeon dungeon) {
