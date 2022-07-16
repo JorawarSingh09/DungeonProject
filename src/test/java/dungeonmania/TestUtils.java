@@ -8,9 +8,11 @@ import java.util.stream.Stream;
 
 import org.json.JSONObject;
 
+import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
+import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.FileLoader;
 
 public class TestUtils {
@@ -61,5 +63,10 @@ public class TestUtils {
         return null;
     }
 
+    public static DungeonManiaController createDungeon(String dungeonName, String configName) {
+        DungeonManiaController newController = new DungeonManiaController();
+        newController.newGame(dungeonName, configName);
+        return newController;
+    }
     
 }

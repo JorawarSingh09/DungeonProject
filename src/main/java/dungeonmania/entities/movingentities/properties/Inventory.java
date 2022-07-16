@@ -115,12 +115,17 @@ public class Inventory {
     }
 
     public void updateWeaponsDurability() {
+        List<Integer> idsToRemove  = new ArrayList<>();
         for (Durability weapon : weapons) {
             weapon.reduceDurability();
             if (weapon.getDurability() <= 0) {
                 removeItemById(weapon.getItemId());
+                idsToRemove.add(weapon.getItemId());
             }
         }
+        attackingItems.removeIf(w -> idsToRemove.contains(w.getItemId()));
+        defendingItems.removeIf(w -> idsToRemove.contains(w.getItemId()));
+        weapons.removeIf(w -> idsToRemove.contains(w.getItemId()));
     }
 
     public int countItem(Class<?> t) {
