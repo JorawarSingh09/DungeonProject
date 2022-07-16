@@ -57,6 +57,7 @@ public class Battle {
     }
 
     private void updateWeaponDurability() {
+        
         playerInventory.updateWeaponsDurability();
     }
 

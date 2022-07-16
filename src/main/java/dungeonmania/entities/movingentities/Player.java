@@ -134,7 +134,7 @@ public class Player extends Entity implements Moveable {
                 if (queueItems.size() > 0) {
                     nextItem();
                 }
-            } 
+            }
         } else {
             state.tick(0);
             // state = aliveState;
@@ -190,7 +190,7 @@ public class Player extends Entity implements Moveable {
     }
 
     public String itemType(int id) {
-        return inventory.itemHistory.get(id);
+        return inventory.getHistoricalItemType(id);
     }
 
     public void putDownBomb(Dungeon dungeon, int id) {

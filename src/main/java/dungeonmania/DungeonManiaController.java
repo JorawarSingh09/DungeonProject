@@ -91,7 +91,8 @@ public class DungeonManiaController {
     /**
      * /game/tick/movement
      */
-    public DungeonResponse tick(Direction movementDirection) {;
+    public DungeonResponse tick(Direction movementDirection) {
+        ;
         dungeon.updateMovement(movementDirection);
         dungeon.tick(true);
         return dungeon.createDungeonResponse();
@@ -115,11 +116,13 @@ public class DungeonManiaController {
     /**
      * /game/interact
      */
-    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {   
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         int id = Integer.parseInt(entityId);
-        if (!dungeon.itemIsInteractable(id)) throw new IllegalArgumentException(entityId + " is not a valid Entity Id.");
+        if (!dungeon.itemIsInteractable(id))
+            throw new IllegalArgumentException(entityId + " is not a valid Entity Id.");
         String interactAttempt = dungeon.interact(id);
-        if (!interactAttempt.equals(ErrorString.SUCCESS.toString())) throw new InvalidActionException(interactAttempt);
+        if (!interactAttempt.equals(ErrorString.SUCCESS.toString()))
+            throw new InvalidActionException(interactAttempt);
         dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }

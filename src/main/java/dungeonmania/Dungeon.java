@@ -54,7 +54,6 @@ public class Dungeon {
 
     // Dungeon Respose
     public DungeonResponse createDungeonResponse() {
-        System.out.println(createBattleResponse().toString() + " battles in dungeon");
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
                 createItemResponse(), createBattleResponse(), getBuildable(), goal.toString(this));
     }
@@ -258,11 +257,13 @@ public class Dungeon {
     }
 
     public boolean itemIsUsable(int id) {
+        System.out.println("why am i being called in dungeon");
         return Arrays.stream(Usable.values()).anyMatch((t) -> t.toString().equals(player.itemType(id)));
     }
 
     public boolean itemIsInteractable(int id) {
-        return Arrays.stream(Interactable.values()).anyMatch((t) -> t.toString().equals(player.itemType(id)));
+        System.out.println(getEntityType(id));
+        return Arrays.stream(Interactable.values()).anyMatch((t) -> t.toString().equals(getEntityType(id)));
     }
 
     public boolean canBuild(String itemString) {
@@ -270,6 +271,7 @@ public class Dungeon {
     }
 
     public void useItem(int id) {
+        ;
         if (player.itemType(id).equals(Usable.BOMB.toString())) {
             player.putDownBomb(this, id);
         } else {
@@ -278,7 +280,7 @@ public class Dungeon {
     }
 
     public String interact(int id) {
-        if (player.itemType(id).equals(Interactable.MERC.toString())) {
+        if (getEntityType(id).equals(Interactable.MERC.toString())) {
             Mercenary mercenary = (Mercenary) getEntityById(id);
             return player.attemptBribe(mercenary);
         } else {

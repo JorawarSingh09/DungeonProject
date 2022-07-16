@@ -51,6 +51,11 @@ public class Inventory {
         }
         items.put(item.getItemId(), item);
         itemHistory.put(item.getItemId(), item.getType());
+
+    }
+
+    public String getHistoricalItemType(int id) {
+        return itemHistory.get(id);
     }
 
     public Storeable getItemFromId(int id) {
@@ -144,15 +149,14 @@ public class Inventory {
         int itemRemoved = 0;
         List<Storeable> toRemove = new ArrayList<>();
 
-            for(Storeable item : inventoryItems){
-                if(item.getClass().equals(t)
-                && itemRemoved < removeAmount){
-                    toRemove.add(item);
-                    itemRemoved++;
-                }
+        for (Storeable item : inventoryItems) {
+            if (item.getClass().equals(t)
+                    && itemRemoved < removeAmount) {
+                toRemove.add(item);
+                itemRemoved++;
             }
-            inventoryItems.removeAll(toRemove);
-        
+        }
+        inventoryItems.removeAll(toRemove);
 
         List<Integer> remainingIds = inventoryItems.stream().map(Storeable::getItemId).collect(Collectors.toList());
         List<Integer> keys = new ArrayList<>();
