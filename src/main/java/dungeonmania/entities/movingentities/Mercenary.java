@@ -99,9 +99,7 @@ public class Mercenary extends Entity implements Moveable, Health {
         } else {
             currMoveStrat = standard;
         }
-        currMoveStrat.updateMovement(dungeon, player);
-
-        /// stuff we just added below
+        //currMoveStrat.updateMovement(dungeon, player); caused merenary to move twice
 
         boolean foundPortal = false;
         for (Static portal : dungeon.getStaticsOnBlock(currMoveStrat.getNextPosition(dungeon, player))) {
