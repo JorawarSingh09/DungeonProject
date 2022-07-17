@@ -35,11 +35,11 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
             if (Position.getDistanceBetweenTwoPositions(this.getPosition(),
                     dungeon.getEntityById(id).getPosition()) <= bomb_radius) {
                 if (!(dungeon.getEntityById(id).getType().equals("player"))) {
-                    dungeon.removeEntityById(id);
-                    if (dungeon.getEntityById(id) instanceof Health && 
-                        !((Health) dungeon.getEntityById(id)).isAlly()) {
+                    if (dungeon.getEntityById(id) instanceof Health &&
+                            !((Health) dungeon.getEntityById(id)).isAlly()) {
                         dungeon.addKillCount();
                     }
+                    dungeon.removeEntityById(id);
                 }
             }
         }
@@ -52,7 +52,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
             player.addItem(this);
             dungeon.removeEntity(this);
             player.setPosition(this.getPosition());
-            
+
         }
 
     }
@@ -82,6 +82,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
 
     }
+
     public boolean isRepellent() {
         return false;
     }
