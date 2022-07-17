@@ -2,6 +2,7 @@ package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Durability;
@@ -9,54 +10,18 @@ import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
-    
+
     private int battleBonus = 2;
     private int durability;
 
-    public Bow(int id, int bow_durability){
-        super(id, new Position(0,0), false, false);
+    public Bow(int id, int bow_durability) {
+        super(id, new Position(0, 0), false, false);
         this.durability = bow_durability;
-    }
-    
-    /**
-     * add bow object to player inventory, remove items from player inventory used to make bow
-     * @param player
-     * @return
-     */   
-    @Override
-    public void build(Player player) {
-        //player.addInventoryItem(this);
-        consumeItems(player);
-    }
-
-    /**
-     * remove items to make a bow, 3 arrows one wood
-     */
-    // @Override
-    // public void consumeItems(Player player) {
-    //     List<Storeable> inventory = player.getInventoryItems();
-    //     boolean wood = false;
-    //     int arrows = 3;
-    //     for(Storeable item : player.getInventoryItems()){
-    //         Entity newItem = (Entity) item;
-    //         if(newItem.getType().equals("Wood") && !wood){
-    //             player.removeInventoryItem(newItem);
-    //         }
-
-    //         if(newItem.getType().equals("Arrow") && arrows > 0){
-    //             player.removeInventoryItem(newItem);
-    //         }
-    //     }
-        
-    // }
-
-    public void use() {
-        //dont really have a use for bow        
     }
 
     public void reduceDurability() {
         this.durability -= 1;
-        
+
     }
 
     public int getDurability() {
@@ -64,7 +29,6 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     }
 
     public boolean isAdditive() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -72,18 +36,23 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         return getEntityId();
     }
 
-    @Override
-    public void consumeItems(Player player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public int battleBonus() {
         return battleBonus;
     }
 
     public String getType() {
-        return "bow";
+        return EntityString.BOW.toString();
+    }
+
+    @Override
+    public void build(Player player) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void consumeItems(Player player) {
+        // TODO Auto-generated method stub
+
     }
 }

@@ -8,19 +8,18 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Portal extends Entity implements Static {
-    // add a portal pair
-    Position pairPosition;
+    private Position pairPosition;
 
     public Portal(int id, Position position) {
         super(id, position, false, false);
     }
 
-    @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
         onTo(player, dungeon, direction);
     }
@@ -62,7 +61,7 @@ public class Portal extends Entity implements Static {
 
     @Override
     public String getType() {
-        return "portal";
+        return EntityString.PORTAL.toString();
     }
 
     public Position getPairPosition() {

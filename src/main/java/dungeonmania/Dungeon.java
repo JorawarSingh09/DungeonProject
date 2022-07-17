@@ -16,7 +16,9 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.Buildable;
 import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.GoalString;
 import dungeonmania.enums.Interactable;
 import dungeonmania.enums.Usable;
 import dungeonmania.response.models.BattleResponse;
@@ -30,16 +32,16 @@ import dungeonmania.util.Position;
 
 public class Dungeon {
 
-    int dungeonId;
-    String dungeonName;
-    int tickCount;
-    List<Entity> entities = new ArrayList<>();
-    BattleController bc = new BattleController();
-    MovementController mc;
-    Goal goal;
-    Player player;
-    int currMaxEntityId;
-    SpiderSpawn spiderSpawner;
+    private int dungeonId;
+    private String dungeonName;
+    private int tickCount;
+    private List<Entity> entities = new ArrayList<>();
+    private BattleController bc = new BattleController();
+    private MovementController mc;
+    private Goal goal;
+    private Player player;
+    private int currMaxEntityId;
+    private SpiderSpawn spiderSpawner;
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
@@ -56,7 +58,7 @@ public class Dungeon {
     public DungeonResponse createDungeonResponse() {
         String goalComplete = goal.toString(this);
         if (goal.isGoalCompleted(this)) {
-            goalComplete = "";
+            goalComplete = GoalString.COMPLETED.toString();
         }
         return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),
                 createItemResponse(), createBattleResponse(), getBuildable(), goalComplete);
@@ -265,6 +267,10 @@ public class Dungeon {
 
     public boolean itemIsInteractable(int id) {
         return Arrays.stream(Interactable.values()).anyMatch((t) -> t.toString().equals(getEntityType(id)));
+    }
+
+    public static boolean itemIsBuildable(String item) {
+        return Arrays.stream(Buildable.values()).anyMatch((t) -> t.toString().equals(item));
     }
 
     public boolean canBuild(String itemString) {

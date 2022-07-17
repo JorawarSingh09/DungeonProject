@@ -2,9 +2,10 @@ package dungeonmania.goals;
 
 import dungeonmania.Dungeon;
 import dungeonmania.controllers.BattleController;
+import dungeonmania.enums.GoalString;
 
 public class EnemiesGoal implements Goal {
-    public int enemies;
+    private int enemies;
 
     public EnemiesGoal(int enemies) {
         this.enemies = enemies;
@@ -18,8 +19,7 @@ public class EnemiesGoal implements Goal {
 
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return "";
-        return ":enemies";
+            return GoalString.COMPLETED.toString();
+        return GoalString.ENEMY.toString();
     }
-
 }

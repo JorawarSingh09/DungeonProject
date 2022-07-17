@@ -115,7 +115,7 @@ public class EntityController {
         return null;
     }
 
-    public void addConfigs(JsonObject configs) {
+    private void addConfigs(JsonObject configs) {
         this.ally_attack = Integer.parseInt(configs.get("ally_attack").toString());
         this.ally_defence = Integer.parseInt(configs.get("ally_defence").toString());
         this.bribe_radius = Integer.parseInt(configs.get("bribe_radius").toString());
@@ -142,7 +142,7 @@ public class EntityController {
         this.zombie_spawn_rate = Integer.parseInt(configs.get("zombie_spawn_rate").toString());
     }
 
-    public void makeEntities(JsonArray entities, Dungeon dungeon) {
+    private void makeEntities(JsonArray entities, Dungeon dungeon) {
         Map<String, List<Portal>> portals = new HashMap<>();
         // create portal, add it to hashmap
         // send hashMap to portal factory at the end

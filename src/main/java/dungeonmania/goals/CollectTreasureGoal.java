@@ -4,9 +4,10 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.collectableentities.Treasure;
+import dungeonmania.enums.GoalString;
 
 public class CollectTreasureGoal implements Goal {
-    public int treasure;
+    private int treasure;
 
     public CollectTreasureGoal(int treasure) {
         this.treasure = treasure;
@@ -22,8 +23,8 @@ public class CollectTreasureGoal implements Goal {
 
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return "";
-        return ":treasure";
+            return GoalString.COMPLETED.toString();
+        return GoalString.TREASURE.toString();
     }
 
 }

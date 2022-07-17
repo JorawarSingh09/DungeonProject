@@ -55,7 +55,8 @@ public class Round {
                 multiplicativeBonus += item.battleBonus();
             }
         }
-        if (multiplicativeBonus == 0) multiplicativeBonus = 1;
+        if (multiplicativeBonus == 0)
+            multiplicativeBonus = 1;
         return ((playerAttackDamage + additiveBonus + allyAttackBonus()) * multiplicativeBonus);
     }
 

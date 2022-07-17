@@ -5,7 +5,8 @@ import java.util.List;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.util.Position;;
+import dungeonmania.util.Position;
+import dungeonmania.enums.GoalString;
 
 public class ExitGoal implements Goal {
 
@@ -21,10 +22,10 @@ public class ExitGoal implements Goal {
         return false;
     }
 
-    public String toString(Dungeon dungeon){
+    public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return "";
-        return ":exit";
+            return GoalString.COMPLETED.toString();
+        return GoalString.EXITGOAL.toString();
     }
 
 }

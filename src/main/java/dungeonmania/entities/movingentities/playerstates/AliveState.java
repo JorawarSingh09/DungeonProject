@@ -6,7 +6,6 @@ public class AliveState extends PlayerState {
 
     public AliveState(Player player) {
         super(player);
-        // TODO Auto-generated constructor stub
     }
 
     public void engageBattle(boolean playerDied) {

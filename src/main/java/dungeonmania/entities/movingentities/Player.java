@@ -1,6 +1,5 @@
 package dungeonmania.entities.movingentities;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +18,7 @@ import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
+import dungeonmania.enums.EntityString;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.enums.Usable;
 import dungeonmania.interfaces.Storeable;
@@ -32,18 +32,18 @@ public class Player extends Entity implements Moveable {
 
     private double health;
     private double attack;
-    Inventory inventory;
-    MovementStrategy moveStrat;
-    Direction movement;
-    List<Mercenary> mercenaries = new ArrayList<>();
-    Queue<Regenerative> queueItems = new LinkedList<>();
+    private Inventory inventory;
+    private MovementStrategy moveStrat;
+    private Direction movement;
+    private List<Mercenary> mercenaries = new ArrayList<>();
+    private Queue<Regenerative> queueItems = new LinkedList<>();
 
-    PlayerState state;
-    Position prevPosition;
-    PlayerState aliveState = new AliveState(this);
-    PlayerState deadState = new DeadState(this);
-    PlayerState invincState = new InvincibleState(this);
-    PlayerState invisState = new InvisibleState(this);
+    private PlayerState state;
+    private Position prevPosition;
+    private PlayerState aliveState = new AliveState(this);
+    private PlayerState deadState = new DeadState(this);
+    private PlayerState invincState = new InvincibleState(this);
+    private PlayerState invisState = new InvisibleState(this);
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
             double player_attack, double player_health, int bowDurability, int shieldDurability) {
@@ -86,7 +86,7 @@ public class Player extends Entity implements Moveable {
 
     public double loseHealth(double deltaHealth) {
         health = health + deltaHealth;
-        if (health <= 0){
+        if (health <= 0) {
             health = 0;
             state = getDeadState();
         }
@@ -138,7 +138,6 @@ public class Player extends Entity implements Moveable {
             }
         } else {
             state.tick(0);
-            // state = aliveState;
         }
     }
 
@@ -166,10 +165,8 @@ public class Player extends Entity implements Moveable {
 
     private void nextItem() {
         if (queueItems.peek() instanceof InvisibilityPotion) {
-            // drinkInvis(queueItems.peek().getItemId());
             state.drinkInvis();
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
-            // drinkInvinc(queueItems.peek().getItemId());
             state.drinkInvinc();
         }
     }
@@ -220,14 +217,15 @@ public class Player extends Entity implements Moveable {
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
             return ErrorString.BRIBERAD.toString();
-        if (!mercenary.isInteractable())  return ErrorString.NOTINTERACT.toString();
+        if (!mercenary.isInteractable())
+            return ErrorString.NOTINTERACT.toString();
         addAlly(mercenary);
         return ErrorString.SUCCESS.toString();
     }
 
     @Override
     public String getType() {
-        return "player";
+        return EntityString.PLAYER.toString();
     }
 
     public PlayerState getAliveState() {
@@ -251,8 +249,7 @@ public class Player extends Entity implements Moveable {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        // TODO Auto-generated method stub
-
+        return;
     }
 
     public boolean isTangible() {
@@ -265,7 +262,6 @@ public class Player extends Entity implements Moveable {
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
         this.moveStrat = movementStrategy;
-
     }
 
     public boolean isAllyToPlayer() {

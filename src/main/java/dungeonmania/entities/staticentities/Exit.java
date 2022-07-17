@@ -6,6 +6,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import dungeonmania.enums.EntityString;
 
 public class Exit extends Entity implements Static {
 
@@ -13,14 +14,13 @@ public class Exit extends Entity implements Static {
         super(id, position, interactable, collidable);
     }
 
-    @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
         player.setPosition(this.getPosition());
     }
 
     @Override
     public String getType() {
-        return "exit";
+        return EntityString.EXIT.toString();
     }
 
     public boolean isRepellent() {

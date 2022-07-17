@@ -1,19 +1,15 @@
 package dungeonmania.entities.movingentities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health {
@@ -25,10 +21,9 @@ public class Mercenary extends Entity implements Moveable, Health {
     private double health;
     private int bribe_radius;
     private int bribe_amount;
-    Position prevPosition;
-    MovementStrategy currMoveStrat;
-    MovementStrategy playerInvis = new RandomMovementStrategy(this);
-    MovementStrategy standard = new FollowPlayerMovementStrategy(this);
+    private MovementStrategy currMoveStrat;
+    private MovementStrategy playerInvis = new RandomMovementStrategy(this);
+    private MovementStrategy standard = new FollowPlayerMovementStrategy(this);
 
     public Mercenary(int id, Position position, boolean interactable, boolean collidable,
             double ally_attack, double ally_defence, double mercenary_attack,
@@ -100,13 +95,12 @@ public class Mercenary extends Entity implements Moveable, Health {
         } else {
             currMoveStrat = standard;
         }
-        //currMoveStrat.updateMovement(dungeon, player); caused merenary to move twice
 
         boolean foundPortal = false;
         for (Static portal : dungeon.getStaticsOnBlock(currMoveStrat.getNextPosition(dungeon, player))) {
             if (portal instanceof Portal) {
                 ((Portal) portal).mercenaryMoveOnto(this, dungeon, Position.getDirection(this.getPosition(),
-                    currMoveStrat.getNextPosition(dungeon, player)));
+                        currMoveStrat.getNextPosition(dungeon, player)));
 
                 foundPortal = true;
                 break;
@@ -119,7 +113,7 @@ public class Mercenary extends Entity implements Moveable, Health {
 
     @Override
     public String getType() {
-        return "mercenary";
+        return EntityString.MERCENARY.toString();
     }
 
     public boolean isTangible() {

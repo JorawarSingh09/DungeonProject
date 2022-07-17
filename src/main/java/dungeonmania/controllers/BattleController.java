@@ -12,14 +12,10 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;
 
 public class BattleController {
-    List<Battle> battles = new ArrayList<>();
+    private List<Battle> battles = new ArrayList<>();
     private int enemiesKilled;
     private boolean playerDied;
 
-    /*
-     * To start a new battle simply call newBattle from bc with the player and
-     * battling entity
-     */
     public BattleController() {
         this.enemiesKilled = 0;
     }

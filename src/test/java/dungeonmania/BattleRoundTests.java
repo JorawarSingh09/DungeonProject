@@ -17,26 +17,30 @@ import dungeonmania.util.Direction;
 
 public class BattleRoundTests {
 
-    private List<Boolean> assertBattleCalculations(String enemyType, List<BattleResponse> battles, String configFilePath, int numAllies) {
+    private List<Boolean> assertBattleCalculations(String enemyType, List<BattleResponse> battles,
+            String configFilePath, int numAllies) {
         List<Boolean> playerWinner = new ArrayList<>();
         for (BattleResponse battle : battles) {
             List<RoundResponse> rounds = battle.getRounds();
-            double playerHealth = Double.parseDouble(TestUtils.getValueFromConfigFile("player_health", configFilePath));
-            double enemyHealth = Double.parseDouble(TestUtils.getValueFromConfigFile(enemyType + "_health", configFilePath));
+            double enemyHealth = Double
+                    .parseDouble(TestUtils.getValueFromConfigFile(enemyType + "_health", configFilePath));
             double playerAttack = Double.parseDouble(TestUtils.getValueFromConfigFile("player_attack", configFilePath));
-            double enemyAttack = Double.parseDouble(TestUtils.getValueFromConfigFile(enemyType + "_attack", configFilePath));
+            double enemyAttack = Double
+                    .parseDouble(TestUtils.getValueFromConfigFile(enemyType + "_attack", configFilePath));
             double swordAttack = Double.parseDouble(TestUtils.getValueFromConfigFile("sword_attack", configFilePath));
             double bowAttack = 2;
-            double shieldDefence = Double.parseDouble(TestUtils.getValueFromConfigFile("shield_defence", configFilePath));
-            double allyAttackBonus = Double.parseDouble(TestUtils.getValueFromConfigFile("ally_attack", configFilePath));
-            double allyDefenceBonus = Double.parseDouble(TestUtils.getValueFromConfigFile("ally_defence", configFilePath));
-
+            double shieldDefence = Double
+                    .parseDouble(TestUtils.getValueFromConfigFile("shield_defence", configFilePath));
+            double allyAttackBonus = Double
+                    .parseDouble(TestUtils.getValueFromConfigFile("ally_attack", configFilePath));
+            double allyDefenceBonus = Double
+                    .parseDouble(TestUtils.getValueFromConfigFile("ally_defence", configFilePath));
 
             for (RoundResponse round : rounds) {
                 double weaponAttackAddBonus = 0;
                 double weaponDefenceAddBonus = 0;
                 double weaponAttackMultiBonus = 0;
-                for (ItemResponse weapon: round.getWeaponryUsed()) {
+                for (ItemResponse weapon : round.getWeaponryUsed()) {
                     if (weapon.getType().equals("sword")) {
                         weaponAttackAddBonus += swordAttack;
                     } else if (weapon.getType().equals("shield")) {
@@ -45,28 +49,29 @@ public class BattleRoundTests {
                         weaponAttackMultiBonus += bowAttack;
                     }
                 }
-                if (weaponAttackMultiBonus == 0) weaponAttackMultiBonus = 1;
+                if (weaponAttackMultiBonus == 0)
+                    weaponAttackMultiBonus = 1;
                 double playerAttackBonus = playerAttack + weaponAttackAddBonus + (allyAttackBonus * numAllies);
                 playerAttackBonus = playerAttackBonus * weaponAttackMultiBonus;
                 double enemyAttackBonus = enemyAttack - (weaponDefenceAddBonus + (allyDefenceBonus * numAllies));
                 assertEquals(round.getDeltaCharacterHealth(), -(enemyAttackBonus / 10));
                 assertEquals(round.getDeltaEnemyHealth(), -(playerAttackBonus / 5));
                 enemyHealth += round.getDeltaEnemyHealth();
-                playerHealth += round.getDeltaCharacterHealth();
             }
             if (enemyHealth <= 0) {
                 playerWinner.add(true);
             } else {
                 playerWinner.add(false);
             }
-     }
-     return playerWinner;    
-}
+        }
+        return playerWinner;
+    }
+
     @Test
     @DisplayName("Test a battle with player and mercenery which lasts several rounds")
     public void testMercenaryBattleWithoutWeapons() {
         DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
-        List <BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
+        List<BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
         assertEquals(0, battles.size());
         DungeonResponse atBattleDungeon = mc.tick(Direction.RIGHT);
         battles = atBattleDungeon.getBattles();
@@ -80,7 +85,7 @@ public class BattleRoundTests {
     @DisplayName("Test a battle with player and mercenery which lasts several rounds with weapons")
     public void testMercenaryBattleWithWeapons() {
         DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
-        List <BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
+        List<BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
         assertEquals(0, battles.size());
         mc.tick(Direction.DOWN);
         DungeonResponse pickupSword = mc.tick(Direction.DOWN);
@@ -92,8 +97,8 @@ public class BattleRoundTests {
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
         assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 0));
-        mc.tick(Direction.RIGHT);  
-        pickupSword = mc.tick(Direction.UP);   
+        mc.tick(Direction.RIGHT);
+        pickupSword = mc.tick(Direction.UP);
         assertEquals(2, pickupSword.getInventory().size());
         assertEquals(2, pickupSword.getBattles().size());
         battles = pickupSword.getBattles();
@@ -115,7 +120,7 @@ public class BattleRoundTests {
         dungeon = mc.tick(Direction.UP);
         dungeon = mc.tick(Direction.RIGHT);
         assertEquals(1, dungeon.getBattles().size());
-        List <BattleResponse> battles = dungeon.getBattles();
+        List<BattleResponse> battles = dungeon.getBattles();
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
         assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 1));
@@ -136,10 +141,10 @@ public class BattleRoundTests {
         dungeon = mc.tick(Direction.UP);
         assertEquals(2, dungeon.getInventory().size());
         assertDoesNotThrow(() -> mc.interact("3"));
-        mc.tick(Direction.RIGHT); 
+        mc.tick(Direction.RIGHT);
         dungeon = mc.tick(Direction.RIGHT);
         assertEquals(1, dungeon.getBattles().size());
-        List <BattleResponse> battles = dungeon.getBattles();
+        List<BattleResponse> battles = dungeon.getBattles();
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
         assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 2));
