@@ -33,8 +33,7 @@ public class ZombieTests {
     @Test
     @DisplayName("Test that player cannot move towards zombietoastspawner")
     public void testZombieToastSpawnerStatic() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_zombiesTest", "c_zombiesTest");
+        DungeonManiaController dmc = TestUtils.createDungeon("d_zombiesTest", "c_zombiesTest");
         dmc.tick(Direction.RIGHT);
         DungeonResponse res = dmc.tick(Direction.DOWN);
         Position playerPos = getPlayer(res).get().getPosition();
@@ -46,8 +45,7 @@ public class ZombieTests {
     @Test
     @DisplayName("Test zombie movement when only one position available and kill zombie")
     public void testZombie() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_zombiesTest2", "c_zombiesTest");
+        DungeonManiaController dmc = TestUtils.createDungeon("d_zombiesTest2", "c_zombiesTest");
         DungeonResponse res = dmc.tick(Direction.DOWN);
         Position zombiePos = getEntities(res, "zombie_toast").get(0).getPosition();
         assertEquals(new Position(1, 3), zombiePos);
@@ -58,8 +56,8 @@ public class ZombieTests {
     @Test
     @DisplayName("Test that the right number of zombies spawn")
     public void testZombieSpawnNumber() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_zombiesTest", "c_zombiesTest");
+        DungeonManiaController dmc = TestUtils.createDungeon("d_zombiesTest", "c_zombiesTest");
+        DungeonResponse res = dmc.getDungeonResponseModel();
         int size = getEntities(res, "zombie_toast").size();
         assertEquals(0, size);
         res = dmc.tick(Direction.UP);
@@ -74,8 +72,8 @@ public class ZombieTests {
     @Test
     @DisplayName("Test that player cannot interact with zombie spawner without weapon")
     public void testInteractZombieSpawnerNoWeapon() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_zombiesTest", "c_zombiesTest");
+        DungeonManiaController dmc = TestUtils.createDungeon("d_zombiesTest", "c_zombiesTest");
+        DungeonResponse res = dmc.getDungeonResponseModel();
         dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.DOWN);
         String id = getEntities(res, "zombie_toast_spawner").get(0).getId();

@@ -27,8 +27,6 @@ public class Round {
     }
 
     public double playerHealthChange() {
-        System.out.println(calculatePlayerDefenceBonus());
-        System.out.println("got enemy bonis" + (-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus());
         return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus()) / 10);
     }
 
@@ -86,7 +84,6 @@ public class Round {
         for (Mercenary ally : allies) {
             defenceBonus += ally.getAllyDefenceBonus();
         }
-        System.out.println(defenceBonus);
         return defenceBonus;
     }
 
