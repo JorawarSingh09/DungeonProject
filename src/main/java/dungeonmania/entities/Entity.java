@@ -1,7 +1,6 @@
 package dungeonmania.entities;
 
 import dungeonmania.util.Position;
-import dungeonmania.enums.EntityString;
 
 public abstract class Entity {
     private int entityId;
