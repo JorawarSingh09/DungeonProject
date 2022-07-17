@@ -2,6 +2,7 @@ package dungeonmania.entities.movingentities.properties.movements;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
 
@@ -38,7 +39,10 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
             distance = Double.NEGATIVE_INFINITY;
 
         for (Position pos : follower.getCardinallyAdjacentPositions()) {
-            if (getMinMaxDis(pos, followed, distance) && dungeon.getStaticsOnBlock(pos).size() < 1) {
+            if (getMinMaxDis(pos, followed, distance) && dungeon.getStaticsOnBlock(pos).size() < 1
+                || getMinMaxDis(pos, followed, distance) && 
+                    dungeon.getStaticsOnBlock(pos).size() == 1 &&
+                        dungeon.getStaticsOnBlock(pos).get(0) instanceof Portal) {
                 distance = Position.getDistanceBetweenTwoPositions(pos, followed);
                 newPos = pos;
             }

@@ -51,9 +51,9 @@ public class SystemLevelTests {
         dmc.tick(Direction.RIGHT);
         assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
         // Can only hold one key at a time
-        // dmc.tick(Direction.RIGHT);
-        // assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
-        // dmc.tick(Direction.LEFT);
+        dmc.tick(Direction.RIGHT);
+        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.LEFT);
         dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.DOWN);

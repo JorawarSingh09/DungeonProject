@@ -248,6 +248,10 @@ public class Player extends Entity implements Moveable {
         return inventory.getAttackingItems().size() > 0;
     }
 
+    public boolean hasKey() {
+        return inventory.getKeys().size() > 0;
+    }
+
     public void updatePosition(Dungeon dungeon, Player player) {
         return;
     }
