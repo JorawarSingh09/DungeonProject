@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import org.reflections.Store;
 
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
@@ -66,6 +69,12 @@ public class Inventory {
         return items.containsKey(id);
     }
 
+    public List<Storeable> getKeys() {
+        return inventoryItems.stream()
+                .filter(e -> e.getType().equals("key"))
+                .collect(Collectors.toList());
+    }
+
     public List<Storeable> getInventoryItems() {
         return inventoryItems;
     }
@@ -115,7 +124,7 @@ public class Inventory {
     }
 
     public void updateWeaponsDurability() {
-        List<Integer> idsToRemove  = new ArrayList<>();
+        List<Integer> idsToRemove = new ArrayList<>();
         for (Durability weapon : weapons) {
             weapon.reduceDurability();
             if (weapon.getDurability() <= 0) {
