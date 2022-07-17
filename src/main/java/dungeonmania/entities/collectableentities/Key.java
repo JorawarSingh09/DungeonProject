@@ -17,6 +17,7 @@ public class Key extends Entity implements Storeable, Collectable {
 
     @Override
     public void pickup(Player player, Dungeon dungeon) {
+        // if(player.has)
         player.addItem(this);
         dungeon.removeEntity(this);
 
