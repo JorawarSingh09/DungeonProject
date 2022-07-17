@@ -2,47 +2,30 @@ package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
-public class Shield extends Entity implements Buildable, Storeable, Defending, Durability{
+public class Shield extends Entity implements Buildable, Storeable, Defending, Durability {
 
     private int durability;
     private int defence;
-    
+
     public Shield(int id, boolean interactable, boolean collidable, int durability, int defence) {
-        super(id, new Position(0,0), interactable, collidable);
+        super(id, new Position(0, 0), interactable, collidable);
         this.durability = durability;
         this.defence = defence;
     }
 
-    @Override
-    public void build(Player player) {
-        // TODO Auto-generated method stub
-    }
-
     public void reduceDurability() {
         this.durability -= 1;
-        
     }
 
     public int getDurability() {
         return durability;
-    }
-
-    @Override
-    public void reduceEnemyAttack() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void consumeItems(Player player) {
-        // TODO Auto-generated method stub
-        
     }
 
     public int battleBonus() {
@@ -54,7 +37,19 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     public String getType() {
-        return "shield";
+        return EntityString.SHIELD.toString();
+    }
+
+    @Override
+    public void build(Player player) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void consumeItems(Player player) {
+        // TODO Auto-generated method stub
+
     }
 
 }

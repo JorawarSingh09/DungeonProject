@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 
+import static dungeonmania.TestUtils.getEntities;
+
 public class SystemLevelTests {
 
     @Test
@@ -42,7 +44,7 @@ public class SystemLevelTests {
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.DOWN);
-        //Pick up treasure
+        // Pick up treasure
         assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
@@ -56,7 +58,7 @@ public class SystemLevelTests {
         dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.DOWN);
-        Assertions.assertDoesNotThrow(()->(dmc.build("shield")));
+        Assertions.assertDoesNotThrow(() -> (dmc.build("shield")));
         assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
@@ -66,7 +68,7 @@ public class SystemLevelTests {
         assertEquals(7, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.RIGHT);
         assertEquals(8, dmc.getDungeonResponseModel().getInventory().size());
-        Assertions.assertDoesNotThrow(()->(dmc.build("bow")));
+        Assertions.assertDoesNotThrow(() -> (dmc.build("bow")));
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
@@ -78,7 +80,6 @@ public class SystemLevelTests {
         assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
     }
 
-    
     @Test
     @DisplayName("Player pushes boulders to complete goal")
     public void playerPushBoulderCompleteGoal() {
@@ -112,11 +113,11 @@ public class SystemLevelTests {
     @Test
     @DisplayName("Player destroys zombiespawner")
     public void playerDestroysZombieSpawner() {
-        DungeonManiaController dmc = TestUtils.createDungeon("zombies", "bribe_amount_3");
+        DungeonManiaController dmc = TestUtils.createDungeon("zombies", "increasedSwordDurbility");
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.RIGHT);
         Assertions.assertDoesNotThrow(() -> (dmc.interact("2")));
-        assertEquals(4, dmc.getDungeonResponseModel().getEntities().size());
+        assertEquals(0, getEntities(dmc.getDungeonResponseModel(), "zombie_toast_spawner").size());
     }
-    
+
 }

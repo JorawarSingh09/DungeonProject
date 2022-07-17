@@ -1,8 +1,6 @@
 package dungeonmania.goals;
 
 public enum GoalCondition {
-    AND, 
+    AND,
     OR;
-
-    
 }

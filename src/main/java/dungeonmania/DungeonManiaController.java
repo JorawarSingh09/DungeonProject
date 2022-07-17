@@ -1,7 +1,6 @@
 package dungeonmania;
 
 import dungeonmania.controllers.EntityController;
-import dungeonmania.entities.Entity;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -98,7 +97,6 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        ;
         dungeon.updateMovement(movementDirection);
         dungeon.tick(true);
         return dungeon.createDungeonResponse();
@@ -109,7 +107,7 @@ public class DungeonManiaController {
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         // If buildable is not one of bow, shield
-        if (!buildable.equals("bow") && !buildable.equals("shield"))
+        if (!Dungeon.itemIsBuildable(buildable))
             throw new IllegalArgumentException("not buildable item");
         // If the player does not have sufficient items to craft the buildable
         if (!dungeon.canBuild(buildable))

@@ -13,7 +13,6 @@ public class RandomMovementStrategy extends MovementStrategy {
 
     public RandomMovementStrategy(Moveable movingEntity) {
         super(movingEntity);
-        //TODO Auto-generated constructor stub
     }
 
     public Position getNextPosition(Dungeon dungeon, Player player) {
@@ -29,9 +28,9 @@ public class RandomMovementStrategy extends MovementStrategy {
         return movingEntity.getPosition();
     }
 
-        
     public void updateMovement(Dungeon dungeon, Player player) {
-        if (nextStepIsMoveable(dungeon, player)) movingEntity.setPosition(getNextPosition(dungeon, player));
+        if (nextStepIsMoveable(dungeon, player))
+            movingEntity.setPosition(getNextPosition(dungeon, player));
     }
 
 }

@@ -1,10 +1,11 @@
 package dungeonmania.goals;
 
 import dungeonmania.Dungeon;
+import dungeonmania.enums.GoalString;
 
 public class ComplexGoal implements Goal {
-    Goal goal1 = null;
-    Goal goal2 = null;
+    private Goal goal1 = null;
+    private Goal goal2 = null;
     public GoalCondition condition;
 
     public ComplexGoal(GoalCondition condition) {
@@ -35,7 +36,7 @@ public class ComplexGoal implements Goal {
         } else if (!goal2.isGoalCompleted(dungeon)) {
             return goal2.toString(dungeon);
         }
-        return "";
+        return GoalString.COMPLETED.toString();
 
     }
 

@@ -6,7 +6,6 @@ public class InvincibleState extends PlayerState {
 
     public InvincibleState(Player player) {
         super(player);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

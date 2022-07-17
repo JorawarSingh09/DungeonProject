@@ -8,7 +8,7 @@ public abstract class PlayerState {
     public PlayerState(Player player) {
         this.player = player;
     }
-    
+
     public void engageBattle(boolean playerDied) {
         // Do nothing
     }

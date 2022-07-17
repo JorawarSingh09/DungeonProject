@@ -9,12 +9,12 @@ import dungeonmania.interfaces.Health;
 
 public class Battle {
 
-    List<Round> rounds = new ArrayList<>();
-    Health enemy;
-    Player player;
-    Inventory playerInventory;
-    double initialPlayerHealth;
-    double initialEnemyHealth;
+    private List<Round> rounds = new ArrayList<>();
+    private Health enemy;
+    private Player player;
+    private Inventory playerInventory;
+    private double initialPlayerHealth;
+    private double initialEnemyHealth;
 
     public Battle(Health enemy, Player player, Inventory playerInventory) {
         this.enemy = enemy;
@@ -35,7 +35,7 @@ public class Battle {
         // Update player state
     }
 
-    public void startRound() {
+    private void startRound() {
         Round round = new Round(player.getAttack(), enemy.getAttackDamage(),
                 playerInventory.getAttackingItems(), playerInventory.getDefendingItems(),
                 player.getAllies());
@@ -57,7 +57,7 @@ public class Battle {
     }
 
     private void updateWeaponDurability() {
-        
+
         playerInventory.updateWeaponsDurability();
     }
 

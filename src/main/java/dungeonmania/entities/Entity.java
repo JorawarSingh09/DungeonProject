@@ -1,12 +1,13 @@
 package dungeonmania.entities;
 
 import dungeonmania.util.Position;
+import dungeonmania.enums.EntityString;
 
-public class Entity {
-    int entityId;
-    Position position;
-    boolean Collidable;
-    boolean Interactable;
+public abstract class Entity {
+    private int entityId;
+    private Position position;
+    private boolean Collidable;
+    private boolean Interactable;
 
     public Entity(int entityId, Position position, boolean interactable, boolean collidable) {
         this.entityId = entityId;
@@ -15,9 +16,7 @@ public class Entity {
         this.Collidable = collidable;
     }
 
-    public String getType() {
-        return "Entity";
-    }
+    public abstract String getType();
 
     public int getEntityId() {
         return entityId;
@@ -42,12 +41,6 @@ public class Entity {
     public void setInteractable(boolean isInteractable) {
         this.Interactable = isInteractable;
     }
-
-    // public void moveTo(int xPos, int yPos) {
-    //     setXPos(xPos);
-    //     setYPos(yPos);
-    //     setPosition();
-    // }
 
     public void setPosition(Position position) {
         this.position = position;

@@ -12,12 +12,12 @@ import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.interfaces.Spawn;
 import dungeonmania.util.Position;
 
-public class SpiderSpawn implements Spawn {
-    List<Position> spawnArea = new ArrayList<>();
-    int spawnRate;
-    int radius;
-    double spiderAttack;
-    double spiderHealth;
+public class SpiderSpawn implements Spawn<Spider> {
+    private List<Position> spawnArea = new ArrayList<>();
+    private int spawnRate;
+    private int radius;
+    private double spiderAttack;
+    private double spiderHealth;
 
     public SpiderSpawn(int spawnRate, Position playerSpawnBlock,
             double spiderAttack, double spiderHealth) {

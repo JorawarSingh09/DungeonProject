@@ -14,25 +14,6 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
         reversed = false;
     }
 
-    // public Position nextStep(Dungeon dungeon, boolean isAlly, Player player,
-    // Position followed,
-    // Position follower) {
-    // // check adjacent position, calculate distance between position,
-
-    // // friends,and your next move is on player,
-    // if (isAlly && followed.equals(findMoveableBlock(dungeon, followed,
-    // follower))) {
-    // // player hasnt moved you do not move
-    // if (player.getPosition().equals(player.getPreviousPosition())) {
-    // return follower;
-    // }
-    // } else if (isAlly && followed.equals(follower)) {
-    // // player has moved, swap
-    // return player.getPreviousPosition();
-    // }
-    // return findMoveableBlock(dungeon, followed, follower);
-    // }
-
     public Position getNextPosition(Dungeon dungeon, Player player) {
         Position followed = player.getPosition();
         Position follower = movingEntity.getPosition();

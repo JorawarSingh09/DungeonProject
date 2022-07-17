@@ -2,7 +2,6 @@ package dungeonmania.spawners;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
@@ -14,7 +13,7 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class ZombieToastSpawner extends Entity implements Static, Spawn {
+public class ZombieToastSpawner extends Entity implements Static, Spawn<ZombieToast> {
 
     private int spawnRate;
     private double attack;
@@ -47,7 +46,7 @@ public class ZombieToastSpawner extends Entity implements Static, Spawn {
         return spawnRate;
     }
 
-    public void setSpawnRate(int spawnRate){
+    public void setSpawnRate(int spawnRate) {
         this.spawnRate = spawnRate;
     }
 
@@ -62,9 +61,8 @@ public class ZombieToastSpawner extends Entity implements Static, Spawn {
         return "zombie_toast_spawner";
     }
 
-	public boolean isRepellent() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean isRepellent() {
+        return false;
+    }
 
 }

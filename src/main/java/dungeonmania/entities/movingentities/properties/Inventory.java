@@ -3,12 +3,8 @@ package dungeonmania.entities.movingentities.properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import org.reflections.Store;
 
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
