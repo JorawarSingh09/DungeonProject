@@ -3,13 +3,14 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class InvincibilityPotion extends Entity implements Storeable, Collectable, Regenerative {
-    
+
     private int duration;
 
     public InvincibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
@@ -23,18 +24,19 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     }
 
     public int getItemId() {
-        return getEntityId();    }
+        return getEntityId();
+    }
 
     public int getRemainingDuration() {
         return duration;
     }
 
     public void decrementDuration() {
-        duration -= 1;
+        duration--;
     }
 
     public String getType() {
-        return "invincibility_potion";
+        return EntityString.INVINCIBILITYPOTION.toString();
     }
 
 }

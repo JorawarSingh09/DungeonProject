@@ -1,22 +1,19 @@
 package dungeonmania.entities.movingentities;
 
-import java.util.Collections;
-
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.movingentities.properties.movements.CircularMovement;
 import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Spider extends Entity implements Moveable, Health {
 
     private double attack;
     private double health;
-    MovementStrategy moveStrat;
+    private MovementStrategy moveStrat;
 
     public Spider(int id, Position position, boolean interactable, boolean collidable,
             double attack, double health) {
@@ -37,7 +34,6 @@ public class Spider extends Entity implements Moveable, Health {
     public Position getNextPosition(Dungeon dungeon, Player player) {
         return moveStrat.getNextPosition(dungeon, player);
     }
-
 
     public void reversePath() {
         moveStrat.reversePath();
@@ -63,22 +59,19 @@ public class Spider extends Entity implements Moveable, Health {
 
     @Override
     public String getType() {
-        return "spider";
+        return EntityString.SPIDER.toString();
     }
 
-    @Override
     public boolean isTangible() {
         return false;
     }
 
-    @Override
     public MovementStrategy getMovementStrategy() {
         return moveStrat;
     }
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
         moveStrat = movementStrategy;
-        
     }
 
     public boolean isAllyToPlayer() {

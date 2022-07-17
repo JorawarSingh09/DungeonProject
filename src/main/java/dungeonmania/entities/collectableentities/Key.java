@@ -3,12 +3,13 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Key extends Entity implements Storeable, Collectable {
-    int keyPair;
+    private int keyPair;
 
     public Key(int id, Position position, int keyPair) {
         super(id, position, false, false);
@@ -17,10 +18,8 @@ public class Key extends Entity implements Storeable, Collectable {
 
     @Override
     public void pickup(Player player, Dungeon dungeon) {
-        // if(player.has)
         player.addItem(this);
         dungeon.removeEntity(this);
-
     }
 
     public int getItemId() {
@@ -32,7 +31,7 @@ public class Key extends Entity implements Storeable, Collectable {
     }
 
     public String getType() {
-        return "key";
+        return EntityString.KEY.toString();
     }
 
 }

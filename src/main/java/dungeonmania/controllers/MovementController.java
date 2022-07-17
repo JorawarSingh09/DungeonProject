@@ -1,27 +1,20 @@
 package dungeonmania.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.Spider;
-import dungeonmania.entities.staticentities.Boulder;
 import dungeonmania.entities.staticentities.FloorSwitch;
-import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
-import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
 public class MovementController {
 
-    Player player;
-    Dungeon dungeon;
-
-    boolean allSwitchestriggered;
+    private Player player;
+    private Dungeon dungeon;
+    private boolean allSwitchestriggered;
 
     public MovementController(Player player, Dungeon dungeon) {
         this.player = player;

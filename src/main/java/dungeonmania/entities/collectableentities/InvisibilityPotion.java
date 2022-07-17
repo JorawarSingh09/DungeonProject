@@ -3,13 +3,14 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class InvisibilityPotion extends Entity implements Collectable, Storeable, Regenerative {
-    
+
     private int duration;
 
     public InvisibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
@@ -18,7 +19,7 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
     }
 
     public void use() {
-        duration -= 1;
+        duration--;
     }
 
     public void pickup(Player player, Dungeon dungeon) {
@@ -28,18 +29,19 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
     }
 
     public int getItemId() {
-        return getEntityId();    }
+        return getEntityId();
+    }
 
     public int getRemainingDuration() {
         return duration;
     }
 
     public void decrementDuration() {
-        duration -= 1;
+        duration--;
     }
 
     public String getType() {
-        return "invisibility_potion";
+        return EntityString.INVISIBILITYPOTION.toString();
     }
 
 }

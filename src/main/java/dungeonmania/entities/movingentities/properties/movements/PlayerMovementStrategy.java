@@ -19,7 +19,6 @@ public class PlayerMovementStrategy extends MovementStrategy {
         Position newPosition = (new Position(player.getPosition().getX(), player.getPosition().getY()))
                 .translateBy(player.getMovement());
 
-        // TODO Auto-generated method stub
         return newPosition;
     }
 
@@ -28,12 +27,12 @@ public class PlayerMovementStrategy extends MovementStrategy {
         List<Static> entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);
         // Check for zombie Spawner
         player.setPreviousPosition(player.getPosition());
-        
+
         for (Static entity : entitiesOnNextBlock) {
             entity.playerOnTo(player, dungeon, player.getMovement());
         }
-        
-        if (entitiesOnNextBlock.size() < 1){
+
+        if (entitiesOnNextBlock.size() < 1) {
             player.setPosition(newPosition);
         }
 

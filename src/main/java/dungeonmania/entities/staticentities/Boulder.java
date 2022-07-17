@@ -1,12 +1,11 @@
 package dungeonmania.entities.staticentities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -18,9 +17,6 @@ public class Boulder extends Entity implements Static {
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        // Check if the next block has entities on it
-        Position playerPos = player.getPosition();
-        Position boulderPos = getPosition();
 
         if (checkNextPos(getPosition().translateBy(direction), dungeon, player, direction)) {
             player.setPosition(this.getPosition());
@@ -29,7 +25,7 @@ public class Boulder extends Entity implements Static {
     }
 
     private boolean checkNextPos(Position position, Dungeon dungeon, Player player, Direction direction) {
-        for (Static portal : dungeon.getStaticsOnBlock(position)) { // get portals from thingy
+        for (Static portal : dungeon.getStaticsOnBlock(position)) {
             if (portal instanceof Portal) {
                 Position pos = getPosition();
                 ((Portal) portal).boulderMoveOnto(this, dungeon, direction);
@@ -45,7 +41,7 @@ public class Boulder extends Entity implements Static {
 
     @Override
     public String getType() {
-        return "boulder";
+        return EntityString.BOULDER.toString();
     }
 
     public boolean isRepellent() {
