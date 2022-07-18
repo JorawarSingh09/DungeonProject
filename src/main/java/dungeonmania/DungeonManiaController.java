@@ -8,6 +8,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonArray;
@@ -18,6 +19,7 @@ public class DungeonManiaController {
 
     private int currMaxDungeonId = 0;
     Dungeon dungeon;
+    
 
     public String getSkin() {
         return "default";
