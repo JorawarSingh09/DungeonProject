@@ -91,4 +91,21 @@ Done goals, thinking about redesign for goal and complex goals ,
 
 ### Agenda
 
-###
+### 18/07/2022
+
+Discussed new spec
+added to dependency
+created and assigned issues and new format
+
+1. Design
+2. Write test cases
+3. Make tests
+4. Implement
+5. Make a merge request
+
+
+Design - 21st
+Write test cases - 22nd
+Make tests- 23rd
+Implement - 26th
+Make a merge request

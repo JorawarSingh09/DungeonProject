@@ -40,13 +40,4 @@ public class mercenaryTest {
         player.attemptBribe(merc);
         assertEquals(true, merc.isAllyToPlayer());
     }
-
-    // test mercenary movement
-    @Test
-    @DisplayName("test that a mercenary follows player")
-    public void doesFollowPlayer() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("mercenary1",
-                "c_mercenary_bribe_easy");
-    }
 }

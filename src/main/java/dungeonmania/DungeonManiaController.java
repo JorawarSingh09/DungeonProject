@@ -8,6 +8,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonArray;
@@ -18,6 +19,7 @@ public class DungeonManiaController {
 
     private int currMaxDungeonId = 0;
     Dungeon dungeon;
+    
 
     public String getSkin() {
         return "default";
@@ -130,4 +132,26 @@ public class DungeonManiaController {
         dungeon.tick(false);
         return dungeon.createDungeonResponse();
     }
+
+    /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        return null;
+    }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        return null;
+    }
+
+    /**
+     * /games/all
+     */
+    public List<String> allGames() {
+        return new ArrayList<>();
+    }
+
 }

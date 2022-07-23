@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 
 import static dungeonmania.TestUtils.getEntities;
@@ -52,9 +51,9 @@ public class SystemLevelTests {
         dmc.tick(Direction.RIGHT);
         assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
         // Can only hold one key at a time
-        // dmc.tick(Direction.RIGHT);
-        // assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
-        // dmc.tick(Direction.LEFT);
+        dmc.tick(Direction.RIGHT);
+        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.LEFT);
         dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.DOWN);
