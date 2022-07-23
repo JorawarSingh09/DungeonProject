@@ -46,12 +46,12 @@ public class Player extends Entity implements Moveable {
     private PlayerState invisState = new InvisibleState(this);
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
-            double player_attack, double player_health, int bowDurability, int shieldDurability) {
+            double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence) {
         super(id, position, interactable, collidable);
         this.prevPosition = position;
         this.health = player_health;
         this.attack = player_attack;
-        this.inventory = new Inventory(bowDurability, shieldDurability, getPosition());
+        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, getPosition());
         this.state = aliveState;
         this.moveStrat = new PlayerMovementStrategy(this);
     }
@@ -201,6 +201,10 @@ public class Player extends Entity implements Moveable {
 
     public boolean hasKey(int keyPair) {
         return inventory.hasRightKey(keyPair);
+    }
+
+    public boolean hasSunStone() {
+        return inventory.hasSunStone();
     }
 
     public Position getPreviousPosition() {

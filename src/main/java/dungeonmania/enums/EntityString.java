@@ -174,5 +174,12 @@ public enum EntityString {
             return "entity";
         }
 
+    },
+
+    SUNSTONE {
+
+        public String toString() {
+            return "sun_stone";
+        }
     }
 }
