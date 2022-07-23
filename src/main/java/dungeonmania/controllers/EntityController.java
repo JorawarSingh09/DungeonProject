@@ -17,6 +17,7 @@ import dungeonmania.entities.collectableentities.Bomb;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
 import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.collectableentities.Key;
+import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Sword;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.Wood;
@@ -154,7 +155,7 @@ public class EntityController {
                 case "player":
                     Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
                             this.player_attack, this.player_health,
-                            bow_durability, shield_durability);
+                            bow_durability, shield_durability, shield_defence);
                     dungeon.addEntity(player);
                     dungeon.setPlayer(player);
                     dungeon.setSpiderSpawner(
@@ -241,6 +242,9 @@ public class EntityController {
                 case "shield":
                     dungeon.addEntity(new Shield(dungeon.getCurrMaxEntityId(), false, false, this.shield_durability,
                             this.shield_defence));
+                    break;
+                case "sun_stone":
+                    dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
 
             }

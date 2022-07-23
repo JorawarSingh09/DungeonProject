@@ -3,6 +3,7 @@ package dungeonmania.goals;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.Inventory;
+import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.enums.GoalString;
 
@@ -16,7 +17,7 @@ public class CollectTreasureGoal implements Goal {
     public boolean isGoalCompleted(Dungeon dungeon) {
         Player player = dungeon.getPlayer();
         Inventory inventory = player.getInventory();
-        int treasureCount = inventory.countItem(Treasure.class);
+        int treasureCount = (inventory.countItem(Treasure.class) + inventory.countItem(Sunstone.class));
 
         return (treasureCount >= this.treasure);
     }

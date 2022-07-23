@@ -47,6 +47,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         return getEntityId();
     }
 
+    @Override
     public String getType() {
         return EntityString.SWORD.toString();
     }

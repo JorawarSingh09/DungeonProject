@@ -10,6 +10,7 @@ import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
 import dungeonmania.entities.collectableentities.Key;
+import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.Wood;
 import dungeonmania.interfaces.Attacking;
@@ -30,11 +31,14 @@ public class Inventory {
     public Map<Integer, String> itemHistory = new HashMap<>();
     private int bowDurability;
     private int shieldDurability;
+    private int shieldDefence;
+
     // private Position playerPos;
 
-    public Inventory(int bowDurability, int shieldDurability, Position playerPos) {
+    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, Position playerPos) {
         this.bowDurability = bowDurability;
         this.shieldDurability = shieldDurability;
+        this.shieldDefence = shieldDefence;
     }
 
     public void addItem(Storeable item) {
@@ -81,8 +85,8 @@ public class Inventory {
         int arrows = countItem(Arrow.class);
         int treasure = countItem(Treasure.class);
         int key = countItem(Key.class);
-        ;
-        if ((key >= 1 || treasure >= 1) && (wood >= 2)) {
+
+        if ((hasSunStone() || key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
         } else if (wood >= 1 && arrows >= 3) {
             buildables.add("bow");
@@ -93,7 +97,7 @@ public class Inventory {
     public void build(String itemBuild, int nextItemMaxId) {
         switch (itemBuild) {
             case "shield":
-                Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, 2);
+                Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, shieldDefence);
                 inventoryItems.add(shield);
                 buildableItems.add(shield);
                 weapons.add(shield);
@@ -145,8 +149,10 @@ public class Inventory {
 
     private void removeShieldItems() {
         removeItem(2, Wood.class);
-        if (!removeItem(1, Treasure.class)) {
-            removeItem(1, Key.class);
+        if (!hasSunStone()) {
+            if (!removeItem(1, Treasure.class)) {
+                removeItem(1, Key.class);
+            }
         }
     }
 
@@ -199,4 +205,9 @@ public class Inventory {
             removeItemById(foundItem.getItemId());
         return foundKey;
     }
+
+    public boolean hasSunStone() {
+        return (countItem(Sunstone.class) > 0);
+    }
+
 }
