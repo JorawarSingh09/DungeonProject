@@ -23,7 +23,7 @@ public class Door extends Entity implements Static {
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        if (player.hasKey(keyPair) || doorOpen) {
+        if (player.hasSunStone() || player.hasKey(keyPair) || doorOpen) {
             player.setPosition(this.getPosition());
             setCollidable(false);
             this.doorOpen = true;
