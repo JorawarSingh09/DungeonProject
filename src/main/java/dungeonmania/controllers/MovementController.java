@@ -6,6 +6,7 @@ import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.staticentities.FloorSwitch;
+import dungeonmania.entities.staticentities.SwampTile;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Direction;
@@ -56,7 +57,7 @@ public class MovementController {
 
     public void updateEntityPositions() {
         for (Moveable enemy : dungeon.getEnemies()) {
-            enemy.updatePosition(dungeon, player);
+            if (!isStuckOnSwampTile(enemy)) enemy.updatePosition(dungeon, player);
         }
         checkBattles();
         checkSwitchBehaviour();
@@ -69,4 +70,14 @@ public class MovementController {
                 dungeon.startBattle(enemy);
         }
     }
+
+    private boolean isStuckOnSwampTile(Moveable enemy) {
+        for (SwampTile swampTile : dungeon.getSwampTiles()) {
+            if (swampTile.entityStuck(enemy, dungeon)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

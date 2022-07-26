@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Position;
 
-public class mercenaryTest {
+public class MercenaryTests {
     /**
      * Mercenaries do not spawn; they are only present if created as part of the
      * dungeon. They constantly move towards the Player, stopping only if they
