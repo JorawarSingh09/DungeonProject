@@ -181,5 +181,12 @@ public enum EntityString {
         public String toString() {
             return "sun_stone";
         }
+    },
+
+    SWAMPTILE {
+
+        public String toString() {
+            return "swamp_tile";
+        }
     }
 }

@@ -30,6 +30,7 @@ import dungeonmania.entities.staticentities.Door;
 import dungeonmania.entities.staticentities.Exit;
 import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.SwampTile;
 import dungeonmania.entities.staticentities.Wall;
 import dungeonmania.goals.BoulderGoal;
 import dungeonmania.goals.CollectTreasureGoal;
@@ -246,7 +247,11 @@ public class EntityController {
                 case "sun_stone":
                     dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
-
+                case "swamp_tile":
+                    SwampTile swampTile = new SwampTile(dungeon.getCurrMaxEntityId(), new Position(x, y), Integer.parseInt(((JsonObject) entity).get("movement_factor").toString()));
+                    dungeon.addEntity(swampTile);
+                    dungeon.addSwampTile(swampTile);
+                    break;
             }
         }
         portalFactory(portals);
