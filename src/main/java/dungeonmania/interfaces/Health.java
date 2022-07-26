@@ -1,5 +1,7 @@
 package dungeonmania.interfaces;
 
+import dungeonmania.util.Position;
+
 public interface Health {
     /* Same as Enemy */
     public double getHealth();
@@ -15,4 +17,5 @@ public interface Health {
     public String getType();
 
     public boolean isAlly();
+
 }

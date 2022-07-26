@@ -1,5 +1,7 @@
 package dungeonmania.entities.movingentities.properties.movements;
 
+import java.util.stream.Collectors;
+
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.staticentities.Portal;
@@ -39,7 +41,7 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
             distance = Double.NEGATIVE_INFINITY;
 
         for (Position pos : follower.getCardinallyAdjacentPositions()) {
-            if (getMinMaxDis(pos, followed, distance) && dungeon.getStaticsOnBlock(pos).size() < 1
+            if (getMinMaxDis(pos, followed, distance) && dungeon.getStaticsOnBlock(pos).stream().filter(t -> (t.isCollidable())).collect(Collectors.toList()).size() < 1
                 || getMinMaxDis(pos, followed, distance) && 
                     dungeon.getStaticsOnBlock(pos).size() == 1 &&
                         dungeon.getStaticsOnBlock(pos).get(0) instanceof Portal) {

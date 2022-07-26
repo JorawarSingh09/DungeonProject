@@ -16,6 +16,7 @@ import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.staticentities.SwampTile;
 import dungeonmania.enums.Buildable;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.enums.GoalString;
@@ -42,6 +43,7 @@ public class Dungeon {
     private Player player;
     private int currMaxEntityId;
     private SpiderSpawn spiderSpawner;
+    private List<SwampTile> swampTiles = new ArrayList<>();
 
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
@@ -334,4 +336,11 @@ public class Dungeon {
         return ErrorString.SUCCESS.toString();
     }
 
+    public void addSwampTile(SwampTile swampTile) {
+        swampTiles.add(swampTile);
+    }
+
+    public List<SwampTile> getSwampTiles() {
+        return swampTiles;
+    }
 }
