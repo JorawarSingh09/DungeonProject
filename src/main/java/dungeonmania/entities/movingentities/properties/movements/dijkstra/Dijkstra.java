@@ -31,12 +31,12 @@ public class Dijkstra {
 
     public boolean generateGrid() {
         grid.clear();
-        Position bottomLeft = new Position(follower.getX() - 20, follower.getY() - 20);
+        Position bottomLeft = new Position(follower.getX() - 10, follower.getY() - 10);
         boolean foundPlayer = false;
 
         // Get all co-ords in the grid
-        for (int i = 0; i < 40; i++) {
-            for (int j = 0; j < 40; j++) {
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
                 Position curr = new Position(bottomLeft.getX() + i, bottomLeft.getY() + j);
                 if (curr.equals(followed)) {
                     dest = new Node(curr, determineCost(curr, dungeon), dungeon, this);
