@@ -12,7 +12,7 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 
 public class SunstoneTests {
-    
+
     @Test
     @DisplayName("test adds to the treasure goal")
     public void sunstoneTreasureGoal() {
@@ -61,24 +61,24 @@ public class SunstoneTests {
         assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
     }
 
-    // @Test
-    // @DisplayName("test lost sunstone when build a sceptre")
-    // public void sunstoneDepleteBuildSceptre() {
-    //     DungeonManiaController dmc = TestUtils.createDungeon("sunstone", "c_battleTests_basicMercenaryMercenaryDies");
-    //     // Pick up sunstone
-    //     dmc.tick(Direction.RIGHT);
-    //     assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
-    //     dmc.tick(Direction.LEFT);
-    //     // Pick up wood
-    //     dmc.tick(Direction.LEFT);
-    //     assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
-    //     // Pick up treasure
-    //     dmc.tick(Direction.LEFT);
-    //     assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
-    //     // Build sceptre and lost everything
-    //     Assertions.assertDoesNotThrow(() -> (dmc.build("sceptre")));
-    //     assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
-    // }
+    @Test
+    @DisplayName("test lost sunstone when build a sceptre")
+    public void sunstoneDepleteBuildSceptre() {
+        DungeonManiaController dmc = TestUtils.createDungeon("sunstone", "c_battleTests_basicMercenaryMercenaryDies");
+        // Pick up sunstone
+        dmc.tick(Direction.RIGHT);
+        assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.LEFT);
+        // Pick up wood
+        dmc.tick(Direction.LEFT);
+        assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
+        // Pick up treasure
+        dmc.tick(Direction.LEFT);
+        assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
+        // Build sceptre and lost everything
+        Assertions.assertDoesNotThrow(() -> (dmc.build("sceptre")));
+        assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
+    }
 
     @Test
     @DisplayName("test lost sunstone when build a Midnight armour")
@@ -151,7 +151,8 @@ public class SunstoneTests {
         dmc.tick(Direction.RIGHT);
         assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
         // Check that the sunstone cannot be used for a bribe
-        String mercId = dmc.getDungeonResponseModel().getEntities().stream().filter(t -> t.getType().equals("mercenary")).collect(Collectors.toList()).get(0).getId();
+        String mercId = dmc.getDungeonResponseModel().getEntities().stream()
+                .filter(t -> t.getType().equals("mercenary")).collect(Collectors.toList()).get(0).getId();
         Assertions.assertThrows(InvalidActionException.class, () -> {
             dmc.interact(mercId);
         });

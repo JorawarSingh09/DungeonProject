@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import dungeonmania.Dungeon;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.MidnightArmour;
+import dungeonmania.entities.buildableentities.Sceptre;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
 import dungeonmania.entities.collectableentities.Bomb;
@@ -191,7 +192,7 @@ public class EntityController {
                     Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
                             this.player_attack, this.player_health,
                             bow_durability, shield_durability, shield_defence, midnight_armour_attack,
-                            midnight_armour_defence);
+                            midnight_armour_defence, mind_control_duration);
                     dungeon.addEntity(player);
                     dungeon.setPlayer(player);
                     dungeon.setSpiderSpawner(
@@ -291,6 +292,9 @@ public class EntityController {
                             Integer.parseInt(((JsonObject) entity).get("movement_factor").toString()));
                     dungeon.addEntity(swampTile);
                     dungeon.addSwampTile(swampTile);
+                    break;
+                case "sceptre":
+                    dungeon.addEntity(new Sceptre(dungeon.getCurrMaxEntityId()));
                     break;
             }
         }
