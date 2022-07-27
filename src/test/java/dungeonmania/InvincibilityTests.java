@@ -16,7 +16,7 @@ public class InvincibilityTests {
     @DisplayName("Player drinks invincibility potion and fights to win round 1")
     public void aliveToInvincState() {
         Dungeon dungeon = new Dungeon("dungeon", 1);
-        Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 4, 4, 4, 1, 1);
+        Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 4, 4, 4, 1, 1, 1);
         dungeon.addEntity(player);
         dungeon.setPlayer(player);
         player.addItem(new InvincibilityPotion(1, new Position(0, 0), false, false, 5));

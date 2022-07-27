@@ -15,5 +15,11 @@ public enum Buildable {
         public String toString() {
             return "midnight_armour";
         }
+    },
+    SCEPTRE {
+        public String toString() {
+            return "sceptre";
+        }
     }
+
 }

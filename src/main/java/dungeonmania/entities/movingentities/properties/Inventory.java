@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.buildableentities.MidnightArmour;
+import dungeonmania.entities.buildableentities.Sceptre;
 import dungeonmania.entities.collectableentities.Arrow;
 import dungeonmania.entities.collectableentities.Key;
 import dungeonmania.entities.collectableentities.Sunstone;
@@ -35,15 +36,18 @@ public class Inventory {
     private int shieldDefence;
     private int armourAttack;
     private int armourDefence;
+    private int mindControlDuration;
 
     // private Position playerPos;
 
-    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, int armourAttack, int armourDefence) {
+    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, int armourAttack, int armourDefence,
+            int mindControlDuration) {
         this.bowDurability = bowDurability;
         this.shieldDurability = shieldDurability;
         this.shieldDefence = shieldDefence;
         this.armourAttack = armourAttack;
         this.armourDefence = armourDefence;
+        this.mindControlDuration = mindControlDuration;
     }
 
     public void addItem(Storeable item) {
@@ -95,12 +99,14 @@ public class Inventory {
 
         if ((hasSunStone() || key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
-        } 
+        }
         if (wood >= 1 && arrows >= 3) {
             buildables.add("bow");
         }
         if (!hasZombie && sword >= 1 && sunstone >= 1) {
             buildables.add("midnight_armour");
+        } else if ((wood >= 1 || arrows >= 2) && (key >= 1 || treasure >= 1) && sunstone >= 1) {
+            buildables.add("sceptre");
         }
         return buildables;
     }
@@ -121,6 +127,12 @@ public class Inventory {
                 MidnightArmour armour = new MidnightArmour(nextItemMaxId, armourAttack, armourDefence);
                 addItem(armour);
                 removeArmourItems();
+                break;
+            case "sceptre":
+                Sceptre sceptre = new Sceptre(nextItemMaxId);
+                inventoryItems.add(sceptre);
+                buildableItems.add(sceptre);
+                removeSceptreItems();
                 break;
         }
     }
@@ -177,12 +189,26 @@ public class Inventory {
         removeItem(1, Sunstone.class);
     }
 
+    private void removeSceptreItems() {
+        if (countItem(Wood.class) >= 1) {
+            removeItem(1, Wood.class);
+        } else {
+            removeItem(2, Arrow.class);
+        }
+        if (countItem(Key.class) >= 1) {
+            removeItem(1, Key.class);
+        } else {
+            removeItem(1, Treasure.class);
+        }
+        removeItem(1, Sunstone.class);
+    }
+
     private void removeWeapon(int removeAmount, Class<?> t) {
         int itemRemoved = 0;
         List<Attacking> toRemove = new ArrayList<>();
         if (Attacking.class.isAssignableFrom(t)) {
             for (Attacking attackItem : attackingItems) {
-                if (attackItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                if (attackItem.getClass().equals(t) && itemRemoved < removeAmount) {
                     toRemove.add(attackItem);
                     itemRemoved++;
                 }
@@ -193,7 +219,7 @@ public class Inventory {
         List<Defending> toRemoveDefend = new ArrayList<>();
         if (Defending.class.isAssignableFrom(t)) {
             for (Defending defendItem : defendingItems) {
-                if (defendItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                if (defendItem.getClass().equals(t) && itemRemoved < removeAmount) {
                     toRemoveDefend.add(defendItem);
                     itemRemoved++;
                 }
@@ -204,7 +230,7 @@ public class Inventory {
         List<Durability> toRemoveDur = new ArrayList<>();
         if (Durability.class.isAssignableFrom(t)) {
             for (Durability durItem : weapons) {
-                if (durItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                if (durItem.getClass().equals(t) && itemRemoved < removeAmount) {
                     toRemoveDur.add(durItem);
                     itemRemoved++;
                 }
@@ -260,6 +286,10 @@ public class Inventory {
 
     public boolean hasSunStone() {
         return (countItem(Sunstone.class) > 0);
+    }
+
+    public int getMindControlDuration() {
+        return this.mindControlDuration;
     }
 
 }

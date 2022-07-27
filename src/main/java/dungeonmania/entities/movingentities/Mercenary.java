@@ -7,12 +7,13 @@ import dungeonmania.entities.movingentities.properties.movements.MovementStrateg
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.enums.EntityString;
+import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Position;
 
-public class Mercenary extends Entity implements Moveable, Health {
+public class Mercenary extends Entity implements Moveable, Health, Durability {
 
     private boolean isAlly;
     private double ally_attack;
@@ -24,6 +25,8 @@ public class Mercenary extends Entity implements Moveable, Health {
     private MovementStrategy currMoveStrat;
     private MovementStrategy playerInvis = new RandomMovementStrategy(this);
     private MovementStrategy standard = new FollowPlayerMovementStrategy(this);
+    private int durability;
+    private boolean mindControlled = false;
 
     public Mercenary(int id, Position position, boolean interactable, boolean collidable,
             double ally_attack, double ally_defence, double mercenary_attack,
@@ -55,6 +58,11 @@ public class Mercenary extends Entity implements Moveable, Health {
     public void setAlly() {
         this.isAlly = true;
         this.setInteractable(false);
+    }
+
+    public void removeAlly() {
+        this.isAlly = false;
+        this.setInteractable(true);
     }
 
     public double getHealth() {
@@ -133,4 +141,30 @@ public class Mercenary extends Entity implements Moveable, Health {
         return isAlly;
     }
 
+    @Override
+    public void reduceDurability() {
+        this.durability -= 1;
+    }
+
+    @Override
+    public int getDurability() {
+        return this.durability;
+    }
+
+    @Override
+    public int getItemId() {
+        return getEntityId();
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
+    public boolean isMindControlled() {
+        return this.mindControlled;
+    }
+
+    public void setMindControl(boolean bool) {
+        this.mindControlled = bool;
+    }
 }

@@ -31,7 +31,7 @@ public class MercenaryTests {
 
         Player player = new Player(1, new Position(0, 0),
                 false, false, 1,
-                1, 1, 1, 1, 1, 1);
+                1, 1, 1, 1, 1, 1, 1);
         Mercenary merc = new Mercenary(2, new Position(1, 0), true, false, 1, 1, 1, 1, 99, 1);
 
         player.addItem(new Treasure(3, new Position(0, 3), false, false));

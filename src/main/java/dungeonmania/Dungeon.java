@@ -128,6 +128,7 @@ public class Dungeon {
             player.setPreviousPosition(player.getPosition());
         }
         player.tickPotion();
+        player.tickMindControl();
         mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
             addEntity(spiderSpawner.spawnEntity(getCurrMaxEntityId(), this));

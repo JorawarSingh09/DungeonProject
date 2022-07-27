@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.buildableentities.Sceptre;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
 import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.collectableentities.Treasure;
@@ -47,12 +48,13 @@ public class Player extends Entity implements Moveable {
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
             double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence,
-            int armourAttack, int armourDefence) {
+            int armourAttack, int armourDefence, int mindControlDuration) {
         super(id, position, interactable, collidable);
         this.prevPosition = position;
         this.health = player_health;
         this.attack = player_attack;
-        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, armourAttack, armourDefence);
+        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, armourAttack, armourDefence,
+                mindControlDuration);
         this.state = aliveState;
         this.moveStrat = new PlayerMovementStrategy(this);
     }
@@ -98,12 +100,22 @@ public class Player extends Entity implements Moveable {
         return attack;
     }
 
-    public void addAlly(Mercenary mercenary) {
+    public void addAlly(Mercenary mercenary, boolean mindControl) {
         mercenaries.add(mercenary);
         mercenary.setAlly();
         mercenary.setInteractable(false);
-        inventory.removeItem(mercenary.getBribeAmount(), Treasure.class);
+        if (mindControl) {
+            mercenary.setMindControl(true);
+            mercenary.setDurability(inventory.getMindControlDuration());
+        } else {
+            inventory.removeItem(mercenary.getBribeAmount(), Treasure.class);
+        }
+    }
 
+    public void removeAlly(Mercenary mercenary) {
+        mercenaries.remove(mercenary);
+        mercenary.removeAlly();
+        mercenary.setMindControl(false);
     }
 
     public List<Mercenary> getAllies() {
@@ -141,6 +153,21 @@ public class Player extends Entity implements Moveable {
             }
         } else {
             state.tick(0);
+        }
+    }
+
+    public void tickMindControl() {
+        List<Mercenary> merc = new ArrayList<Mercenary>();
+        for (Mercenary mercenary : mercenaries) {
+            if (mercenary.isMindControlled()) {
+                if (mercenary.getDurability() < 0) {
+                    merc.add(mercenary);
+                }
+                mercenary.reduceDurability();
+            }
+        }
+        for (Mercenary mercenary : merc) {
+            removeAlly(mercenary);
         }
     }
 
@@ -219,14 +246,14 @@ public class Player extends Entity implements Moveable {
     }
 
     public String attemptBribe(Mercenary mercenary) {
-        if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
+        if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount() && inventory.countItem(Sceptre.class) == 0)
             return ErrorString.BRIBETREAS.toString();
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
             return ErrorString.BRIBERAD.toString();
         if (!mercenary.isInteractable())
             return ErrorString.NOTINTERACT.toString();
-        addAlly(mercenary);
+        addAlly(mercenary, inventory.countItem(Sceptre.class) >= 1);
         return ErrorString.SUCCESS.toString();
     }
 
