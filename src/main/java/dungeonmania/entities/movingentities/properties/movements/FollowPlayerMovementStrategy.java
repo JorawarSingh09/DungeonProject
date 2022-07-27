@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.properties.movements.dijkstra.Dijkstra;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
@@ -22,19 +23,37 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
         Position follower = movingEntity.getPosition();
         boolean isAlly = movingEntity.isAllyToPlayer();
 
+        if (isAlly && followed.equals(follower)) {
+            // player has moved onto you, swap
+            return player.getPreviousPosition();
+        }
         if (isAlly && followed.equals(findMoveableBlock(dungeon, followed, follower))) {
             // player hasnt moved you do not move
             if (player.getPosition().equals(player.getPreviousPosition())) {
                 return follower;
             }
-        } else if (isAlly && followed.equals(follower)) {
-            // player has moved, swap
-            return player.getPreviousPosition();
+            if (isAlly && followed.equals(follower)) {
+                // player has moved, swap
+                return player.getPreviousPosition();
+            }
         }
         return findMoveableBlock(dungeon, followed, follower);
     }
 
     private Position findMoveableBlock(Dungeon dungeon, Position followed, Position follower) {
+        Dijkstra dijkstra = new Dijkstra(dungeon, follower, followed);
+        if (!dijkstra.generateGrid() || reversed) {
+            return simpleFollow(dungeon, followed, follower);
+        } 
+        Position nextMove = dijkstra.getNextPos();
+        if (nextMove != null) {
+            return nextMove;
+        } else {
+            return simpleFollow(dungeon, followed, follower);
+        }
+    }
+
+    private Position simpleFollow(Dungeon dungeon, Position followed, Position follower){
         Position newPos = follower;
         double distance = Double.POSITIVE_INFINITY;
         if (reversed)

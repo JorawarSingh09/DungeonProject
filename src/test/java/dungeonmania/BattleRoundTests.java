@@ -91,7 +91,8 @@ public class BattleRoundTests {
         DungeonResponse pickupSword = mc.tick(Direction.DOWN);
         assertEquals(0, battles.size());
         assertEquals(3, pickupSword.getInventory().size());
-        DungeonResponse atBattleDungeon = mc.tick(Direction.RIGHT);
+        mc.tick(Direction.RIGHT);
+        DungeonResponse atBattleDungeon = mc.tick(Direction.LEFT);
         battles = atBattleDungeon.getBattles();
         assertEquals(1, battles.size());
         List<Boolean> winners = new ArrayList<>();

@@ -30,8 +30,7 @@ public class SystemLevelTests {
         dmc.tick(Direction.RIGHT);
         assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.LEFT);
-        assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
-        assertEquals(1, dmc.getDungeonResponseModel().getBattles().size());
+        assertEquals(0, dmc.getDungeonResponseModel().getBattles().size());
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.DOWN);
@@ -44,15 +43,15 @@ public class SystemLevelTests {
         dmc.tick(Direction.DOWN);
         dmc.tick(Direction.DOWN);
         // Pick up treasure
-        assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.RIGHT);
         assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         // Can only hold one key at a time
         dmc.tick(Direction.RIGHT);
-        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
+        assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.LEFT);
         dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
