@@ -93,7 +93,7 @@ public class Dungeon {
 
     public List<String> getBuildable() {
         List<String> buildable = new ArrayList<>();
-        for (String item : player.getBuildableItems()) {
+        for (String item : player.getBuildableItems(getEntitiesOfType("zombie_toast").size() > 0)) {
             buildable.add(item);
         }
         return buildable;
@@ -276,7 +276,7 @@ public class Dungeon {
     }
 
     public boolean canBuild(String itemString) {
-        return player.getBuildableItems().contains(itemString);
+        return player.getBuildableItems(getEntitiesOfType("zombie_toast").size() > 0).contains(itemString);
     }
 
     public void useItem(int id) {

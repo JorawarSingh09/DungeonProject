@@ -50,9 +50,9 @@ public class Round {
         int multiplicativeBonus = 0;
         for (Attacking item : attackWeaponryUsed) {
             if (item.isAdditive()) {
-                additiveBonus += item.battleBonus();
+                additiveBonus += item.attackBonus();
             } else {
-                multiplicativeBonus += item.battleBonus();
+                multiplicativeBonus += item.attackBonus();
             }
         }
         if (multiplicativeBonus == 0)
@@ -67,7 +67,7 @@ public class Round {
     private double calculatePlayerDefenceBonus() {
         int defenceBonus = 0;
         for (Defending item : defenceWeaponryUsed) {
-            defenceBonus += item.battleBonus();
+            defenceBonus += item.defenceBonus();
         }
         return (defenceBonus + allyDefenceBonus());
     }

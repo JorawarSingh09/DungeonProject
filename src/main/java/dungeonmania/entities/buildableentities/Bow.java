@@ -36,7 +36,7 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         return getEntityId();
     }
 
-    public int battleBonus() {
+    public int attackBonus() {
         return battleBonus;
     }
 
@@ -46,13 +46,11 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
 
     @Override
     public void build(Player player) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void consumeItems(Player player) {
-        // TODO Auto-generated method stub
 
     }
 }

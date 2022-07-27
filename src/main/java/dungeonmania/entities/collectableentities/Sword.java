@@ -39,7 +39,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         dungeon.removeEntity(this);
     }
 
-    public int battleBonus() {
+    public int attackBonus() {
         return attack;
     }
 

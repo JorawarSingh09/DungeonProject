@@ -52,7 +52,6 @@ public class ZombieToastSpawner extends Entity implements Static, Spawn<ZombieTo
 
     @Override
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-        // TODO Auto-generated method stub
 
     }
 
