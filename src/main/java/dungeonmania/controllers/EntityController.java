@@ -23,6 +23,8 @@ import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Sword;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.Wood;
+import dungeonmania.entities.movingentities.Assassin;
+import dungeonmania.entities.movingentities.Hydra;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.Spider;
@@ -73,12 +75,12 @@ public class EntityController {
     private int zombie_spawn_rate;
     private int assassin_attack;
     private int assassin_bribe_amount;
-    private int assassin_bribe_fail_rate;
+    private double assassin_bribe_fail_rate;
     private int assassin_health;
     private int assassin_recon_radius;
     private int hydra_attack;
     private int hydra_health;
-    private int hydra_health_increase_rate;
+    private double hydra_health_increase_rate;
     private int hydra_health_increase_amount;
     private int mind_control_duration;
     private int midnight_armour_attack;
@@ -159,12 +161,20 @@ public class EntityController {
         // Milestone 3
         this.assassin_attack = configGet(configs, "assassin_attack");
         this.assassin_bribe_amount = configGet(configs, "assassin_bribe_amount");
-        this.assassin_bribe_fail_rate = configGet(configs, "assassin_bribe_fail_rate");
+        if (configs.has("assassin_bribe_fail_rate")) {
+            this.assassin_bribe_fail_rate = Double.parseDouble(configs.get("assassin_bribe_fail_rate").toString());
+        } else {
+            this.assassin_bribe_fail_rate = 1;
+        }
         this.assassin_health = configGet(configs, "assassin_health");
         this.assassin_recon_radius = configGet(configs, "assassin_recon_radius");
         this.hydra_attack = configGet(configs, "hydra_attack");
         this.hydra_health = configGet(configs, "hydra_health");
-        this.hydra_health_increase_rate = configGet(configs, "hydra_health_increase_rate");
+        if (configs.has("hydra_health_increase_rate")) {
+            this.hydra_health_increase_rate = Double.parseDouble(configs.get("hydra_health_increase_rate").toString());
+        } else {
+            this.hydra_health_increase_rate = 1;
+        }
         this.hydra_health_increase_amount = configGet(configs, "hydra_health_increase_amount");
         this.mind_control_duration = configGet(configs, "mind_control_duration");
         this.midnight_armour_attack = configGet(configs, "midnight_armour_attack");
@@ -295,6 +305,14 @@ public class EntityController {
                     break;
                 case "sceptre":
                     dungeon.addEntity(new Sceptre(dungeon.getCurrMaxEntityId()));
+                    break;
+                case "assassin":
+                    dungeon.addEntity(new Assassin(dungeon.getCurrMaxEntityId(), new Position(x, y), true, false,
+                            this.ally_attack, this.ally_defence, this.assassin_attack, this.assassin_health,
+                            this.bribe_radius, this.assassin_bribe_amount, this.assassin_bribe_fail_rate));
+                    break;
+                case "hydra":
+                    dungeon.addEntity(new Hydra(dungeon.getCurrMaxEntityId(), new Position(x, y), hydra_attack, hydra_health, hydra_health_increase_rate, hydra_health_increase_amount));
                     break;
             }
         }

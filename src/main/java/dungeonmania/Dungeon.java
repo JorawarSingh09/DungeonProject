@@ -14,6 +14,7 @@ import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.interfaces.Storeable;
+import dungeonmania.entities.movingentities.Assassin;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.staticentities.SwampTile;
@@ -293,6 +294,9 @@ public class Dungeon {
         if (getEntityType(id).equals(Interactable.MERC.toString())) {
             Mercenary mercenary = (Mercenary) getEntityById(id);
             return player.attemptBribe(mercenary);
+        } else if (getEntityType(id).equals(Interactable.ASS.toString())) {
+            Assassin assassin = (Assassin) getEntityById(id);
+            return player.attemptBribe(assassin);
         } else {
             ZombieToastSpawner zomSpawn = (ZombieToastSpawner) getEntityById(id);
             return tryBreakZomSpawn(zomSpawn);

@@ -77,16 +77,17 @@ public class SceptreTests {
         assertEquals(0, getEntities(res, "mercenary").size());
     }
 
-    // @Test
-    // @DisplayName("Test the player can mind control assassin")
-    // public void sceptreMindControlAss() {
-    // DungeonManiaController dmc = new DungeonManiaController();
-    // dmc.newGame("d_SceptreTest", "c_SceptreTest");
-    // dmc.tick(Direction.UP);
-    // dmc.tick(Direction.LEFT);
-    // dmc.tick(Direction.LEFT);
-    // DungeonResponse res = assertDoesNotThrow(() -> dmc.build("sceptre"));
-    // String id = getEntities(res, "assassin").get(0).getId();
-    // assertDoesNotThrow(() -> dmc.interact(id));
-    // }
+    @Test
+    @DisplayName("Test the player can mind control assassin")
+    public void sceptreMindControlAss() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_SceptreTest", "c_SceptreTest");
+        assertEquals(1, getEntities(res, "assassin").size());
+        dmc.tick(Direction.UP);
+        dmc.tick(Direction.LEFT);
+        dmc.tick(Direction.LEFT);
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        String id = getEntities(res, "assassin").get(0).getId();
+        assertDoesNotThrow(() -> dmc.interact(id));
+    }
 }
