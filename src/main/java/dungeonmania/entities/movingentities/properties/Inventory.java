@@ -95,9 +95,11 @@ public class Inventory {
 
         if ((hasSunStone() || key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
-        } else if (wood >= 1 && arrows >= 3) {
+        } 
+        if (wood >= 1 && arrows >= 3) {
             buildables.add("bow");
-        } else if (!hasZombie && sword >= 1 && sunstone >= 1) {
+        }
+        if (!hasZombie && sword >= 1 && sunstone >= 1) {
             buildables.add("midnight_armour");
         }
         return buildables;
