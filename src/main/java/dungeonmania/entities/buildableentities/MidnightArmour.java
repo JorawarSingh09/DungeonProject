@@ -3,41 +3,41 @@ package dungeonmania.entities.buildableentities;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
+import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
-import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
-public class Shield extends Entity implements Buildable, Storeable, Defending, Durability {
+public class MidnightArmour extends Entity implements Buildable, Storeable, Attacking, Defending {
 
-    private int durability;
+    private int attack;
     private int defence;
 
-    public Shield(int id, boolean interactable, boolean collidable, int durability, int defence) {
-        super(id, new Position(0, 0), interactable, collidable);
-        this.durability = durability;
+    public MidnightArmour(int id, int attack, int defence) {
+        super(id, new Position(0, 0), false, false);
+        this.attack = attack;
         this.defence = defence;
     }
 
-    public void reduceDurability() {
-        this.durability -= 1;
+    @Override
+    public boolean isAdditive() {
+        return true;
     }
 
-    public int getDurability() {
-        return durability;
+    @Override
+    public int attackBonus() {
+        return attack;
     }
 
-    public int defenceBonus() {
-        return defence;
-    }
-
+    @Override
     public int getItemId() {
         return getEntityId();
     }
 
+    @Override
     public String getType() {
-        return EntityString.SHIELD.toString();
+        return EntityString.MIDNIGHTARMOUR.toString();
     }
 
     @Override
@@ -48,6 +48,11 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     @Override
     public void consumeItems(Player player) {
 
+    }
+
+    @Override
+    public int defenceBonus() {
+        return defence;
     }
 
 }

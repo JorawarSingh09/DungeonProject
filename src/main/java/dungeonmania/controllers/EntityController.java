@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.buildableentities.Bow;
+import dungeonmania.entities.buildableentities.MidnightArmour;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.collectableentities.Arrow;
 import dungeonmania.entities.collectableentities.Bomb;
@@ -69,6 +70,18 @@ public class EntityController {
     private int zombie_attack;
     private int zombie_health;
     private int zombie_spawn_rate;
+    private int assassin_attack;
+    private int assassin_bribe_amount;
+    private int assassin_bribe_fail_rate;
+    private int assassin_health;
+    private int assassin_recon_radius;
+    private int hydra_attack;
+    private int hydra_health;
+    private int hydra_health_increase_rate;
+    private int hydra_health_increase_amount;
+    private int mind_control_duration;
+    private int midnight_armour_attack;
+    private int midnight_armour_defence;
 
     public Dungeon startGame(JsonArray entities, JsonObject goals, JsonObject configs, int dungeonId,
             String dungeonName) {
@@ -142,6 +155,27 @@ public class EntityController {
         this.zombie_attack = Integer.parseInt(configs.get("zombie_attack").toString());
         this.zombie_health = Integer.parseInt(configs.get("zombie_health").toString());
         this.zombie_spawn_rate = Integer.parseInt(configs.get("zombie_spawn_rate").toString());
+        // Milestone 3
+        this.assassin_attack = configGet(configs, "assassin_attack");
+        this.assassin_bribe_amount = configGet(configs, "assassin_bribe_amount");
+        this.assassin_bribe_fail_rate = configGet(configs, "assassin_bribe_fail_rate");
+        this.assassin_health = configGet(configs, "assassin_health");
+        this.assassin_recon_radius = configGet(configs, "assassin_recon_radius");
+        this.hydra_attack = configGet(configs, "hydra_attack");
+        this.hydra_health = configGet(configs, "hydra_health");
+        this.hydra_health_increase_rate = configGet(configs, "hydra_health_increase_rate");
+        this.hydra_health_increase_amount = configGet(configs, "hydra_health_increase_amount");
+        this.mind_control_duration = configGet(configs, "mind_control_duration");
+        this.midnight_armour_attack = configGet(configs, "midnight_armour_attack");
+        this.midnight_armour_defence = configGet(configs, "midnight_armour_defence");
+    }
+
+    private int configGet(JsonObject config, String prefix) {
+        if (config.has(prefix)) {
+            return Integer.parseInt(config.get(prefix).toString());
+        } else {
+            return 1;
+        }
     }
 
     private void makeEntities(JsonArray entities, Dungeon dungeon) {
@@ -156,7 +190,8 @@ public class EntityController {
                 case "player":
                     Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
                             this.player_attack, this.player_health,
-                            bow_durability, shield_durability, shield_defence);
+                            bow_durability, shield_durability, shield_defence, midnight_armour_attack,
+                            midnight_armour_defence);
                     dungeon.addEntity(player);
                     dungeon.setPlayer(player);
                     dungeon.setSpiderSpawner(
@@ -247,8 +282,13 @@ public class EntityController {
                 case "sun_stone":
                     dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
                     break;
+                case "midnight_armour":
+                    dungeon.addEntity(new MidnightArmour(dungeon.getCurrMaxEntityId(), this.midnight_armour_attack,
+                            this.midnight_armour_defence));
+                    break;
                 case "swamp_tile":
-                    SwampTile swampTile = new SwampTile(dungeon.getCurrMaxEntityId(), new Position(x, y), Integer.parseInt(((JsonObject) entity).get("movement_factor").toString()));
+                    SwampTile swampTile = new SwampTile(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                            Integer.parseInt(((JsonObject) entity).get("movement_factor").toString()));
                     dungeon.addEntity(swampTile);
                     dungeon.addSwampTile(swampTile);
                     break;

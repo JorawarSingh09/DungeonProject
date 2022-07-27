@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.Shield;
+import dungeonmania.entities.buildableentities.MidnightArmour;
 import dungeonmania.entities.collectableentities.Arrow;
 import dungeonmania.entities.collectableentities.Key;
 import dungeonmania.entities.collectableentities.Sunstone;
+import dungeonmania.entities.collectableentities.Sword;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.Wood;
 import dungeonmania.interfaces.Attacking;
@@ -18,7 +20,6 @@ import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Storeable;
-import dungeonmania.util.Position;
 
 public class Inventory {
 
@@ -32,13 +33,17 @@ public class Inventory {
     private int bowDurability;
     private int shieldDurability;
     private int shieldDefence;
+    private int armourAttack;
+    private int armourDefence;
 
     // private Position playerPos;
 
-    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, Position playerPos) {
+    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, int armourAttack, int armourDefence) {
         this.bowDurability = bowDurability;
         this.shieldDurability = shieldDurability;
         this.shieldDefence = shieldDefence;
+        this.armourAttack = armourAttack;
+        this.armourDefence = armourDefence;
     }
 
     public void addItem(Storeable item) {
@@ -79,17 +84,21 @@ public class Inventory {
         return inventoryItems;
     }
 
-    public List<String> getBuildableItems() {
+    public List<String> getBuildableItems(boolean hasZombie) {
         List<String> buildables = new ArrayList<>();
         int wood = countItem(Wood.class);
         int arrows = countItem(Arrow.class);
         int treasure = countItem(Treasure.class);
         int key = countItem(Key.class);
+        int sword = countItem(Sword.class);
+        int sunstone = countItem(Sunstone.class);
 
         if ((hasSunStone() || key >= 1 || treasure >= 1) && (wood >= 2)) {
             buildables.add("shield");
         } else if (wood >= 1 && arrows >= 3) {
             buildables.add("bow");
+        } else if (!hasZombie && sword >= 1 && sunstone >= 1) {
+            buildables.add("midnight_armour");
         }
         return buildables;
     }
@@ -111,6 +120,14 @@ public class Inventory {
                 weapons.add(bow);
                 attackingItems.add(bow);
                 removeBowItems();
+                break;
+            case "midnight_armour":
+                MidnightArmour armour = new MidnightArmour(nextItemMaxId, armourAttack, armourDefence);
+                inventoryItems.add(armour);
+                buildableItems.add(armour);
+                attackingItems.add(armour);
+                defendingItems.add(armour);
+                removeArmourItems();
                 break;
         }
     }
@@ -159,6 +176,11 @@ public class Inventory {
     private void removeBowItems() {
         removeItem(1, Wood.class);
         removeItem(3, Arrow.class);
+    }
+
+    private void removeArmourItems() {
+        removeItem(1, Sword.class);
+        removeItem(1, Sunstone.class);
     }
 
     public boolean removeItem(int removeAmount, Class<?> t) {
