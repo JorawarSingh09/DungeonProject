@@ -1,7 +1,5 @@
 package dungeonmania.entities.movingentities.properties.movements;
 
-import java.util.Collections;
-
 import dungeonmania.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Moveable;
@@ -31,14 +29,31 @@ public class CircularMovementStrategy extends MovementStrategy {
     public void updateMovement(Dungeon dungeon, Player player) {
         if (!nextStepIsMoveable(dungeon, player)) {
             reversePath();
+            if (clockwise) {
+                moveState += 2;
+            } else {
+                moveState = ((moveState - 2) + movePath.size());
+            }
+        }
+        if (!nextStepIsMoveable(dungeon, player)) {
+            return;
         }
         movingEntity.setPosition(getNextPosition(dungeon, player));
-        moveState++;
+        if (clockwise) {
+            moveState++;
+        } else {
+            moveState = ((moveState - 1)+ movePath.size());
+        }
+
     }
 
     @Override
     public void reversePath() {
-        Collections.reverse(movePath);
+        if (clockwise) {
+            clockwise = false;
+        } else {
+            clockwise = true;
+        }
     }
 
     @Override
