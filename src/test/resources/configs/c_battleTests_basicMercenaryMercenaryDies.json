@@ -13,7 +13,7 @@
   "player_attack": 10,
   "player_health": 10,
   "shield_defence": 1,
-  "shield_durability": 1,
+  "shield_durability": 100,
   "spider_attack": 5,
   "spider_health": 5,
   "spider_spawn_rate": 0,

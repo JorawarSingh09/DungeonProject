@@ -109,26 +109,17 @@ public class Inventory {
         switch (itemBuild) {
             case "shield":
                 Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, shieldDefence);
-                inventoryItems.add(shield);
-                buildableItems.add(shield);
-                weapons.add(shield);
-                defendingItems.add(shield);
+                addItem(shield);
                 removeShieldItems();
                 break;
             case "bow":
                 Bow bow = new Bow(nextItemMaxId, bowDurability);
-                inventoryItems.add(bow);
-                buildableItems.add(bow);
-                weapons.add(bow);
-                attackingItems.add(bow);
+                addItem(bow);
                 removeBowItems();
                 break;
             case "midnight_armour":
                 MidnightArmour armour = new MidnightArmour(nextItemMaxId, armourAttack, armourDefence);
-                inventoryItems.add(armour);
-                buildableItems.add(armour);
-                attackingItems.add(armour);
-                defendingItems.add(armour);
+                addItem(armour);
                 removeArmourItems();
                 break;
         }
@@ -182,7 +173,44 @@ public class Inventory {
 
     private void removeArmourItems() {
         removeItem(1, Sword.class);
+        removeWeapon(1, Sword.class);
         removeItem(1, Sunstone.class);
+    }
+
+    private void removeWeapon(int removeAmount, Class<?> t) {
+        int itemRemoved = 0;
+        List<Attacking> toRemove = new ArrayList<>();
+        if (Attacking.class.isAssignableFrom(t)) {
+            for (Attacking attackItem : attackingItems) {
+                if (attackItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                    toRemove.add(attackItem);
+                    itemRemoved++;
+                }
+            }
+        }
+        attackingItems.removeAll(toRemove);
+        itemRemoved = 0;
+        List<Defending> toRemoveDefend = new ArrayList<>();
+        if (Defending.class.isAssignableFrom(t)) {
+            for (Defending defendItem : defendingItems) {
+                if (defendItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                    toRemoveDefend.add(defendItem);
+                    itemRemoved++;
+                }
+            }
+        }
+        defendingItems.removeAll(toRemoveDefend);
+        itemRemoved = 0;
+        List<Durability> toRemoveDur = new ArrayList<>();
+        if (Durability.class.isAssignableFrom(t)) {
+            for (Durability durItem : weapons) {
+                if (durItem.getClass().equals(t)  && itemRemoved < removeAmount) {
+                    toRemoveDur.add(durItem);
+                    itemRemoved++;
+                }
+            }
+        }
+        weapons.removeAll(toRemoveDur);
     }
 
     public boolean removeItem(int removeAmount, Class<?> t) {
