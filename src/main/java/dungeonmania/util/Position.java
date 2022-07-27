@@ -87,7 +87,6 @@ public final class Position {
                 return direction;
             }
         }
-        System.out.println("direction is null");
         return null;
     }
 
