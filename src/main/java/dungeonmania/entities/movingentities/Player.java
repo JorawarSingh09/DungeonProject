@@ -46,12 +46,13 @@ public class Player extends Entity implements Moveable {
     private PlayerState invisState = new InvisibleState(this);
 
     public Player(int id, Position position, boolean interactable, boolean collidable,
-            double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence) {
+            double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence,
+            int armourAttack, int armourDefence) {
         super(id, position, interactable, collidable);
         this.prevPosition = position;
         this.health = player_health;
         this.attack = player_attack;
-        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, getPosition());
+        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, armourAttack, armourDefence);
         this.state = aliveState;
         this.moveStrat = new PlayerMovementStrategy(this);
     }
@@ -72,8 +73,8 @@ public class Player extends Entity implements Moveable {
         return inventory.getInventoryItems();
     }
 
-    public List<String> getBuildableItems() {
-        return inventory.getBuildableItems();
+    public List<String> getBuildableItems(boolean hasZombie) {
+        return inventory.getBuildableItems(hasZombie);
     }
 
     public void setPlayerState(PlayerState state) {

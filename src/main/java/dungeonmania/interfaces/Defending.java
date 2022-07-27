@@ -1,7 +1,7 @@
 package dungeonmania.interfaces;
 
 public interface Defending {
-    public int battleBonus();
+    public int defenceBonus();
 
     public int getItemId();
 }

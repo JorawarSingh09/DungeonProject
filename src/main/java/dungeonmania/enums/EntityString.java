@@ -183,6 +183,20 @@ public enum EntityString {
         }
     },
 
+    SCEPTRE {
+
+        public String toString() {
+            return "sceptre";
+        }
+    },
+
+    MIDNIGHTARMOUR {
+
+        public String toString() {
+            return "midnight_armour";
+        }
+    },
+
     SWAMPTILE {
 
         public String toString() {
