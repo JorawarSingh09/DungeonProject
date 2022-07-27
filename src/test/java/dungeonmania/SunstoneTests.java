@@ -117,7 +117,6 @@ public class SunstoneTests {
         assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
         // Test made shield and kept the sunstone
         Assertions.assertDoesNotThrow(() -> (dmc.build("shield")));
-        System.out.println(dmc.getDungeonResponseModel().getInventory().size());
         assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
     }
 

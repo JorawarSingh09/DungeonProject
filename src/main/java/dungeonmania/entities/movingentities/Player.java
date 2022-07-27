@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import dungeonmania.Dungeon;
 import dungeonmania.entities.Entity;
@@ -245,15 +246,39 @@ public class Player extends Entity implements Moveable {
         this.prevPosition = prevPosition;
     }
 
+    public String attemptBribe(Assassin assassin) {
+        String bribeState = this.canBribe(assassin);
+        if (bribeState.equals(ErrorString.SUCCESS.toString())) {
+            if (inventory.countItem(Sceptre.class) >= 1) {
+                addAlly(assassin, true);
+            } else if (new Random().nextDouble() > assassin.getFailChance()) {
+                addAlly(assassin, false);
+            } else {
+                inventory.removeItem(assassin.getBribeAmount(), Treasure.class);
+                // return ErrorString.BRIBECHANCE.toString();
+            }
+        }
+        return bribeState;
+    }
+
     public String attemptBribe(Mercenary mercenary) {
-        if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount() && inventory.countItem(Sceptre.class) == 0)
+        String bribeState = this.canBribe(mercenary);
+        if (bribeState.equals(ErrorString.SUCCESS.toString()))
+            addAlly(mercenary, inventory.countItem(Sceptre.class) >= 1);
+        return bribeState;
+    }
+
+    private String canBribe(Mercenary mercenary) {
+        if (inventory.countItem(Sceptre.class) > 0) {
+            return ErrorString.SUCCESS.toString();
+        }
+        if (inventory.countItem(Treasure.class) < mercenary.getBribeAmount())
             return ErrorString.BRIBETREAS.toString();
         if (Position.getDistanceBetweenTwoPositions(this.getPosition(), mercenary.getPosition()) > mercenary
                 .getbribeRadius())
             return ErrorString.BRIBERAD.toString();
         if (!mercenary.isInteractable())
             return ErrorString.NOTINTERACT.toString();
-        addAlly(mercenary, inventory.countItem(Sceptre.class) >= 1);
         return ErrorString.SUCCESS.toString();
     }
 

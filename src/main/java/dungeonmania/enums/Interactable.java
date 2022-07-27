@@ -6,10 +6,16 @@ public enum Interactable {
             return "mercenary";
         }
     },
-  
+
     ZOMTOASTSPAWN {
         public String toString() {
             return "zombie_toast_spawner";
+        }
+    },
+
+    ASS {
+        public String toString() {
+            return "assassin";
         }
     }
 }

@@ -202,5 +202,19 @@ public enum EntityString {
         public String toString() {
             return "swamp_tile";
         }
+    },
+
+    ASSASSIN {
+
+        public String toString() {
+            return "assassin";
+        }
+    },
+
+    HYDRA {
+
+        public String toString() {
+            return "hydra";
+        }
     }
 }
