@@ -2,7 +2,7 @@ package dungeonmania.entities.staticentities;
 
 import java.util.stream.Collectors;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;

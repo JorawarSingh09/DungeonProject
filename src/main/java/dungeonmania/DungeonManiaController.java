@@ -1,25 +1,31 @@
 package dungeonmania;
 
-import dungeonmania.controllers.EntityController;
+// import dungeonmania.controllers.EntityController;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
+import dungeonmania.dungeon.GameFile;
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.dungeon.DungeonFactory;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 
 public class DungeonManiaController {
-
+    private String configFileName;
     private int currMaxDungeonId = 0;
     Dungeon dungeon;
-    
 
     public String getSkin() {
         return "default";
@@ -38,6 +44,11 @@ public class DungeonManiaController {
 
     }
 
+    public static List<String> saves() {
+        return FileLoader.listFileNamesInResourceDirectory("saves");
+
+    }
+
     /**
      * /configs
      */
@@ -52,16 +63,20 @@ public class DungeonManiaController {
         if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {
             throw new IllegalArgumentException();
         }
+        this.configFileName = configName;
         try {
             String jsonDungeon = new String(FileLoader.loadResourceFile("dungeons/" + dungeonName + ".json"));
             JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();
             JsonArray entitiesArray = jsonObject.get("entities").getAsJsonArray();
             JsonObject goals = jsonObject.get("goal-condition").getAsJsonObject();
-            EntityController entityController = new EntityController();
+            // EntityController entityController = new EntityController();
             String jsonConfig = new String(FileLoader.loadResourceFile("configs/" + configName + ".json"));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
-            currMaxDungeonId += 1;
-            dungeon = entityController.startGame(entitiesArray, goals, configs, currMaxDungeonId + 1, dungeonName);
+            // currMaxDungeonId += 1;
+            // dungeon = entityController.startGame(entitiesArray, goals, configs,
+            // currMaxDungeonId + 1, dungeonName);
+            DungeonFactory dungeonFactory = new DungeonFactory();
+            dungeon = dungeonFactory.createNewGame(dungeonName, jsonObject, configs, configName, false);
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -70,9 +85,37 @@ public class DungeonManiaController {
     }
 
     /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        GameFile.saveDungeon(dungeon);
+        return getDungeonResponseModel();
+    }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        if (!saves().contains(name)) {
+            throw new IllegalArgumentException();
+        }
+        try {
+            String savedFile = new String(
+                    FileLoader.loadResourceFile("saves/" + name + ".json"));
+            JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();
+            DungeonFactory dungeonFactory = new DungeonFactory();
+            dungeon = dungeonFactory.createNewGame(name, gameFile, gameFile, configFileName, true);
+        } catch (IOException e) {
+            throw new IllegalArgumentException();
+        }
+        return dungeon.createDungeonResponse();
+    }
+
+    /**
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
+
         return dungeon.createDungeonResponse();
     }
 
@@ -134,24 +177,10 @@ public class DungeonManiaController {
     }
 
     /**
-     * /game/save
-     */
-    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
-    }
-
-    /**
-     * /game/load
-     */
-    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
-    }
-
-    /**
      * /games/all
      */
     public List<String> allGames() {
-        return new ArrayList<>();
+        return saves();
     }
 
 }

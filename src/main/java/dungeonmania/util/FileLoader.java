@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public final class FileLoader {
     /**
      * Loads a resource file given a certain path that is relative to resources/
@@ -42,5 +45,23 @@ public final class FileLoader {
                 .stream()
                 .map(s -> s.replace(directory + "/", "").replace(".json", ""))
                 .collect(Collectors.toList());
+    }
+
+    public static JsonObject getDungeonFile(String name){
+        try {
+            String file = FileLoader.loadResourceFile("dungeons/" + name + ".json");
+            return JsonParser.parseString(file).getAsJsonObject();
+        } catch (Exception e1) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static JsonObject getConfigFile(String name){
+        try {
+            String file = FileLoader.loadResourceFile("configs/" + name + ".json");
+            return JsonParser.parseString(file).getAsJsonObject();
+        } catch (Exception e1) {
+            throw new IllegalArgumentException();
+        }
     }
 }

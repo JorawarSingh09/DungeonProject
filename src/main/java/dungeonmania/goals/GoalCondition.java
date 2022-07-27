@@ -1,6 +1,16 @@
 package dungeonmania.goals;
 
 public enum GoalCondition {
-    AND,
-    OR;
+    AND{
+        @Override
+        public String toString() {
+            return "AND";
+        }
+    },
+    OR{
+        @Override
+        public String toString() {
+            return "OR";
+        }
+    }
 }

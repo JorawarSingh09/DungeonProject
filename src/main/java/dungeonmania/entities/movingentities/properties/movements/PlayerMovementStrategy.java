@@ -2,7 +2,7 @@ package dungeonmania.entities.movingentities.properties.movements;
 
 import java.util.List;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;

@@ -1,6 +1,7 @@
 package dungeonmania.entities.movingentities;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
+
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;

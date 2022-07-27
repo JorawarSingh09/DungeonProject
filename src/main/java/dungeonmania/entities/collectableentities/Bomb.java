@@ -2,9 +2,8 @@ package dungeonmania.entities.collectableentities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
@@ -21,24 +20,34 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
 
     public Bomb(int id, Position position, boolean interactable, boolean collidable, int bomb_radius) {
         super(id, position, interactable, collidable);
-        this.bomb_radius = bomb_radius + 1;
-        this.blastArea = this.getPosition().getAdjacentPositions();
-        this.blastArea.removeAll(this.getPosition().getCardinallyAdjacentPositions());
-        this.blastArea = this.blastArea.stream().map(p -> p.scale(bomb_radius)).collect(Collectors.toList());
+        this.bomb_radius = bomb_radius;
+        Position bombOrigin = new Position(this.getPosition().getX() - this.bomb_radius, this.getPosition().getY() - this.bomb_radius);
+        for (int i = 0; i < ((2 * this.bomb_radius) + 2); i++) {
+            for (int j = 0; j < ((2 * this.bomb_radius) + 2); j++) {
+                Position curr = new Position(bombOrigin.getX() + i, bombOrigin.getY() + j);
+                blastArea.add(curr);
+            }
+        }
     }
 
     public void explode(Dungeon dungeon) {
-        for (int id : dungeon.getEntityIds()) {
-            if (Position.getDistanceBetweenTwoPositions(this.getPosition(),
-                    dungeon.getEntityById(id).getPosition()) <= bomb_radius) {
-                if (!(dungeon.getEntityById(id).getType().equals(EntityString.PLAYER.toString()))) {
-                    if (dungeon.getEntityById(id) instanceof Health &&
-                            !((Health) dungeon.getEntityById(id)).isAlly()) {
-                        dungeon.addKillCount();
-                    }
-                    dungeon.removeEntityById(id);
+        List<Integer> idsToRemove = new ArrayList<>();
+        for (Position pos : blastArea) {
+            for (Static stat : dungeon.getStaticsOnBlock(pos)) {
+                idsToRemove.add(stat.getEntityId());
+            }
+            for (Collectable collect : dungeon.getCollectablesOnBlock(pos)) {
+                idsToRemove.add(collect.getEntityId());
+            }
+            for (Health enemy : dungeon.getEnemiesOnBlock(pos)) {
+                idsToRemove.add(enemy.getEntityId());
+                if (!enemy.isAlly()) {
+                    dungeon.addKillCount();
                 }
             }
+        }
+        for (Integer id : idsToRemove) {
+            dungeon.removeEntityById(id);
         }
     }
 

@@ -1,5 +1,9 @@
 package dungeonmania.entities;
 
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+
 import dungeonmania.util.Position;
 
 public abstract class Entity {
@@ -49,4 +53,12 @@ public abstract class Entity {
         return position;
     }
 
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.entityId);
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        return entityJSON;
+    }
 }

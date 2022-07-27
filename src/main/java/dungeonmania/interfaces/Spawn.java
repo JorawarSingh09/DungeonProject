@@ -1,6 +1,6 @@
 package dungeonmania.interfaces;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 
 public interface Spawn<T> {
 
