@@ -1,6 +1,8 @@
 package dungeonmania.entities.collectableentities;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
@@ -44,4 +46,15 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
         return EntityString.INVISIBILITYPOTION.toString();
     }
 
+    @Override
+    public JsonObject getJson(){
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("duration", this.duration);
+
+        return entityJSON;
+    }
+    
 }

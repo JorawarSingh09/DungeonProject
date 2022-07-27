@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Sceptre;
 import dungeonmania.entities.collectableentities.InvincibilityPotion;
@@ -85,6 +88,7 @@ public class Player extends Entity implements Moveable {
     }
 
     public double getHealth() {
+
         return health;
     }
 
@@ -255,7 +259,6 @@ public class Player extends Entity implements Moveable {
                 addAlly(assassin, false);
             } else {
                 inventory.removeItem(assassin.getBribeAmount(), Treasure.class);
-                // return ErrorString.BRIBECHANCE.toString();
             }
         }
         return bribeState;
@@ -337,6 +340,33 @@ public class Player extends Entity implements Moveable {
         } else if (itemType(id).equals(Usable.INVIS.toString())) {
             drinkInvis(id);
         }
+    }
+
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", super.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("playerState", this.state.toString());
+        entityJSON.addProperty("health", this.health);
+
+        // need to make a method to convert List to json array
+        // TODO
+        JsonArray allys = new JsonArray();
+        mercenaries.forEach(e -> allys.add(e.getJson()));
+        entityJSON.add("allys", allys);
+
+        JsonArray inventorys = new JsonArray();
+        inventory.getInventoryItems().forEach(e -> inventorys.add(e.getJson()));
+        entityJSON.add("inventory", inventorys);
+
+        JsonArray potQ = new JsonArray();
+        queueItems.forEach(e -> potQ.add(e.getJson()));
+        entityJSON.add("potionQ", potQ);
+
+        return entityJSON;
     }
 
 }

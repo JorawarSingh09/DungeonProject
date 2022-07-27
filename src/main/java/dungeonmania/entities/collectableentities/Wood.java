@@ -1,6 +1,6 @@
 package dungeonmania.entities.collectableentities;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;

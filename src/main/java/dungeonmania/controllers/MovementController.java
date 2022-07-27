@@ -2,7 +2,7 @@ package dungeonmania.controllers;
 
 import java.util.List;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.staticentities.FloorSwitch;
@@ -26,6 +26,7 @@ public class MovementController {
     public void movePlayer(Direction movement) {
         player.setMovement(movement);
         player.updatePosition(dungeon, movement);
+        player.tickMindControl();
         checkBattles();
         checkSwitchBehaviour();
     }

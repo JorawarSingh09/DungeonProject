@@ -2,7 +2,9 @@ package dungeonmania.goals;
 
 import java.util.List;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.util.Position;
@@ -22,10 +24,20 @@ public class ExitGoal implements Goal {
         return false;
     }
 
+    @Override
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
             return GoalString.COMPLETED.toString();
         return GoalString.EXITGOAL.toString();
+    }
+
+    @Override
+    public JsonObject getJson(Dungeon dungeon) {
+
+        JsonObject goal = new JsonObject();
+        goal.addProperty("goal", this.toString(dungeon));
+        return goal;
+
     }
 
 }

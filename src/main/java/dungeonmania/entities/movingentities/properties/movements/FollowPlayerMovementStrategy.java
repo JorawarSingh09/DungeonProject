@@ -1,8 +1,9 @@
 package dungeonmania.entities.movingentities.properties.movements;
 
+import dungeonmania.dungeon.Dungeon;
 import java.util.stream.Collectors;
 
-import dungeonmania.Dungeon;
+
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.movements.dijkstra.Dijkstra;
 import dungeonmania.entities.staticentities.Portal;

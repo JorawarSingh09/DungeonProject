@@ -1,6 +1,8 @@
 package dungeonmania.entities.staticentities;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
@@ -31,6 +33,16 @@ public class Door extends Entity implements Static {
     }
 
     @Override
+    public void setCollidable(boolean isCollidable) {
+        super.setCollidable(isCollidable);
+        if (isCollidable) {
+            this.doorOpen = true;
+        } else {
+            this.doorOpen = false;
+        }
+    }
+
+    @Override
     public String getType() {
         return EntityString.DOOR.toString();
     }
@@ -39,4 +51,16 @@ public class Door extends Entity implements Static {
         return false;
     }
 
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("key", this.keyPair);
+        entityJSON.addProperty("collidable", super.isCollidable());
+
+        return entityJSON;
+
+    }
 }

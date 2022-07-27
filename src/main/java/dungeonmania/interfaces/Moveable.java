@@ -1,6 +1,6 @@
 package dungeonmania.interfaces;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.util.Position;

@@ -14,28 +14,29 @@ import dungeonmania.enums.ErrorString;
 import dungeonmania.util.Position;
 
 public class AssassinTest {
-    // @Test
-    // @DisplayName("Test random assassin bribe fail chance, and that player loses gold regardless.")
-    // public void friendRequest() {
+    @Test
+    @DisplayName("Test random assassin bribe fail chance, and that player loses gold regardless.")
+    public void friendRequest() {
 
-    //     Player player = new Player(1, new Position(0, 0),
-    //             false, false, 1,
-    //             1, 1, 1, 1, 1, 1, 1);
-    //     Assassin assn = new Assassin(2, new Position(1, 0), true, false, 1, 1, 1, 1, 99, 1, 0.4);
+        Player player = new Player(1, new Position(0, 0),
+                false, false, 1,
+                1, 1, 1, 1, 1, 1, 1);
+        Assassin assn = new Assassin(2, new Position(1, 0), true, false, 1, 1, 1, 1,
+                99, 1, 0, 1);
 
-    //     player.addItem(new Treasure(3, new Position(0, 3), false, false));
+        player.addItem(new Treasure(3, new Position(0, 3), false, false));
 
-    //     assertEquals(false, assn.isAllyToPlayer());
+        assertEquals(false, assn.isAllyToPlayer());
 
-    //     String bribeRes = player.attemptBribe(assn);
-    //     // int currCoins = player.getInventory().countItem(Treasure.class);
+        String bribeRes = player.attemptBribe(assn);
+        // int currCoins = player.getInventory().countItem(Treasure.class);
 
-    //     if (bribeRes.equals(ErrorString.SUCCESS.toString()))
-    //         assertEquals(true, assn.isAllyToPlayer());
-    //     else
-    //         assertEquals(false, assn.isAllyToPlayer());
-    //     // System.out.println(currCoins);
-    //     // System.out.println(assn.getBribeAmount());
-    //     // assertNotEquals(currCoins, player.getInventory().countItem(Treasure.class));
-    // }
+        // if (bribeRes.equals(ErrorString.SUCCESS.toString()))
+        assertEquals(true, assn.isAllyToPlayer());
+        // else
+        // assertEquals(false, assn.isAllyToPlayer());
+        // System.out.println(currCoins);
+        // System.out.println(assn.getBribeAmount());
+        // assertNotEquals(currCoins, player.getInventory().countItem(Treasure.class));
+    }
 }

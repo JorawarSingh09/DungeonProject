@@ -1,7 +1,6 @@
 package dungeonmania.interfaces;
 
-import dungeonmania.Dungeon;
-import dungeonmania.entities.movingentities.Player;
+import dungeonmania.dungeon.Dungeon;import dungeonmania.entities.movingentities.Player;
 
 public interface Collectable {
 
@@ -9,5 +8,6 @@ public interface Collectable {
 
     public String getType();
      
+    public int getEntityId();
 }
 

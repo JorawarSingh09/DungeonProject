@@ -1,5 +1,7 @@
 package dungeonmania.entities.buildableentities;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.enums.EntityString;
@@ -50,4 +52,15 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
 
     }
 
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", super.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("durability", this.getDurability());
+        return entityJSON;
+
+    }
 }

@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-import dungeonmania.Dungeon;
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.util.Position;
 
 public class Dijkstra {
@@ -31,12 +31,12 @@ public class Dijkstra {
 
     public boolean generateGrid() {
         grid.clear();
-        Position bottomLeft = new Position(follower.getX() - 10, follower.getY() - 10);
+        Position bottomLeft = new Position(follower.getX() - 12, follower.getY() - 12);
         boolean foundPlayer = false;
 
         // Get all co-ords in the grid
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < 25; i++) {
+            for (int j = 0; j < 25; j++) {
                 Position curr = new Position(bottomLeft.getX() + i, bottomLeft.getY() + j);
                 if (curr.equals(followed)) {
                     dest = new Node(curr, determineCost(curr, dungeon), dungeon, this);

@@ -1,6 +1,8 @@
 package dungeonmania.goals;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.collectableentities.Sunstone;
@@ -22,10 +24,20 @@ public class CollectTreasureGoal implements Goal {
         return (treasureCount >= this.treasure);
     }
 
+    @Override
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return GoalString.COMPLETED.toString();
+            return GoalString.COMPLETED.toString();;
         return GoalString.TREASURE.toString();
+    }
+
+    @Override
+    public JsonObject getJson(Dungeon dungeon) {
+
+        JsonObject goal = new JsonObject();
+        goal.addProperty("goal", toString(dungeon));
+        return goal;
+
     }
 
 }

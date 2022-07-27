@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
@@ -15,9 +17,11 @@ import dungeonmania.util.Position;
 
 public class Portal extends Entity implements Static {
     private Position pairPosition;
+    private String colour;
 
-    public Portal(int id, Position position) {
+    public Portal(int id, Position position, String colour) {
         super(id, position, false, false);
+        this.colour = colour;
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
@@ -32,7 +36,7 @@ public class Portal extends Entity implements Static {
         onTo(boulder, dungeon, direction);
     }
 
-    private void onTo(Entity entity, Dungeon dungeon, Direction direction) {
+    public void onTo(Entity entity, Dungeon dungeon, Direction direction) {
         List<Position> possiblePositions = new ArrayList<>();
         possiblePositions.add(pairPosition.translateBy(direction));
         possiblePositions.addAll(pairPosition.getCardinallyAdjacentPositions());
@@ -40,7 +44,15 @@ public class Portal extends Entity implements Static {
             int col = dungeon.getStaticsOnBlock(position).stream().filter(e -> e.isCollidable() || e.isRepellent())
                     .collect(Collectors.toList()).size();
             if (col == 0) {
-                entity.setPosition(position);
+                boolean chainPortal = false;
+                for (Static posPortal : dungeon.getStaticsOnBlock(position)) {
+                    if (posPortal instanceof Portal) {
+                        ((Portal) posPortal).onTo(entity, dungeon, direction);
+                        chainPortal = true;
+                    }
+                }
+                
+                if (!chainPortal) entity.setPosition(position);
                 break;
             }
         }
@@ -66,5 +78,17 @@ public class Portal extends Entity implements Static {
 
     public Position getPairPosition() {
         return pairPosition;
+    }
+
+    @Override
+    public JsonObject getJson(){
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("colour", this.colour);
+
+        return entityJSON;
+
     }
 }

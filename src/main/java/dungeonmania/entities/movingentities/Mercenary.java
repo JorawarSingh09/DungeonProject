@@ -1,6 +1,8 @@
 package dungeonmania.entities.movingentities;
 
-import dungeonmania.Dungeon;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
@@ -15,16 +17,16 @@ import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health, Durability {
 
-    private boolean isAlly;
+    protected boolean isAlly;
     private double ally_attack;
     private double ally_defence;
     private double attack;
     private double health;
     private int bribe_radius;
     private int bribe_amount;
-    private MovementStrategy currMoveStrat;
-    private MovementStrategy playerInvis = new RandomMovementStrategy(this);
-    private MovementStrategy standard = new FollowPlayerMovementStrategy(this);
+    protected MovementStrategy currMoveStrat;
+    protected MovementStrategy playerInvis = new RandomMovementStrategy(this);
+    protected MovementStrategy standard = new FollowPlayerMovementStrategy(this);
     private int durability;
     private boolean mindControlled = false;
 
@@ -41,6 +43,14 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
         this.bribe_amount = bribe_amount;
         this.isAlly = false;
         currMoveStrat = standard;
+    }
+
+    public MovementStrategy getPlayerInvis() {
+        return playerInvis;
+    }
+
+    public MovementStrategy getStandard() {
+        return standard;
     }
 
     public double getAllyAttackDamage() {
@@ -89,6 +99,10 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public void reversePath() {
+        currMoveStrat.reversePath();
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
@@ -142,6 +156,17 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
     }
 
     @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", super.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("isAlly", this.isAlly());
+        return entityJSON;
+
+    }
+
     public void reduceDurability() {
         this.durability -= 1;
     }
