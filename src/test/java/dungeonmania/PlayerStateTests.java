@@ -39,6 +39,7 @@ public class PlayerStateTests {
         assertEquals(player.getAliveState(), player.getPlayerState());
         player.drinkInvis(invis.getEntityId());
         player.drinkInvinc(invin.getEntityId());
+        player.tickPotion(); 
         assertEquals(player.getInvisState(), player.getPlayerState());
         player.tickPotion();
         assertEquals(player.getInvisState(), player.getPlayerState());
@@ -64,6 +65,7 @@ public class PlayerStateTests {
         assertEquals(player.getAliveState(), player.getPlayerState());
         player.drinkInvinc(invin.getEntityId());
         player.drinkInvis(invis.getEntityId());
+        player.tickPotion(); 
         assertEquals(player.getInvincState(), player.getPlayerState());
         player.tickPotion();
         assertEquals(player.getInvincState(), player.getPlayerState());

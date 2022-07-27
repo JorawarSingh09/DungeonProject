@@ -26,6 +26,7 @@ public class Battle {
 
     /* returns if player won */
     public boolean startBattle() {
+
         while (!isGameOver()) {
             startRound();
         }
@@ -38,13 +39,13 @@ public class Battle {
     private void startRound() {
         Round round = new Round(player.getAttack(), enemy.getAttackDamage(),
                 playerInventory.getAttackingItems(), playerInventory.getDefendingItems(),
-                player.getAllies());
+                player.getAllies(), player.getPlayerState().equals(player.getInvincState()), enemy.getHealth());
         rounds.add(round);
-        if (player.getPlayerState() == player.getInvincState()) {
-            enemy.setHealth(0);
-        } else {
+        if (!player.getPlayerState().equals(player.getInvincState())) {
             enemy.loseHealth(round.enemyHealthChange());
             player.loseHealth(round.playerHealthChange());
+        } else {
+            enemy.setHealth(0);
         }
     }
 

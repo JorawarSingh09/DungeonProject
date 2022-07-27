@@ -130,11 +130,13 @@ public class Player extends Entity implements Moveable {
         if (queueItems.size() > 0) {
             Regenerative item = queueItems.peek();
             item.decrementDuration();
-            if (item.getRemainingDuration() <= 1) {
+            if (item.getRemainingDuration() <= 0) {
                 queueItems.remove();
 
                 if (queueItems.size() > 0) {
                     nextItem();
+                } else {
+                    state = aliveState;
                 }
             }
         } else {

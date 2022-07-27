@@ -80,27 +80,27 @@ public class SunstoneTests {
     //     assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
     // }
 
-    // @Test
-    // @DisplayName("test lost sunstone when build a Midnight armour")
-    // public void sunstoneDepleteBuildMidnightArmour() {
-    //     DungeonManiaController dmc = TestUtils.createDungeon("sunstone", "c_battleTests_basicMercenaryMercenaryDies");
-    //     // Pick up sunstone
-    //     dmc.tick(Direction.RIGHT);
-    //     assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
-    //     dmc.tick(Direction.LEFT);
-    //     // Pick up wood
-    //     dmc.tick(Direction.LEFT);
-    //     assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
-    //     // Pick up treasure
-    //     dmc.tick(Direction.LEFT);
-    //     assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
-    //     // Pick up sword
-    //     dmc.tick(Direction.LEFT);
-    //     assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
-    //     // Build sceptre and lost everything
-    //     Assertions.assertDoesNotThrow(() -> (dmc.build("midnight_armour")));
-    //     assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
-    // }
+    @Test
+    @DisplayName("test lost sunstone when build a Midnight armour")
+    public void sunstoneDepleteBuildMidnightArmour() {
+        DungeonManiaController dmc = TestUtils.createDungeon("sunstone", "c_battleTests_basicMercenaryMercenaryDies");
+        // Pick up sunstone
+        dmc.tick(Direction.RIGHT);
+        assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.LEFT);
+        // Pick up wood
+        dmc.tick(Direction.LEFT);
+        assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
+        // Pick up treasure
+        dmc.tick(Direction.LEFT);
+        assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
+        // Pick up sword
+        dmc.tick(Direction.LEFT);
+        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
+        // Build sceptre and lost everything
+        Assertions.assertDoesNotThrow(() -> (dmc.build("midnight_armour")));
+        assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
+    }
 
     @Test
     @DisplayName("test kept sunstone when build a shield")
@@ -117,6 +117,7 @@ public class SunstoneTests {
         assertEquals(3, dmc.getDungeonResponseModel().getInventory().size());
         // Test made shield and kept the sunstone
         Assertions.assertDoesNotThrow(() -> (dmc.build("shield")));
+        System.out.println(dmc.getDungeonResponseModel().getInventory().size());
         assertEquals(2, dmc.getDungeonResponseModel().getInventory().size());
     }
 

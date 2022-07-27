@@ -333,6 +333,7 @@ public class Dungeon {
             return ErrorString.NOWEAP.toString();
         }
         removeEntity(zomSpawn);
+        bc.addKill();
         return ErrorString.SUCCESS.toString();
     }
 

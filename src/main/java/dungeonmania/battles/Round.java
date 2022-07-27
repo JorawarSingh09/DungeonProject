@@ -16,11 +16,16 @@ public class Round {
     private List<Mercenary> allies;
 
     public Round(double playerAttackDamage, double enemyAttackDamage, List<Attacking> attackWeaponryUsed,
-            List<Defending> defenceWeaponryUsed, List<Mercenary> allies) {
-        this.playerAttackDamage = playerAttackDamage;
-        this.enemyAttackDamage = enemyAttackDamage;
+            List<Defending> defenceWeaponryUsed, List<Mercenary> allies, boolean isInvinceable, double enemyHealth) {
+        if (isInvinceable) {
+            this.playerAttackDamage = enemyHealth;
+            this.enemyAttackDamage = 0;
+        } else {
+            this.playerAttackDamage = playerAttackDamage;
+            this.enemyAttackDamage = enemyAttackDamage;
+        }
         this.attackWeaponryUsed = new ArrayList<>();
-        attackWeaponryUsed.addAll(attackWeaponryUsed);
+        this.attackWeaponryUsed.addAll(attackWeaponryUsed);
         this.defenceWeaponryUsed = new ArrayList<>();
         this.defenceWeaponryUsed.addAll(defenceWeaponryUsed);
         this.allies = allies;
