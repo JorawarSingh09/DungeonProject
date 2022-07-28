@@ -16,7 +16,7 @@ public class SystemLevelTests {
     @Test
     @DisplayName("Player collects invincibility potion, invisibility potion, sword, treasure, bribe merc, opens doors")
     public void playerAdv() {
-        DungeonManiaController dmc = TestUtils.createDungeon("advanced", "bribe_radius_1");
+        DungeonManiaController dmc = TestUtils.createDungeon("advanced", "system");
         // Pick up the invincibility potion.
         dmc.tick(Direction.RIGHT);
         assertEquals(1, dmc.getDungeonResponseModel().getInventory().size());
@@ -53,29 +53,31 @@ public class SystemLevelTests {
         dmc.tick(Direction.RIGHT);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.LEFT);
-        dmc.tick(Direction.DOWN);
-        assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
-        dmc.tick(Direction.DOWN);
-        Assertions.assertDoesNotThrow(() -> (dmc.build("shield")));
-        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
-        dmc.tick(Direction.DOWN);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.DOWN);
         assertEquals(6, dmc.getDungeonResponseModel().getInventory().size());
-        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.DOWN);
+        assertEquals(7, dmc.getDungeonResponseModel().getInventory().size());
+        Assertions.assertDoesNotThrow(() -> (dmc.build("shield")));
+        assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.DOWN);
+        assertEquals(6, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.DOWN);
         assertEquals(7, dmc.getDungeonResponseModel().getInventory().size());
         dmc.tick(Direction.RIGHT);
         assertEquals(8, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.RIGHT);
+        assertEquals(9, dmc.getDungeonResponseModel().getInventory().size());
         Assertions.assertDoesNotThrow(() -> (dmc.build("bow")));
+        assertEquals(6, dmc.getDungeonResponseModel().getInventory().size());
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.UP);
+        dmc.tick(Direction.UP);
+        dmc.tick(Direction.UP);
+        dmc.tick(Direction.UP);
+        dmc.tick(Direction.UP);
         assertEquals(5, dmc.getDungeonResponseModel().getInventory().size());
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.UP);
-        dmc.tick(Direction.UP);
-        dmc.tick(Direction.UP);
-        dmc.tick(Direction.UP);
-        dmc.tick(Direction.UP);
-        assertEquals(4, dmc.getDungeonResponseModel().getInventory().size());
     }
 
     @Test
