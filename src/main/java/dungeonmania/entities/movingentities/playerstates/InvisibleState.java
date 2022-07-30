@@ -2,23 +2,32 @@ package dungeonmania.entities.movingentities.playerstates;
 
 import dungeonmania.entities.movingentities.Player;
 
-public class InvisibleState extends PlayerState {
+public class InvisibleState implements PlayerState {
+    Player player;
 
     public InvisibleState(Player player) {
-        super(player);
+        this.player = player;
     }
 
-    @Override
     public void tick(int queueSize) {
         if (queueSize == 0) {
-            player.setPlayerState(player.getAliveState());
+            player.setPlayerState(new AliveState(player));
         }
     }
 
-    @Override
     public void drinkInvinc() {
-        player.setPlayerState(player.getInvincState());
+        player.setPlayerState(new InvincibleState(player));
 
+    }
+
+    public void engageBattle(boolean playerDied) {
+        // The player cannot engage in battle when invisible
+        return;
+    }
+
+    public void drinkInvis() {
+        // The player is already invisible
+        return;
     }
 
 }

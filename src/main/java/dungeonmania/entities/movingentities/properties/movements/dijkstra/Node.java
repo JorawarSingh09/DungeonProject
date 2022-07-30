@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

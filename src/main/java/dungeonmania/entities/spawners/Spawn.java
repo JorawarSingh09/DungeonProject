@@ -1,4 +1,4 @@
-package dungeonmania.interfaces;
+package dungeonmania.entities.spawners;
 
 import dungeonmania.dungeon.Dungeon;
 

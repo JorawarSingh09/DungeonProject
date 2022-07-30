@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.dijkstra.Dijkstra;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class FollowPlayerMovementStrategy extends MovementStrategy {

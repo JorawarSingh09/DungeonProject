@@ -2,11 +2,12 @@ package dungeonmania.entities.movingentities;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class ZombieToast extends Entity implements Moveable, Health {
@@ -49,7 +50,7 @@ public class ZombieToast extends Entity implements Moveable, Health {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        if (player.getPlayerState() == player.getInvincState()) {
+        if (player.getPlayerState() instanceof InvincibleState) {
             currMoveStrat = playerInvinc;
         } else {
             currMoveStrat = standard;

@@ -1,8 +1,11 @@
 package dungeonmania.entities.movingentities;
 
 import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Position;
 
 public class Assassin extends Mercenary {
@@ -35,17 +38,16 @@ public class Assassin extends Mercenary {
 
     @Override
     public void updatePosition(Dungeon dungeon, Player player) {
-        if (player.getPlayerState().equals(player.getInvisState())) {
-            if (Position.getDistanceBetweenTwoPositions(player.getPosition(), this.getPosition()) > reconRadius) {
+        if (player.getPlayerState().equals(new InvisibleState(player))) {
+            if (this.getDistanceBetweenTwoEntities(player) > reconRadius) {
                 currMoveStrat = playerInvis;
             } else {
                 currMoveStrat = standard;
             }
-
-        } else if (player.getPlayerState().equals(player.getInvincState()) && !isAlly && !currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState().equals(new InvincibleState(player)) && !isAlly && !currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
-        } else if (player.getPlayerState().equals(player.getAliveState()) && currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState().equals(new AliveState(player)) && currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
         } else {

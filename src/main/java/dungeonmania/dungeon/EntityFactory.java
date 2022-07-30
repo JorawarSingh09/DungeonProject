@@ -9,7 +9,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildableentities.Bow;
 import dungeonmania.entities.buildableentities.MidnightArmour;
@@ -30,6 +29,8 @@ import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.entities.movingentities.ZombieToast;
+import dungeonmania.entities.spawners.SpiderSpawn;
+import dungeonmania.entities.spawners.ZombieToastSpawner;
 import dungeonmania.entities.staticentities.Boulder;
 import dungeonmania.entities.staticentities.Door;
 import dungeonmania.entities.staticentities.Exit;
@@ -44,12 +45,9 @@ import dungeonmania.goals.EnemiesGoal;
 import dungeonmania.goals.ExitGoal;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalCondition;
-import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.spawners.SpiderSpawn;
-import dungeonmania.spawners.ZombieToastSpawner;
-import dungeonmania.util.FileLoader;
 import dungeonmania.util.LoadConfig;
 import dungeonmania.util.Position;
+
 public class EntityFactory {
 
     public static void makeEntities(JsonArray entities, Dungeon dungeon, boolean isSaved, LoadConfig loadedConfig) {

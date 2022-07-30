@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

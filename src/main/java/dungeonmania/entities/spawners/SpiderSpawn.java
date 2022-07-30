@@ -1,4 +1,4 @@
-package dungeonmania.spawners;
+package dungeonmania.entities.spawners;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Spider;
-import dungeonmania.interfaces.Spawn;
 import dungeonmania.util.Position;
 
 public class SpiderSpawn implements Spawn<Spider> {

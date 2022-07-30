@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Moveable;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public abstract class MovementStrategy {

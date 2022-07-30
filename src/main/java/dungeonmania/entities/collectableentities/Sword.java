@@ -4,11 +4,11 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Attacking;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Sword extends Entity implements Storeable, Attacking, Durability, Collectable {

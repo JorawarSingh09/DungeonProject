@@ -1,4 +1,4 @@
-package dungeonmania.spawners;
+package dungeonmania.entities.spawners;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,8 +8,7 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.ZombieToast;
-import dungeonmania.interfaces.Spawn;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

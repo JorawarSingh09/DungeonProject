@@ -6,8 +6,7 @@ import java.util.Map;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Moveable;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

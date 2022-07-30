@@ -1,9 +1,8 @@
 package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Buildable;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Sceptre extends Entity implements Buildable, Storeable {

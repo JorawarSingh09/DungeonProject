@@ -3,10 +3,10 @@ package dungeonmania.entities.movingentities.properties.movements;
 import java.util.List;
 
 import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Moveable;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Position;
 
 public class PlayerMovementStrategy extends MovementStrategy {
