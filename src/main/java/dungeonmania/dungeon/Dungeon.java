@@ -94,17 +94,16 @@ public class Dungeon {
 
     public List<EntityResponse> createEntityResponse() {
         List<EntityResponse> entityResponses = new ArrayList<>();
-        for (Entity entity : entities) {
-            entityResponses.add(new EntityResponse(Integer.toString(entity.getEntityId()), entity.getType(),
-                    entity.getPosition(), entity.isInteractable()));
-        }
+        entities.forEach((entity) -> {
+            entityResponses.add(entity.createEntityResponse());
+        });
         return entityResponses;
     }
 
     public List<ItemResponse> createItemResponse() {
         List<ItemResponse> inventory = new ArrayList<>();
         for (Storeable item : player.getInventoryItems()) {
-            inventory.add(new ItemResponse(Integer.toString(item.getItemId()), item.getType()));
+            inventory.add(item.createItemResponse());
         }
         return inventory;
     }
@@ -179,19 +178,23 @@ public class Dungeon {
     }
 
     public List<Static> getStaticsOnBlock(Position pos) {
-        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Static.class::isInstance).map(Static.class::cast).collect(Collectors.toList());
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Static.class::isInstance)
+                .map(Static.class::cast).collect(Collectors.toList());
     }
 
     public List<Collectable> getCollectablesOnBlock(Position pos) {
-        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Collectable.class::isInstance).map(Collectable.class::cast).collect(Collectors.toList());
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Collectable.class::isInstance)
+                .map(Collectable.class::cast).collect(Collectors.toList());
     }
 
     public List<Moveable> getEnemies() {
-        return entities.stream().filter(Moveable.class::isInstance).map(Moveable.class::cast).collect(Collectors.toList());
+        return entities.stream().filter(Moveable.class::isInstance).map(Moveable.class::cast)
+                .collect(Collectors.toList());
     }
 
     public List<Health> getEnemiesOnBlock(Position pos) {
-        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Health.class::isInstance).map(Health.class::cast).collect(Collectors.toList());
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Health.class::isInstance)
+                .map(Health.class::cast).collect(Collectors.toList());
     }
 
     public boolean areAllSwitchesTriggered() {
