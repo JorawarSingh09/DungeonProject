@@ -11,17 +11,11 @@ import dungeonmania.util.LoadConfig;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.dungeon.DungeonFactory;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.Gson;
 
 public class DungeonManiaController {
     // private String configFileName;

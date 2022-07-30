@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.buildableentities.Bow;
+import dungeonmania.entities.buildableentities.Buildable;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.buildableentities.MidnightArmour;
 import dungeonmania.entities.buildableentities.Sceptre;
@@ -16,11 +17,10 @@ import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Sword;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.Wood;
-import dungeonmania.interfaces.Attacking;
-import dungeonmania.interfaces.Buildable;
-import dungeonmania.interfaces.Defending;
-import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Storeable;
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 
 public class Inventory {
 

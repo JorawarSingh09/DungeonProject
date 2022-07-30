@@ -2,26 +2,33 @@ package dungeonmania.entities.movingentities.playerstates;
 
 import dungeonmania.entities.movingentities.Player;
 
-public class InvincibleState extends PlayerState {
+public class InvincibleState implements PlayerState {
+
+    Player player; 
 
     public InvincibleState(Player player) {
-        super(player);
+        this.player = player;
     }
 
-    @Override
     public void tick(int queueSize) {
         if (queueSize == 0) {
-            player.setPlayerState(player.getAliveState());
+            player.setPlayerState(new AliveState(player));
         }
     }
 
     public void engageBattle(boolean playerDied) {
-        player.setPlayerState(player.getAliveState());
+        // The invincibility potion has been depleted
+        player.setPlayerState(new AliveState(player));
     }
 
     public void drinkInvis() {
-        player.setPlayerState(player.getInvisState());
+        player.setPlayerState(new InvincibleState(player));
 
+    }
+
+    @Override
+    public void drinkInvinc() {
+        // The player is already invisible.
     }
 
 }

@@ -1,11 +1,10 @@
 package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Attacking;
-import dungeonmania.interfaces.Buildable;
-import dungeonmania.interfaces.Defending;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class MidnightArmour extends Entity implements Buildable, Storeable, Attacking, Defending {

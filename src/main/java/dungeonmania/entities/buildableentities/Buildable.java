@@ -1,4 +1,4 @@
-package dungeonmania.interfaces;
+package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.movingentities.Player;
 

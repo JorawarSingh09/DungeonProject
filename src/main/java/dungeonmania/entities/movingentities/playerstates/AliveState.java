@@ -2,26 +2,31 @@ package dungeonmania.entities.movingentities.playerstates;
 
 import dungeonmania.entities.movingentities.Player;
 
-public class AliveState extends PlayerState {
+public class AliveState implements PlayerState {
+
+    Player player;
 
     public AliveState(Player player) {
-        super(player);
+        this.player = player;
     }
 
     public void engageBattle(boolean playerDied) {
+        // Player no longer has a state as they've died in battle
         if (playerDied) {
-            player.setPlayerState(player.getDeadState());
+            player.setPlayerState(null);
         }
     }
 
-    @Override
     public void drinkInvis() {
-        player.setPlayerState(player.getInvisState());
+        player.setPlayerState(new InvisibleState(player));
     }
 
-    @Override
     public void drinkInvinc() {
-        player.setPlayerState(player.getInvincState());
+        player.setPlayerState(new InvincibleState(player));
+    }
+
+    public void tick(int remainingDuration) {
+        // No potion activated, stays alive        
     }
 
 }

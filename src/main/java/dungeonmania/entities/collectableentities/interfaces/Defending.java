@@ -1,4 +1,4 @@
-package dungeonmania.interfaces;
+package dungeonmania.entities.collectableentities.interfaces;
 
 public interface Defending {
     public int defenceBonus();

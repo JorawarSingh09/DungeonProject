@@ -10,15 +10,18 @@ import com.google.gson.JsonObject;
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.goals.Goal;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Moveable;
-import dungeonmania.interfaces.Static;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Assassin;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.spawners.SpiderSpawn;
+import dungeonmania.entities.spawners.ZombieToastSpawner;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.entities.staticentities.SwampTile;
 import dungeonmania.enums.Buildable;
 import dungeonmania.enums.ErrorString;
@@ -29,8 +32,6 @@ import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
-import dungeonmania.spawners.SpiderSpawn;
-import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.LoadConfig;
 import dungeonmania.util.Position;
@@ -320,7 +321,7 @@ public class Dungeon {
     }
 
     public void startBattle(Health enemy) {
-        if (player.getPlayerState().equals(player.getInvisState())) {
+        if (player.getPlayerState() instanceof InvisibleState) {
             return;
         }
         if (bc.newBattle(player, enemy)) {

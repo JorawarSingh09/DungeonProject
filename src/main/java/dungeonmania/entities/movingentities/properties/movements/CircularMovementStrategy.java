@@ -2,7 +2,7 @@ package dungeonmania.entities.movingentities.properties.movements;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Moveable;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class CircularMovementStrategy extends MovementStrategy {

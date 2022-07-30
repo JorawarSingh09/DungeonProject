@@ -2,9 +2,9 @@ package dungeonmania.entities.collectableentities;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Treasure extends Entity implements Collectable, Storeable {

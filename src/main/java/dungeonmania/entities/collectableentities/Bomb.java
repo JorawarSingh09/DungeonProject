@@ -7,11 +7,11 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Static;
-import dungeonmania.interfaces.Storeable;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

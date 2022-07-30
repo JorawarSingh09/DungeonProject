@@ -4,14 +4,17 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Moveable;
-import dungeonmania.interfaces.Static;
+import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Position;
 
 public class Mercenary extends Entity implements Moveable, Health, Durability {
@@ -105,12 +108,12 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        if (player.getPlayerState().equals(player.getInvisState())) {
+        if (player.getPlayerState().equals(new InvisibleState(player))) {
             currMoveStrat = playerInvis;
-        } else if (player.getPlayerState().equals(player.getInvincState()) && !isAlly && !currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState().equals(new InvincibleState(player)) && !isAlly && !currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
-        } else if (player.getPlayerState().equals(player.getAliveState()) && currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState().equals(new AliveState(player)) && currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
         } else {

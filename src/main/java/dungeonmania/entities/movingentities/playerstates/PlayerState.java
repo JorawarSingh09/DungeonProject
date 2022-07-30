@@ -1,27 +1,12 @@
 package dungeonmania.entities.movingentities.playerstates;
 
-import dungeonmania.entities.movingentities.Player;
+public interface PlayerState {
 
-public abstract class PlayerState {
-    Player player;
+    public abstract void engageBattle(boolean playerDied);
 
-    public PlayerState(Player player) {
-        this.player = player;
-    }
+    public abstract void tick(int remainingDuration);
 
-    public void engageBattle(boolean playerDied) {
-        // Do nothing
-    }
+    public abstract void drinkInvis();
 
-    public void tick(int remainingDuration) {
-        // Do nothing
-    }
-
-    public void drinkInvis() {
-        // Do nothing
-    }
-
-    public void drinkInvinc() {
-        // Do nothing
-    }
+    public abstract void drinkInvinc();
 }

@@ -5,10 +5,10 @@ import java.util.List;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.SwampTile;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Direction;
 
 public class MovementController {

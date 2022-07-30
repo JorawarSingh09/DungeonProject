@@ -1,7 +1,5 @@
 package dungeonmania.entities;
 
-import org.json.JSONObject;
-
 import com.google.gson.JsonObject;
 
 import dungeonmania.response.models.EntityResponse;
@@ -65,5 +63,9 @@ public abstract class Entity {
 
     public EntityResponse createEntityResponse() {
         return new EntityResponse(Integer.toString(getEntityId()), getType(), getPosition(), isInteractable());
+    }
+    
+    public double getDistanceBetweenTwoEntities(Entity other) {
+        return Position.getDistanceBetweenTwoPositions(this.getPosition(), other.getPosition());
     }
 }

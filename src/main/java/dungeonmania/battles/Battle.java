@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
 import dungeonmania.entities.movingentities.properties.Inventory;
-import dungeonmania.interfaces.Health;
 
 public class Battle {
 
@@ -39,9 +40,9 @@ public class Battle {
     private void startRound() {
         Round round = new Round(player.getAttack(), enemy.getAttackDamage(),
                 playerInventory.getAttackingItems(), playerInventory.getDefendingItems(),
-                player.getAllies(), player.getPlayerState().equals(player.getInvincState()), enemy.getHealth());
+                player.getAllies(), (player.getPlayerState() instanceof InvincibleState), enemy.getHealth());
         rounds.add(round);
-        if (!player.getPlayerState().equals(player.getInvincState())) {
+        if (!(player.getPlayerState() instanceof InvincibleState)) {
             enemy.loseHealth(round.enemyHealthChange());
             player.loseHealth(round.playerHealthChange());
         } else {

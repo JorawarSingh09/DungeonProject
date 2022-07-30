@@ -3,11 +3,10 @@ package dungeonmania.entities.buildableentities;
 import com.google.gson.JsonObject;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Buildable;
-import dungeonmania.interfaces.Defending;
-import dungeonmania.interfaces.Durability;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Shield extends Entity implements Buildable, Storeable, Defending, Durability {

@@ -3,10 +3,10 @@ package dungeonmania.entities.movingentities;
 import dungeonmania.dungeon.Dungeon;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
-import dungeonmania.interfaces.Health;
-import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class Spider extends Entity implements Moveable, Health {

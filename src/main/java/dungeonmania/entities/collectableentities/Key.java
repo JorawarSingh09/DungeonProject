@@ -4,9 +4,9 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.interfaces.Collectable;
-import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
 
 public class Key extends Entity implements Storeable, Collectable {

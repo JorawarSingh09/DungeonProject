@@ -3,9 +3,9 @@ package dungeonmania.battles;
 import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
 import dungeonmania.entities.movingentities.Mercenary;
-import dungeonmania.interfaces.Attacking;
-import dungeonmania.interfaces.Defending;
 
 public class Round {
 
