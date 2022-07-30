@@ -47,8 +47,8 @@ import dungeonmania.goals.GoalCondition;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.spawners.ZombieToastSpawner;
-import dungeonmania.dungeon.LoadConfig;
 import dungeonmania.util.FileLoader;
+import dungeonmania.util.LoadConfig;
 import dungeonmania.util.Position;
 public class EntityFactory {
 
@@ -64,7 +64,7 @@ public class EntityFactory {
 
                 case "player":
 
-                    Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                    Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.player_attack, loadedConfig.player_health,
                             loadedConfig.bow_durability, loadedConfig.shield_durability, loadedConfig.shield_defence,
                             loadedConfig.midnight_armour_attack, loadedConfig.midnight_armour_defence,
@@ -89,16 +89,16 @@ public class EntityFactory {
                     break;
 
                 case "wall":
-                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
+                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "exit":
-                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
+                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "boulder":
-                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y), false, true));
+                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "switch":
-                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "door":
                     dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), new Position(x, y),
@@ -122,48 +122,48 @@ public class EntityFactory {
                             loadedConfig.zombie_health));
                     break;
                 case "spider":
-                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.spider_attack, loadedConfig.spider_health));
                     break;
                 case "zombie_toast":
-                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.zombie_attack, loadedConfig.zombie_health));
                     break;
                 case "mercenary":
-                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y), true, false,
+                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.ally_attack,
                             loadedConfig.ally_defence, loadedConfig.mercenary_attack, loadedConfig.mercenary_health,
                             loadedConfig.bribe_radius,
                             loadedConfig.bribe_amount));
                     break;
                 case "treasure":
-                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "key":
                     dungeon.addEntity(new Key(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             Integer.parseInt(((JsonObject) entity).get("key").toString())));
                     break;
                 case "invincibility_potion":
-                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y), false,
-                            false, loadedConfig.invincibility_potion_duration));
+                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                            loadedConfig.invincibility_potion_duration));
                     break;
                 case "invisibility_potion":
-                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y), false,
-                            false, loadedConfig.invisibility_potion_duration));
+                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                            loadedConfig.invisibility_potion_duration));
                     break;
                 case "wood":
-                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "arrow":
-                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "bomb":
                     dungeon.addEntity(
-                            new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                            new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y),
                                     loadedConfig.bomb_radius));
                     break;
                 case "sword":
-                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.sword_attack, loadedConfig.sword_durability));
                     break;
                 case "bow":
@@ -171,7 +171,7 @@ public class EntityFactory {
                     break;
                 case "shield":
                     dungeon.addEntity(
-                            new Shield(dungeon.getCurrMaxEntityId(), false, false, loadedConfig.shield_durability,
+                            new Shield(dungeon.getCurrMaxEntityId(), loadedConfig.shield_durability,
                                     loadedConfig.shield_defence));
                     break;
 
@@ -183,7 +183,7 @@ public class EntityFactory {
                     break;
 
                 case "sun_stone":
-                    dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                    dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
 
                 case "midnight_armour":
@@ -195,7 +195,7 @@ public class EntityFactory {
                     dungeon.addEntity(new Sceptre(dungeon.getCurrMaxEntityId()));
                     break;
                 case "assassin":
-                    dungeon.addEntity(new Assassin(dungeon.getCurrMaxEntityId(), new Position(x, y), true, false,
+                    dungeon.addEntity(new Assassin(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.ally_attack, loadedConfig.ally_defence, loadedConfig.assassin_attack,
                             loadedConfig.assassin_health,
                             loadedConfig.bribe_radius, loadedConfig.assassin_bribe_amount,
@@ -225,37 +225,37 @@ public class EntityFactory {
         int y = 0;
         switch (type) {
             case "treasure":
-                return (new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                return (new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));
 
             case "key":
                 return (new Key(dungeon.getCurrMaxEntityId(), new Position(x, y),
                         Integer.parseInt(((JsonObject) item).get("key").toString())));
 
             case "invincibility_potion":
-                return (new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y), false,
-                        false, loadedConfig.invincibility_potion_duration));
+                return (new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                        loadedConfig.invincibility_potion_duration));
 
             case "invisibility_potion":
-                return (new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y), false,
-                        false, loadedConfig.invisibility_potion_duration));
+                return (new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                        loadedConfig.invisibility_potion_duration));
 
             case "wood":
-                return (new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                return (new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));
 
             case "arrow":
-                return (new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false));
+                return (new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y)));
 
             case "bomb":
-                return (new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                return (new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y),
                         loadedConfig.bomb_radius));
 
             case "sword":
-                return (new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y), false, false,
+                return (new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y),
                         loadedConfig.sword_attack, loadedConfig.sword_durability));
             case "bow":
                 return (new Bow(dungeon.getCurrMaxEntityId(), loadedConfig.bow_durability));
             case "shield":
-                return (new Shield(dungeon.getCurrMaxEntityId(), false, false, loadedConfig.shield_durability,
+                return (new Shield(dungeon.getCurrMaxEntityId(), loadedConfig.shield_durability,
                         loadedConfig.shield_defence));
 
         }
