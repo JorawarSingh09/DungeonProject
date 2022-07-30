@@ -114,7 +114,7 @@ public class Inventory {
     public void build(String itemBuild, int nextItemMaxId) {
         switch (itemBuild) {
             case "shield":
-                Shield shield = new Shield(nextItemMaxId, false, false, shieldDurability, shieldDefence);
+                Shield shield = new Shield(nextItemMaxId, shieldDurability, shieldDefence);
                 addItem(shield);
                 removeShieldItems();
                 break;

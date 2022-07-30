@@ -29,12 +29,11 @@ public class MercenaryTests {
     @DisplayName("test that a mercenary can be bribed")
     public void friendRequest() {
 
-        Player player = new Player(1, new Position(0, 0),
-                false, false, 1,
+        Player player = new Player(1, new Position(0, 0), 1,
                 1, 1, 1, 1, 1, 1, 1);
-        Mercenary merc = new Mercenary(2, new Position(1, 0), true, false, 1, 1, 1, 1, 99, 1);
+        Mercenary merc = new Mercenary(2, new Position(1, 0), 1, 1, 1, 1, 99, 1);
 
-        player.addItem(new Treasure(3, new Position(0, 3), false, false));
+        player.addItem(new Treasure(3, new Position(0, 3)));
         assertEquals(false, merc.isAllyToPlayer());
         player.attemptBribe(merc);
         assertEquals(true, merc.isAllyToPlayer());

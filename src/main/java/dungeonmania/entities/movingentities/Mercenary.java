@@ -29,11 +29,11 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
     private int durability;
     private boolean mindControlled = false;
 
-    public Mercenary(int id, Position position, boolean interactable, boolean collidable,
+    public Mercenary(int id, Position position,
             double ally_attack, double ally_defence, double mercenary_attack,
             double mercenary_health, int bribe_radius, int bribe_amount) {
 
-        super(id, position, interactable, collidable);
+        super(id, position, true, false);
         this.ally_attack = ally_attack;
         this.ally_defence = ally_defence;
         this.attack = mercenary_attack;

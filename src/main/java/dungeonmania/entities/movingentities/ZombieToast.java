@@ -17,9 +17,9 @@ public class ZombieToast extends Entity implements Moveable, Health {
     private MovementStrategy standard = new RandomMovementStrategy(this);
     private MovementStrategy playerInvinc = new FollowPlayerMovementStrategy(this);
 
-    public ZombieToast(int id, Position position, boolean interactable, boolean collidable,
+    public ZombieToast(int id, Position position,
             double attack, double health) {
-        super(id, position, interactable, collidable);
+        super(id, position, false, false);
         this.attack = attack;
         this.health = health;
         currMoveStrat = standard;

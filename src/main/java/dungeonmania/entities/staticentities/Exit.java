@@ -9,8 +9,8 @@ import dungeonmania.util.Position;
 
 public class Exit extends Entity implements Static {
 
-    public Exit(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public Exit(int id, Position position) {
+        super(id, position, false, true);
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {

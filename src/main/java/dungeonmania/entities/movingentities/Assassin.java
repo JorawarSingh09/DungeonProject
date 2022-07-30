@@ -9,11 +9,11 @@ public class Assassin extends Mercenary {
     private double failChance;
     private int reconRadius;
 
-    public Assassin(int id, Position position, boolean interactable, boolean collidable,
+    public Assassin(int id, Position position,
             double ally_attack, double ally_defence, double assassin_attack,
             double assassin_health, int bribe_radius, int bribe_amount, double fail_chance, int reconRadius) {
 
-        super(id, position, interactable, collidable, ally_attack, ally_defence, assassin_attack,
+        super(id, position, ally_attack, ally_defence, assassin_attack,
                 assassin_health, bribe_radius, bribe_amount);
 
         this.failChance = fail_chance;

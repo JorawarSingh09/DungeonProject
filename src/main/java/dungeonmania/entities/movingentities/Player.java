@@ -49,10 +49,10 @@ public class Player extends Entity implements Moveable {
     private PlayerState invincState = new InvincibleState(this);
     private PlayerState invisState = new InvisibleState(this);
 
-    public Player(int id, Position position, boolean interactable, boolean collidable,
+    public Player(int id, Position position,
             double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence,
             int armourAttack, int armourDefence, int mindControlDuration) {
-        super(id, position, interactable, collidable);
+        super(id, position, false, false);
         this.prevPosition = position;
         this.health = player_health;
         this.attack = player_attack;

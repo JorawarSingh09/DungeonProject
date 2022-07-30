@@ -12,8 +12,8 @@ public class FloorSwitch extends Entity implements Static {
 
     private boolean triggered;
 
-    public FloorSwitch(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public FloorSwitch(int id, Position position) {
+        super(id, position, false, false);
         this.triggered = false;
     }
 

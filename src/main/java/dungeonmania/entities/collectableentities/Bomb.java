@@ -3,6 +3,8 @@ package dungeonmania.entities.collectableentities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
@@ -17,8 +19,8 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
     private int bomb_radius;
     private List<Position> blastArea = new ArrayList<>();
 
-    public Bomb(int id, Position position, boolean interactable, boolean collidable, int bomb_radius) {
-        super(id, position, interactable, collidable);
+    public Bomb(int id, Position position, int bomb_radius) {
+        super(id, position, true, false);
         this.bomb_radius = bomb_radius;
         Position bombOrigin = new Position(this.getPosition().getX() - this.bomb_radius, this.getPosition().getY() - this.bomb_radius);
         for (int i = 0; i < ((2 * this.bomb_radius) + 2); i++) {
@@ -83,4 +85,14 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
         return false;
     }
 
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("collidable", this.isCollidable());
+        return entityJSON;
+    }
 }

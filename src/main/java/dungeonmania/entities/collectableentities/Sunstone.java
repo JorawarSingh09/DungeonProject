@@ -9,8 +9,8 @@ import dungeonmania.util.Position;
 
 public class Sunstone extends Entity implements Collectable, Storeable {
 
-    public Sunstone(int entityId, Position position, boolean interactable, boolean collidable) {
-        super(entityId, position, interactable, collidable);
+    public Sunstone(int entityId, Position position) {
+        super(entityId, position, false, false);
     }
 
     @Override

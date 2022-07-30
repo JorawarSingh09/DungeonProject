@@ -14,8 +14,8 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
 
     private int duration;
 
-    public InvisibilityPotion(int id, Position position, boolean interactable, boolean collidable, int duration) {
-        super(id, position, interactable, collidable);
+    public InvisibilityPotion(int id, Position position, int duration) {
+        super(id, position, false, false);
         this.duration = duration;
     }
 

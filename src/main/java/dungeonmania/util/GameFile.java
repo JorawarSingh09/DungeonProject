@@ -1,8 +1,9 @@
-package dungeonmania.dungeon;
+package dungeonmania.util;
 
 import com.google.gson.JsonArray;
+
+import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
-import dungeonmania.util.FileLoader;
 
 import java.io.FileWriter;
 import java.io.IOException;

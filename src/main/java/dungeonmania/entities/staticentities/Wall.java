@@ -9,8 +9,8 @@ import dungeonmania.util.Position;
 
 public class Wall extends Entity implements Static {
 
-    public Wall(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public Wall(int id, Position position) {
+        super(id, position, false, true);
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
