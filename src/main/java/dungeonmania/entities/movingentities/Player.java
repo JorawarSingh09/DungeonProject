@@ -23,7 +23,6 @@ import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
-import dungeonmania.enums.EntityString;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.enums.Usable;
 import dungeonmania.interfaces.Storeable;
@@ -287,7 +286,7 @@ public class Player extends Entity implements Moveable {
 
     @Override
     public String getType() {
-        return EntityString.PLAYER.toString();
+        return "player";
     }
 
     public PlayerState getAliveState() {

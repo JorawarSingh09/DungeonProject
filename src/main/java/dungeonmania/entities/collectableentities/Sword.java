@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Durability;
@@ -51,7 +50,7 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
 
     @Override
     public String getType() {
-        return EntityString.SWORD.toString();
+        return "sword";
     }
 
     @Override

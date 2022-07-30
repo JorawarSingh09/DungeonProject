@@ -1,6 +1,5 @@
 package dungeonmania.dungeon;
 
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -169,53 +168,23 @@ public class Dungeon {
     }
 
     public List<Entity> getEntitiesOfType(String type) {
-        List<Entity> foundMatches = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity.getType().equals(type)) {
-                foundMatches.add(entity);
-            }
-        }
-        return foundMatches;
+        return entities.stream().filter(t -> t.getType().equals(type)).collect(Collectors.toList());
     }
 
     public List<Static> getStaticsOnBlock(Position pos) {
-        List<Static> foundMatches = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity.getPosition().equals(pos) && entity instanceof Static) {
-                foundMatches.add((Static) entity);
-            }
-        }
-        return foundMatches;
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Static.class::isInstance).map(Static.class::cast).collect(Collectors.toList());
     }
 
     public List<Collectable> getCollectablesOnBlock(Position pos) {
-        List<Collectable> foundMatches = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity.getPosition().equals(pos) && entity instanceof Collectable) {
-                foundMatches.add((Collectable) entity);
-            }
-        }
-        return foundMatches;
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Collectable.class::isInstance).map(Collectable.class::cast).collect(Collectors.toList());
     }
 
     public List<Moveable> getEnemies() {
-        List<Moveable> foundMatches = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity instanceof Moveable) {
-                foundMatches.add((Moveable) entity);
-            }
-        }
-        return foundMatches;
+        return entities.stream().filter(Moveable.class::isInstance).map(Moveable.class::cast).collect(Collectors.toList());
     }
 
     public List<Health> getEnemiesOnBlock(Position pos) {
-        List<Health> foundMatches = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity.getPosition().equals(pos) && entity instanceof Health) {
-                foundMatches.add((Health) entity);
-            }
-        }
-        return foundMatches;
+        return entities.stream().filter(t -> t.getPosition().equals(pos)).filter(Health.class::isInstance).map(Health.class::cast).collect(Collectors.toList());
     }
 
     public boolean areAllSwitchesTriggered() {
@@ -303,7 +272,6 @@ public class Dungeon {
     }
 
     public void useItem(int id) {
-        ;
         if (player.itemType(id).equals(Usable.BOMB.toString())) {
             player.putDownBomb(this, id);
         } else {

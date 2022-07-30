@@ -7,7 +7,6 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
@@ -34,7 +33,7 @@ public class Hydra extends Entity implements Health, Moveable {
 
     @Override
     public String getType() {
-        return EntityString.HYDRA.toString();
+        return "hydra";
     }
 
     @Override

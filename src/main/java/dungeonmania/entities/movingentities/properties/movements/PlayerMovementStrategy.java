@@ -4,7 +4,6 @@ import java.util.List;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
@@ -39,7 +38,7 @@ public class PlayerMovementStrategy extends MovementStrategy {
 
         List<Collectable> collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);
         for (Collectable entity : collectablesOnNextBlock) {
-            if (entity.getType().equals(EntityString.KEY.toString())
+            if (entity.getType().equals("key")
                     && player.hasKey()) {
 
             } else {

@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
@@ -43,7 +42,7 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
     }
 
     public String getType() {
-        return EntityString.INVISIBILITYPOTION.toString();
+        return "invisibility_potion";
     }
 
     @Override

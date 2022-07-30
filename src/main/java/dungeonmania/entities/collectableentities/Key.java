@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
@@ -33,7 +32,7 @@ public class Key extends Entity implements Storeable, Collectable {
     }
 
     public String getType() {
-        return EntityString.KEY.toString();
+        return "key";
     }
 
     @Override

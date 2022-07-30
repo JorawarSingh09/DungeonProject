@@ -1,11 +1,8 @@
 package dungeonmania.goals;
 
-import org.json.JSONObject;
-
 import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
-import dungeonmania.enums.GoalString;
 
 public class BoulderGoal implements Goal {
 
@@ -16,8 +13,8 @@ public class BoulderGoal implements Goal {
     @Override
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return GoalString.COMPLETED.toString();
-        return GoalString.BOULDERGOAL.toString();
+            return "";
+        return ":boulders";
     }
 
     @Override

@@ -16,10 +16,10 @@
             "type": "zombie_toast_spawner"
         },
         {
-            "x": 8,
-            "y": 8,
-            "type": "exit"
+            "x": 1,
+            "y": 2,
+            "type": "spider"
         }
     ],
-    "goal-condition": {"goal": "exit"}
+    "goal-condition": {"goal": "enemies"}
 }

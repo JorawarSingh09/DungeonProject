@@ -6,7 +6,6 @@ import java.util.List;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Static;
@@ -73,7 +72,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
 
     @Override
     public String getType() {
-        return EntityString.BOMB.toString();
+        return "bomb";
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {

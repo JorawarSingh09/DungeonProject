@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Regenerative;
 import dungeonmania.interfaces.Storeable;
@@ -41,7 +40,7 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
     }
 
     public String getType() {
-        return EntityString.INVINCIBILITYPOTION.toString();
+        return "invincibility_potion";
     }
 
     @Override

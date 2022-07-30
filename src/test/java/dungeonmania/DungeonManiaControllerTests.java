@@ -13,7 +13,7 @@ public class DungeonManiaControllerTests {
     @DisplayName("Dungeon name does not exist")
     public void noSuchDungeon() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            TestUtils.createDungeon("notvaliddungeon", "battleTest_config");
+            TestUtils.createDungeon("notvaliddungeon", "battleTest");
         });
     }
 
@@ -36,7 +36,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Check useItem throws exception if item is not usable")
     public void useItemNotUsable() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             dmc.tick("5");
@@ -46,7 +46,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Throws exception if item is usable but not in inventory")
     public void itemNotInInventory() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(InvalidActionException.class, () -> {
             dmc.tick("8");
@@ -56,7 +56,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("If buildable is not one of bow, shield")
     public void notBuildable() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             dmc.build("notBuildable");
@@ -66,7 +66,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Player does not have sufficient items to build")
     public void notEnoughItemsToBuild() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(InvalidActionException.class, () -> {
             dmc.build("bow");
@@ -76,7 +76,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Player is not within specified bribing radius to the mercenary")
     public void notInBribeRadius() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(InvalidActionException.class, () -> {
             dmc.interact("3");
@@ -86,7 +86,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("EntityId is not a valid entity ID")
     public void entityIdDoesNotExist() {
-        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("battle_test", "battleTest");
         dmc.tick(Direction.LEFT);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             dmc.interact("-1");
@@ -96,7 +96,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Player is not cardinally adjacent to the spawner")
     public void notAdjacentToSpawner() {
-        DungeonManiaController dmc = TestUtils.createDungeon("mania", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("mania", "battleTest");
         for (int i = 0; i < 5; i++) {
             dmc.tick(Direction.RIGHT);
         }
@@ -110,7 +110,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("Player does not have enough gold and attempts to bribe")
     public void notEnoughGoldToBribe() {
-        DungeonManiaController dmc = TestUtils.createDungeon("merc", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("merc", "battleTest");
         dmc.tick(Direction.RIGHT);
         Assertions.assertThrows(InvalidActionException.class, () -> {
             dmc.interact("1");
@@ -120,7 +120,7 @@ public class DungeonManiaControllerTests {
     @Test
     @DisplayName("player does not have a weapon and attempts to destroy a spawner")
     public void noWeaponToDestroy() {
-        DungeonManiaController dmc = TestUtils.createDungeon("mania", "battleTest_config");
+        DungeonManiaController dmc = TestUtils.createDungeon("mania", "battleTest");
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
         Assertions.assertThrows(InvalidActionException.class, () -> {

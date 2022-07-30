@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
 import dungeonmania.interfaces.Durability;
@@ -39,7 +38,7 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     public String getType() {
-        return EntityString.SHIELD.toString();
+        return "shield";
     }
 
     @Override

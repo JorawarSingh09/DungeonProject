@@ -2,7 +2,6 @@ package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
@@ -30,7 +29,7 @@ public class Sceptre extends Entity implements Buildable, Storeable {
 
     @Override
     public String getType() {
-        return EntityString.SCEPTRE.toString();
+        return "sceptre";
     }
 
 }

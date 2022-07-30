@@ -3,7 +3,6 @@ package dungeonmania.entities.collectableentities;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Collectable;
 import dungeonmania.interfaces.Storeable;
 import dungeonmania.util.Position;
@@ -16,7 +15,7 @@ public class Sunstone extends Entity implements Collectable, Storeable {
 
     @Override
     public String getType() {
-        return EntityString.SUNSTONE.toString();
+        return "sun_stone";
     }
 
     public int getItemId() {

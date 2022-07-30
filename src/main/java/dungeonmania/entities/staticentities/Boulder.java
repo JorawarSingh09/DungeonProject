@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -41,7 +40,7 @@ public class Boulder extends Entity implements Static {
 
     @Override
     public String getType() {
-        return EntityString.BOULDER.toString();
+        return "boulder";
     }
 
     public boolean isRepellent() {

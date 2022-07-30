@@ -8,7 +8,6 @@ import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMov
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Durability;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
@@ -135,7 +134,7 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
 
     @Override
     public String getType() {
-        return EntityString.MERCENARY.toString();
+        return "mercenary";
     }
 
     public boolean isTangible() {

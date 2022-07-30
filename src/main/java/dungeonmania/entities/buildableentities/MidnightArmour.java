@@ -2,7 +2,6 @@ package dungeonmania.entities.buildableentities;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Defending;
@@ -37,7 +36,7 @@ public class MidnightArmour extends Entity implements Buildable, Storeable, Atta
 
     @Override
     public String getType() {
-        return EntityString.MIDNIGHTARMOUR.toString();
+        return "midnight_armour";
     }
 
     @Override

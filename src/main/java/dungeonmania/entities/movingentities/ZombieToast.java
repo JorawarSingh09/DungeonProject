@@ -5,7 +5,6 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
@@ -60,7 +59,7 @@ public class ZombieToast extends Entity implements Moveable, Health {
 
     @Override
     public String getType() {
-        return EntityString.ZOMBIETOAST.toString();
+        return "zombie_toast";
     }
 
     public boolean isTangible() {
