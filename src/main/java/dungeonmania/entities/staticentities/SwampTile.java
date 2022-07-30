@@ -6,7 +6,6 @@ import java.util.Map;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
@@ -24,7 +23,7 @@ public class SwampTile extends Entity implements Static {
 
     @Override
     public String getType() {
-        return EntityString.SWAMPTILE.toString();
+        return "swamp_tile";
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {

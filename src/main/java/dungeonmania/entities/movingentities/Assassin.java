@@ -2,7 +2,6 @@ package dungeonmania.entities.movingentities;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.staticentities.Portal;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Position;
 
@@ -31,7 +30,7 @@ public class Assassin extends Mercenary {
 
     @Override
     public String getType() {
-        return EntityString.ASSASSIN.toString();
+        return "assassin";
     }
 
     @Override

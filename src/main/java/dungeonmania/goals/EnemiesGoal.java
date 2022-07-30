@@ -5,7 +5,6 @@ import dungeonmania.dungeon.Dungeon;
 import com.google.gson.JsonObject;
 
 import dungeonmania.controllers.BattleController;
-import dungeonmania.enums.GoalString;
 
 public class EnemiesGoal implements Goal {
     private int enemies;
@@ -23,8 +22,8 @@ public class EnemiesGoal implements Goal {
     @Override
     public String toString(Dungeon dungeon) {
         if (isGoalCompleted(dungeon))
-            return GoalString.COMPLETED.toString();
-        return GoalString.ENEMY.toString();
+            return "";
+        return ":enemies";
     }
 
     @Override

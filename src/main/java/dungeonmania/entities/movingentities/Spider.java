@@ -5,7 +5,6 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Health;
 import dungeonmania.interfaces.Moveable;
 import dungeonmania.util.Position;
@@ -60,7 +59,7 @@ public class Spider extends Entity implements Moveable, Health {
 
     @Override
     public String getType() {
-        return EntityString.SPIDER.toString();
+        return "spider";
     }
 
     public boolean isTangible() {

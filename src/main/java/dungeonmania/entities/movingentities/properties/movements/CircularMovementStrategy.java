@@ -1,7 +1,5 @@
 package dungeonmania.entities.movingentities.properties.movements;
 
-import java.util.Collections;
-
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.interfaces.Moveable;

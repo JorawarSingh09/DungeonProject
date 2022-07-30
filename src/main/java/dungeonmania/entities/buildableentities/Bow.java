@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Attacking;
 import dungeonmania.interfaces.Buildable;
 import dungeonmania.interfaces.Durability;
@@ -43,7 +42,7 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     }
 
     public String getType() {
-        return EntityString.BOW.toString();
+        return "bow";
     }
 
     @Override

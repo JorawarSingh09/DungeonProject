@@ -3,7 +3,6 @@ package dungeonmania.entities.staticentities;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.enums.EntityString;
 import dungeonmania.interfaces.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -46,7 +45,7 @@ public class FloorSwitch extends Entity implements Static {
 
     @Override
     public String getType() {
-        return EntityString.SWITCH.toString();
+        return "switch";
     }
 
     public boolean isRepellent() {
