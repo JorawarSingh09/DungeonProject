@@ -10,21 +10,23 @@ public class Environment {
 
     public synchronized final static String getIPAddress() {
         return (IPAddress == null && (IPAddress = System.getenv(PREFIX + "ADDRESS")) == null)
-            ? IPAddress = "localhost" // default to localhost
-            : IPAddress;
+                ? IPAddress = "localhost" // default to localhost
+                : IPAddress;
     }
 
     public synchronized final static int getPort() {
-        if (Port != null) return Port;
+        if (Port != null)
+            return Port;
         try {
             return Port = Integer.parseInt(System.getenv(PREFIX + "PORT"));
         } catch (Exception e) {
             return Port = 4568;
         }
     }
-    
+
     public synchronized final static boolean isHeadless() {
-        return IsHeadless != null ? IsHeadless.booleanValue() : (IsHeadless = (System.getenv(PREFIX + "HEADLESS") != null));
+        return IsHeadless != null ? IsHeadless.booleanValue()
+                : (IsHeadless = (System.getenv(PREFIX + "HEADLESS") != null));
     }
 
     public synchronized final static boolean isSecure() {

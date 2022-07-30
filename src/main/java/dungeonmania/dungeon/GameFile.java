@@ -62,17 +62,13 @@ public class GameFile {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         entitiesOnMap.forEach(e -> entities.add(e.getJson()));
+        map.put("config", dungeon.getConfigJson());
         map.put("entities", entities);
         // get json stuff in dungeon??
         map.put("goal-condition", dungeon.getGoal().getJson(dungeon));
         try {
             Writer writer = new FileWriter("src/main/resources/saves/" + 
-            dungeon.getDungeonName() + ".json");
-
-            String json2 = new String(
-                    FileLoader.loadResourceFile("configs/" + dungeon.getConfigName() +".json"));
-            Map secondObject = new Gson().fromJson(json2, HashMap.class);
-            map.putAll(secondObject);
+            dungeon.getDungeonId() + ".json");
 
             gson.toJson(map, writer);
             writer.close();

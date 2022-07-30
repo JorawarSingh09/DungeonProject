@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.controllers.BattleController;
 import dungeonmania.controllers.MovementController;
 import dungeonmania.entities.Entity;
@@ -37,7 +39,7 @@ public class Dungeon {
 
     private int dungeonId;
     private String dungeonName;
-    private String configName;
+    private LoadConfig config;
     private int tickCount;
     private List<Entity> entities = new ArrayList<>();
     private BattleController bc = new BattleController();
@@ -48,10 +50,10 @@ public class Dungeon {
     private SpiderSpawn spiderSpawner;
     private List<SwampTile> swampTiles = new ArrayList<>();
 
-    public Dungeon(String dungeonName, int dungeonId, String configName) {
+    public Dungeon(String dungeonName, int dungeonId, LoadConfig config) {
         this.dungeonId = dungeonId;
         this.dungeonName = dungeonName;
-        this.configName = configName;
+        this.config = config;
         currMaxEntityId = 0;
         tickCount = 1;
     }
@@ -59,18 +61,22 @@ public class Dungeon {
     public Dungeon(String dungeonName, int dungeonId) {
         this.dungeonId = dungeonId;
         this.dungeonName = dungeonName;
-        this.configName = "noName";
         currMaxEntityId = 0;
         tickCount = 1;
     }
 
-    public String getDungeonName(){
+    public String getDungeonName() {
         return this.dungeonName;
     }
 
-    public String getConfigName(){
-        return this.configName;
+    public LoadConfig getConfig() {
+        return this.config;
     }
+
+    public JsonObject getConfigJson() {
+        return config.getJson();
+    }
+
     public boolean isGoalCompleted() {
         return goal.isGoalCompleted(this);
     }
@@ -143,13 +149,13 @@ public class Dungeon {
     }
 
     public void tick(boolean hasMoved) {
-        // 
+        //
         if (!hasMoved) {
             player.setPreviousPosition(player.getPosition());
             player.tickMindControl();
         }
         player.tickPotion();
-        
+
         mc.updateEntityPositions();
         if (spiderSpawner.getSpawnRate() != 0 && tickCount % spiderSpawner.getSpawnRate() == 0) {
             addEntity(spiderSpawner.spawnEntity(getCurrMaxEntityId(), this));
