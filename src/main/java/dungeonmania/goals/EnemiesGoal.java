@@ -16,7 +16,8 @@ public class EnemiesGoal implements Goal {
     public boolean isGoalCompleted(Dungeon dungeon) {
         BattleController bc = dungeon.getBattleController();
         int enemiesKilled = bc.getEnemiesKilled();
-        return (enemiesKilled >= enemies);
+        int spawnersRemain = dungeon.getEntitiesOfType("zombie_toast_spawner").size();
+        return (enemiesKilled >= enemies && spawnersRemain == 0);
     }
 
     @Override
