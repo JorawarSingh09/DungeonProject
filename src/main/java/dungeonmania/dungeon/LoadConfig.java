@@ -48,6 +48,7 @@ public class LoadConfig {
         this.configName = configName;
         // Old config files
         this.ally_attack = (int) Double.parseDouble(configs.get("ally_attack").toString());
+        this.ally_attack = (int) Double.parseDouble(configs.get("ally_attack").toString());
         this.ally_defence = (int) Double.parseDouble(configs.get("ally_defence").toString());
         this.bribe_radius = (int) Double.parseDouble(configs.get("bribe_radius").toString());
         this.bribe_amount = (int) Double.parseDouble(configs.get("bribe_amount").toString());
@@ -106,6 +107,51 @@ public class LoadConfig {
             this.mind_control_duration = 1;
         }
 
+    }
+
+    public JsonObject getJson(){
+        JsonObject configs = new JsonObject();
+        configs.addProperty("configName", configName);
+
+        configs.addProperty("ally_attack", ally_attack);
+        configs.addProperty("ally_defence", ally_defence);
+        configs.addProperty("assassin_attack", assassin_attack);
+        configs.addProperty("assassin_bribe_amount", assassin_bribe_amount);
+        configs.addProperty("assassin_bribe_fail_rate", assassin_bribe_fail_rate);
+        configs.addProperty("assassin_health", assassin_health);
+        configs.addProperty("assassin_recon_radius", assassin_recon_radius);
+        configs.addProperty("bomb_radius", bomb_radius);
+        configs.addProperty("bow_durability", bow_durability);
+        configs.addProperty("bribe_amount", bribe_amount);
+        configs.addProperty("bribe_radius", bribe_radius);
+        configs.addProperty("enemy_goal", enemy_goal);
+        configs.addProperty("hydra_attack", hydra_attack);
+        configs.addProperty("hydra_health", hydra_health);
+        configs.addProperty("hydra_health_increase_amount", hydra_health_increase_amount);
+        configs.addProperty("hydra_health_increase_rate", hydra_health_increase_rate);
+        configs.addProperty("hydra_spawn_rate", hydra_spawn_rate);
+        configs.addProperty("invincibility_potion_duration", invincibility_potion_duration);
+        configs.addProperty("invisibility_potion_duration", invisibility_potion_duration);
+        configs.addProperty("mercenary_attack", mercenary_attack);
+        configs.addProperty("mercenary_health", mercenary_health);
+        configs.addProperty("midnight_armour_defence", midnight_armour_defence);
+        configs.addProperty("midnight_armour_attack", midnight_armour_attack);
+        configs.addProperty("mind_control_duration", mind_control_duration);
+        configs.addProperty("player_attack", player_attack);
+        configs.addProperty("player_health", player_health);
+        configs.addProperty("shield_defence", shield_defence);
+        configs.addProperty("shield_durability", shield_durability);
+        configs.addProperty("spider_attack", spider_attack);
+        configs.addProperty("spider_health", spider_health);
+        configs.addProperty("spider_spawn_rate", spider_spawn_rate);
+        configs.addProperty("sword_attack", sword_attack);
+        configs.addProperty("sword_durability", sword_durability);
+        configs.addProperty("treasure_goal", treasure_goal);
+        configs.addProperty("zombie_attack", zombie_attack);
+        configs.addProperty("zombie_health", zombie_health);
+        configs.addProperty("zombie_spawn_rate", zombie_spawn_rate);
+        
+        return configs;
     }
 
 }

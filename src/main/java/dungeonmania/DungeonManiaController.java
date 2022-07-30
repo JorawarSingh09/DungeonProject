@@ -7,6 +7,7 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.dungeon.GameFile;
+import dungeonmania.dungeon.LoadConfig;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.dungeon.DungeonFactory;
 
@@ -23,7 +24,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.Gson;
 
 public class DungeonManiaController {
-    private String configFileName;
+    // private String configFileName;
     private int currMaxDungeonId = 0;
     Dungeon dungeon;
 
@@ -63,20 +64,16 @@ public class DungeonManiaController {
         if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {
             throw new IllegalArgumentException();
         }
-        this.configFileName = configName;
         try {
             String jsonDungeon = new String(FileLoader.loadResourceFile("dungeons/" + dungeonName + ".json"));
             JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();
-            JsonArray entitiesArray = jsonObject.get("entities").getAsJsonArray();
-            JsonObject goals = jsonObject.get("goal-condition").getAsJsonObject();
-            // EntityController entityController = new EntityController();
+
             String jsonConfig = new String(FileLoader.loadResourceFile("configs/" + configName + ".json"));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
-            // currMaxDungeonId += 1;
-            // dungeon = entityController.startGame(entitiesArray, goals, configs,
-            // currMaxDungeonId + 1, dungeonName);
+
             DungeonFactory dungeonFactory = new DungeonFactory();
-            dungeon = dungeonFactory.createNewGame(dungeonName, jsonObject, configs, configName, false);
+            LoadConfig config = new LoadConfig(configs, configName);
+            dungeon = dungeonFactory.createNewGame(dungeonName, currMaxDungeonId, jsonObject, config, false);
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -97,14 +94,21 @@ public class DungeonManiaController {
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         if (!saves().contains(name)) {
+            System.out.println("save not found");
             throw new IllegalArgumentException();
         }
         try {
             String savedFile = new String(
                     FileLoader.loadResourceFile("saves/" + name + ".json"));
             JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();
+            JsonObject config = gameFile.get("config").getAsJsonObject();
+
+            LoadConfig loadedConfig = new LoadConfig(config, 
+                config.get("configName").getAsString());
+            
+            //DF should be static
             DungeonFactory dungeonFactory = new DungeonFactory();
-            dungeon = dungeonFactory.createNewGame(name, gameFile, gameFile, configFileName, true);
+            dungeon = dungeonFactory.createNewGame(name, currMaxDungeonId, gameFile, loadedConfig, true);
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
