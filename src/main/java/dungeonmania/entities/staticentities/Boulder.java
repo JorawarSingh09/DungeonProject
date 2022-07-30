@@ -11,8 +11,8 @@ import dungeonmania.util.Position;
 
 public class Boulder extends Entity implements Static {
 
-    public Boulder(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public Boulder(int id, Position position) {
+        super(id, position, false, true);
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {

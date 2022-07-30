@@ -32,6 +32,7 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.spawners.SpiderSpawn;
 import dungeonmania.spawners.ZombieToastSpawner;
 import dungeonmania.util.Direction;
+import dungeonmania.util.LoadConfig;
 import dungeonmania.util.Position;
 import dungeonmania.dungeon.Dungeon;
 

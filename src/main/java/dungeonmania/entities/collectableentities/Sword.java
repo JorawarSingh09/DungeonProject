@@ -16,8 +16,8 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
     private int attack;
     private int durability;
 
-    public Sword(int id, Position position, boolean interactable, boolean collidable, int attack, int durability) {
-        super(id, position, interactable, collidable);
+    public Sword(int id, Position position, int attack, int durability) {
+        super(id, position, false, false);
         this.attack = attack;
         this.durability = durability;
     }

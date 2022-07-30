@@ -18,13 +18,12 @@ public class AssassinTest {
     @DisplayName("Test random assassin bribe fail chance, and that player loses gold regardless.")
     public void friendRequest() {
 
-        Player player = new Player(1, new Position(0, 0),
-                false, false, 1,
+        Player player = new Player(1, new Position(0, 0), 1,
                 1, 1, 1, 1, 1, 1, 1);
-        Assassin assn = new Assassin(2, new Position(1, 0), true, false, 1, 1, 1, 1,
+        Assassin assn = new Assassin(2, new Position(1, 0), 1, 1, 1, 1,
                 99, 1, 0, 1);
 
-        player.addItem(new Treasure(3, new Position(0, 3), false, false));
+        player.addItem(new Treasure(3, new Position(0, 3)));
 
         assertEquals(false, assn.isAllyToPlayer());
 

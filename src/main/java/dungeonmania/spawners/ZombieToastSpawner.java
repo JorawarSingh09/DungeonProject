@@ -34,8 +34,7 @@ public class ZombieToastSpawner extends Entity implements Static, Spawn<ZombieTo
             int entities = dungeon.getEntities().stream().filter(e -> e.getPosition().equals(position))
                     .collect(Collectors.toList()).size();
             if (entities == 0) {
-                ZombieToast zombie = new ZombieToast(currentMaxId, position, false,
-                        false, attack, health);
+                ZombieToast zombie = new ZombieToast(currentMaxId, position, attack, health);
                 return zombie;
             }
         }

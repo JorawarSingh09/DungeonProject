@@ -14,8 +14,8 @@ public class PlayerStateTests {
         @Test
         @DisplayName("AliveState->InvisState")
         public void aliveToInvisState() {
-                Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 1, 1, 1, 1, 1, 1);
-                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), false, false, 3);
+                Player player = new Player(0, new Position(0, 0), 1, 1, 1, 1, 1, 1, 1, 1);
+                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), 3);
                 player.addItem(invis);
                 assertEquals(player.getAliveState(), player.getPlayerState());
                 player.drinkInvis(invis.getEntityId());
@@ -31,9 +31,9 @@ public class PlayerStateTests {
         @Test
         @DisplayName("InvisState->InvinceState")
         public void invisToInvinceState() {
-                Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 1, 1, 1, 1, 1, 1);
-                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), false, false, 3);
-                InvincibilityPotion invin = new InvincibilityPotion(2, new Position(0, 0), false, false, 3);
+                Player player = new Player(0, new Position(0, 0), 1, 1, 1, 1, 1, 1, 1, 1);
+                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), 3);
+                InvincibilityPotion invin = new InvincibilityPotion(2, new Position(0, 0), 3);
                 player.addItem(invis);
                 player.addItem(invin);
                 assertEquals(player.getAliveState(), player.getPlayerState());
@@ -57,9 +57,9 @@ public class PlayerStateTests {
         @Test
         @DisplayName("InvinceState->InvisState")
         public void invinceToInvisState() {
-                Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 1, 1, 1, 1, 1, 1);
-                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), false, false, 3);
-                InvincibilityPotion invin = new InvincibilityPotion(2, new Position(0, 0), false, false, 3);
+                Player player = new Player(0, new Position(0, 0), 1, 1, 1, 1, 1, 1, 1, 1);
+                InvisibilityPotion invis = new InvisibilityPotion(1, new Position(0, 0), 3);
+                InvincibilityPotion invin = new InvincibilityPotion(2, new Position(0, 0), 3);
                 player.addItem(invin);
                 player.addItem(invis);
                 assertEquals(player.getAliveState(), player.getPlayerState());
@@ -83,7 +83,7 @@ public class PlayerStateTests {
         @Test
         @DisplayName("AliveState->DeadState")
         public void aliveToDeadState() {
-                Player player = new Player(0, new Position(0, 0), false, false, 1, 1, 1, 1, 1, 1, 1, 1);
+                Player player = new Player(0, new Position(0, 0), 1, 1, 1, 1, 1, 1, 1, 1);
                 assertEquals(player.getAliveState(), player.getPlayerState());
                 player.loseHealth(-1);
                 assertEquals(player.getDeadState(), player.getPlayerState());

@@ -49,8 +49,6 @@ public class SpiderSpawn implements Spawn<Spider> {
         }
         return new Spider(currentMaxId,
                 spawnLocation,
-                false,
-                false,
                 spiderAttack,
                 spiderHealth);
     }

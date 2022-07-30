@@ -15,8 +15,8 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     private int durability;
     private int defence;
 
-    public Shield(int id, boolean interactable, boolean collidable, int durability, int defence) {
-        super(id, new Position(0, 0), interactable, collidable);
+    public Shield(int id, int durability, int defence) {
+        super(id, new Position(0, 0), false, false);
         this.durability = durability;
         this.defence = defence;
     }

@@ -1,4 +1,4 @@
-package dungeonmania.dungeon;
+package dungeonmania.util;
 
 import com.google.gson.JsonObject;
 

@@ -6,8 +6,8 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
-import dungeonmania.dungeon.GameFile;
-import dungeonmania.dungeon.LoadConfig;
+import dungeonmania.util.GameFile;
+import dungeonmania.util.LoadConfig;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.dungeon.DungeonFactory;
 
@@ -71,9 +71,8 @@ public class DungeonManiaController {
             String jsonConfig = new String(FileLoader.loadResourceFile("configs/" + configName + ".json"));
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
 
-            DungeonFactory dungeonFactory = new DungeonFactory();
             LoadConfig config = new LoadConfig(configs, configName);
-            dungeon = dungeonFactory.createNewGame(dungeonName, currMaxDungeonId, jsonObject, config, false);
+            dungeon = DungeonFactory.createDungeon(dungeonName, currMaxDungeonId, jsonObject, false, config);
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -101,14 +100,14 @@ public class DungeonManiaController {
             String savedFile = new String(
                     FileLoader.loadResourceFile("saves/" + name + ".json"));
             JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();
-            JsonObject config = gameFile.get("config").getAsJsonObject();
 
+            JsonObject config = gameFile.get("config").getAsJsonObject();
             LoadConfig loadedConfig = new LoadConfig(config, 
                 config.get("configName").getAsString());
             
-            //DF should be static
-            DungeonFactory dungeonFactory = new DungeonFactory();
-            dungeon = dungeonFactory.createNewGame(name, currMaxDungeonId, gameFile, loadedConfig, true);
+            dungeon = DungeonFactory.createDungeon(
+                name, currMaxDungeonId, gameFile, true, loadedConfig);
+
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }

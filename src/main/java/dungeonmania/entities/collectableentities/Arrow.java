@@ -9,8 +9,8 @@ import dungeonmania.util.Position;
 
 public class Arrow extends Entity implements Collectable, Storeable {
 
-    public Arrow(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public Arrow(int id, Position position) {
+        super(id, position, false, true);
     }
 
     @Override

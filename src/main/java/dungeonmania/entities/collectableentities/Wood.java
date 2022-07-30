@@ -9,8 +9,8 @@ import dungeonmania.util.Position;
 
 public class Wood extends Entity implements Collectable, Storeable {
 
-    public Wood(int id, Position position, boolean interactable, boolean collidable) {
-        super(id, position, interactable, collidable);
+    public Wood(int id, Position position) {
+        super(id, position, false, false);
     }
 
     public void pickup(Player player, Dungeon dungeon) {
