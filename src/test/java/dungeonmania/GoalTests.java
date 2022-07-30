@@ -3,6 +3,7 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import static dungeonmania.TestUtils.getGoals;
 
@@ -48,5 +49,18 @@ public class GoalTests {
         // move to exit
         res = dmc.tick(Direction.DOWN);
         assertEquals("", getGoals(res));
+    }
+
+    @Test
+    @DisplayName("Test a map with 4 'or' complex goals")
+    public void testSpawnEnemyGoal() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("zomSpawn", "zomSpawn");
+        dmc.tick(Direction.DOWN);
+        assertTrue(getGoals(res).contains(":enemies"));
+        dmc.tick(Direction.RIGHT);
+        assertDoesNotThrow(() -> dmc.interact(TestUtils.getEntities(dmc.getDungeonResponseModel(), "zombie_toast_spawner").get(0).getId()));
+        assertEquals("", getGoals(dmc.getDungeonResponseModel()));
     }
 }

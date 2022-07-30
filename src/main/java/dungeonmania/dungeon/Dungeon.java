@@ -144,7 +144,6 @@ public class Dungeon {
     }
 
     public void tick(boolean hasMoved) {
-        // 
         if (!hasMoved) {
             player.setPreviousPosition(player.getPosition());
             player.tickMindControl();
@@ -359,7 +358,6 @@ public class Dungeon {
             return ErrorString.NOWEAP.toString();
         }
         removeEntity(zomSpawn);
-        bc.addKill();
         return ErrorString.SUCCESS.toString();
     }
 
@@ -369,5 +367,9 @@ public class Dungeon {
 
     public List<SwampTile> getSwampTiles() {
         return swampTiles;
+    }
+
+    public long countAllZomSpawners() {
+        return entities.stream().filter(s -> s.getType().equals("zombie_toast_spawner")).count();
     }
 }
