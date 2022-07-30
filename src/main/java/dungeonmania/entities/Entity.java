@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import com.google.gson.JsonObject;
 
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Position;
 
 public abstract class Entity {
@@ -60,5 +61,9 @@ public abstract class Entity {
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         return entityJSON;
+    }
+
+    public EntityResponse createEntityResponse() {
+        return new EntityResponse(Integer.toString(getEntityId()), getType(), getPosition(), isInteractable());
     }
 }
