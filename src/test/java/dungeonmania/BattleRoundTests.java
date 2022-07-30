@@ -70,7 +70,7 @@ public class BattleRoundTests {
     @Test
     @DisplayName("Test a battle with player and mercenery which lasts several rounds")
     public void testMercenaryBattleWithoutWeapons() {
-        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest");
+        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
         List<BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
         assertEquals(0, battles.size());
         DungeonResponse atBattleDungeon = mc.tick(Direction.RIGHT);
@@ -78,13 +78,13 @@ public class BattleRoundTests {
         assertEquals(1, battles.size());
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
-        assertEquals(assertBattleCalculations("mercenary", battles, "battleTest", 0), winners);
+        assertEquals(assertBattleCalculations("mercenary", battles, "battleTest_config", 0), winners);
     }
 
     @Test
     @DisplayName("Test a battle with player and mercenery which lasts several rounds with weapons")
     public void testMercenaryBattleWithWeapons() {
-        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest");
+        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
         List<BattleResponse> battles = mc.tick(Direction.LEFT).getBattles();
         assertEquals(0, battles.size());
         mc.tick(Direction.DOWN);
@@ -97,20 +97,20 @@ public class BattleRoundTests {
         assertEquals(1, battles.size());
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
-        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest", 0));
+        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 0));
         mc.tick(Direction.RIGHT);
         pickupSword = mc.tick(Direction.UP);
         assertEquals(2, pickupSword.getInventory().size());
         assertEquals(2, pickupSword.getBattles().size());
         battles = pickupSword.getBattles();
         winners.add(true);
-        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest", 0));
+        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 0));
     }
 
     @Test
     @DisplayName("Test a battle with player and mercenery where merc is ally and weapons")
     public void testMercenaryBattleWithAlly() {
-        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest");
+        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
         DungeonResponse dungeon = mc.tick(Direction.LEFT);
         assertEquals(0, dungeon.getBattles().size());
         dungeon = mc.tick(Direction.DOWN);
@@ -124,14 +124,14 @@ public class BattleRoundTests {
         List<BattleResponse> battles = dungeon.getBattles();
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
-        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest", 1));
+        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 1));
         assertEquals(1, dungeon.getInventory().size());
     }
 
     @Test
     @DisplayName("Test a battle with player with many allies")
     public void testMercenaryBattleWithAllies() {
-        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest");
+        DungeonManiaController mc = TestUtils.createDungeon("battle_test", "battleTest_config");
         DungeonResponse dungeon = mc.tick(Direction.LEFT);
         assertEquals(0, dungeon.getBattles().size());
         dungeon = mc.tick(Direction.DOWN);
@@ -148,7 +148,7 @@ public class BattleRoundTests {
         List<BattleResponse> battles = dungeon.getBattles();
         List<Boolean> winners = new ArrayList<>();
         winners.add(true);
-        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest", 2));
+        assertEquals(winners, assertBattleCalculations("mercenary", battles, "battleTest_config", 2));
         assertEquals(0, dungeon.getInventory().size());
     }
 }
