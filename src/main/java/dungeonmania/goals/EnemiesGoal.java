@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import dungeonmania.controllers.BattleController;
 
 public class EnemiesGoal implements Goal {
+    
     private int enemies;
 
     public EnemiesGoal(int enemies) {
@@ -29,10 +30,9 @@ public class EnemiesGoal implements Goal {
 
     @Override
     public JsonObject getJson(Dungeon dungeon) {
-
         JsonObject goal = new JsonObject();
         goal.addProperty("goal", this.toString(dungeon));
         return goal;
-
     }
+
 }

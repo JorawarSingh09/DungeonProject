@@ -1,8 +1,5 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +15,6 @@ import dungeonmania.util.Position;
 public class InvisibilityTests {
     @Test
     @DisplayName("Player drinks invincibility potion and fights to win round 1")
-    // should this not be an integration test
     public void invinceToAlive() throws InvalidActionException {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame(

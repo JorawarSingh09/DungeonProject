@@ -4,10 +4,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Attacking;
 import dungeonmania.entities.collectableentities.interfaces.Defending;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
-import dungeonmania.entities.movingentities.Player;
 import dungeonmania.util.Position;
 
-public class MidnightArmour extends Entity implements Buildable, Storeable, Attacking, Defending {
+public class MidnightArmour extends Entity implements Storeable, Attacking, Defending {
 
     private int attack;
     private int defence;
@@ -36,16 +35,6 @@ public class MidnightArmour extends Entity implements Buildable, Storeable, Atta
     @Override
     public String getType() {
         return "midnight_armour";
-    }
-
-    @Override
-    public void build(Player player) {
-
-    }
-
-    @Override
-    public void consumeItems(Player player) {
-
     }
 
     @Override

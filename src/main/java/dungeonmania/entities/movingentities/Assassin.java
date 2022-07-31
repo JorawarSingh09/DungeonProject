@@ -11,6 +11,7 @@ import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Position;
 
 public class Assassin extends Mercenary {
+    
     private double failChance;
     private int reconRadius;
 
@@ -83,4 +84,5 @@ public class Assassin extends Mercenary {
         return entityJSON;
 
     }
+
 }

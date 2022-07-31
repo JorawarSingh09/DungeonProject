@@ -1,8 +1,5 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +13,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class InvisibilityAssassinTests {
+    
     @Test
     @DisplayName("Player drinks invincibility potion and fights to win round 1")
     // should this not be an integration test
@@ -51,4 +49,5 @@ public class InvisibilityAssassinTests {
         assertTrue(playerState.equals("Alive"));
         assertTrue(mercState.equals("Follow"));
     }
+
 }

@@ -5,8 +5,8 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.CircularMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.util.Position;

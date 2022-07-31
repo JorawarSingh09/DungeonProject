@@ -9,4 +9,5 @@ public interface Spawn<T> {
     public int getSpawnRate();
 
     public void setSpawnRate(int spawnRate);
+    
 }

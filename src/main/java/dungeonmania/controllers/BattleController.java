@@ -6,7 +6,7 @@ import java.util.List;
 import dungeonmania.battles.Battle;
 import dungeonmania.battles.Round;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Health;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;

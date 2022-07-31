@@ -1,4 +1,4 @@
-package dungeonmania.entities.movingentities.playerstates.interfaces;
+package dungeonmania.entities.movingentities.interfaces;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;

@@ -6,10 +6,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Attacking;
 import dungeonmania.entities.collectableentities.interfaces.Durability;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
-import dungeonmania.entities.movingentities.Player;
 import dungeonmania.util.Position;
 
-public class Bow extends Entity implements Buildable, Storeable, Durability, Attacking {
+public class Bow extends Entity implements Storeable, Durability, Attacking {
 
     private int battleBonus = 2;
     private int durability;
@@ -49,17 +48,6 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
     }
 
     @Override
-    public void build(Player player) {
-
-    }
-
-    @Override
-    public void consumeItems(Player player) {
-        // TODO Auto-generated method stub
-    }
-
-
-    @Override
     public JsonObject getJson() {
         JsonObject entityJSON = new JsonObject();
         entityJSON.addProperty("id", super.getEntityId());
@@ -70,4 +58,5 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         return entityJSON;
 
     }
+    
 }

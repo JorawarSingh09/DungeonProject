@@ -2,9 +2,9 @@ package dungeonmania.entities.movingentities;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;

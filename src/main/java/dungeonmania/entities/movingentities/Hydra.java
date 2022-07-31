@@ -4,9 +4,9 @@ import java.util.Random;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
@@ -17,7 +17,7 @@ public class Hydra extends Entity implements Health, Moveable {
     private MovementStrategy currMoveStrat;
     private MovementStrategy standard = new RandomMovementStrategy(this);
     private MovementStrategy playerInvinc = new FollowPlayerMovementStrategy(this);
-    private double attack;
+    private double attack; 
     private double health;
     private double increaseRate;
     private double increaseAmount;
@@ -26,7 +26,7 @@ public class Hydra extends Entity implements Health, Moveable {
         super(entityId, position, false, false);
         currMoveStrat = standard;
         playerInvinc.reversePath();
-        this.attack = attack;
+        this.attack = attack; 
         this.health = health;
         this.increaseRate = rate;
         this.increaseAmount = amount;
@@ -57,7 +57,7 @@ public class Hydra extends Entity implements Health, Moveable {
 
     public void changeMovementStrategy(MovementStrategy movementStrategy) {
         currMoveStrat = movementStrategy;
-
+        
     }
 
     public boolean isAllyToPlayer() {
@@ -69,7 +69,7 @@ public class Hydra extends Entity implements Health, Moveable {
     }
 
     public void setHealth(double health) {
-        this.health = health;
+        this.health = health;        
     }
 
     public double getAttackDamage() {
@@ -92,11 +92,8 @@ public class Hydra extends Entity implements Health, Moveable {
         return false;
     }
 
-    public double getIncreaseRate() {
-        return increaseRate;
-    }
-
     public double getIncreaseAmount() {
         return increaseAmount;
     }
+    
 }

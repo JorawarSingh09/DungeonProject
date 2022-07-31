@@ -14,6 +14,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Portal extends Entity implements Static {
+    
     private Position pairPosition;
     private String colour;
 
@@ -85,8 +86,8 @@ public class Portal extends Entity implements Static {
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("colour", this.colour);
-
         return entityJSON;
 
     }
+
 }

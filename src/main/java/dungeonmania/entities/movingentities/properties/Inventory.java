@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.buildableentities.Bow;
-import dungeonmania.entities.buildableentities.Buildable;
 import dungeonmania.entities.buildableentities.Shield;
 import dungeonmania.entities.buildableentities.MidnightArmour;
 import dungeonmania.entities.buildableentities.Sceptre;
@@ -25,7 +24,7 @@ import dungeonmania.entities.collectableentities.interfaces.Storeable;
 public class Inventory {
 
     List<Storeable> inventoryItems = new ArrayList<>();
-    List<Buildable> buildableItems = new ArrayList<>();
+    List<Storeable> buildableItems = new ArrayList<>();
     List<Attacking> attackingItems = new ArrayList<>();
     List<Defending> defendingItems = new ArrayList<>();
     List<Durability> weapons = new ArrayList<>();
@@ -37,8 +36,6 @@ public class Inventory {
     private int armourAttack;
     private int armourDefence;
     private int mindControlDuration;
-
-    // private Position playerPos;
 
     public Inventory(int bowDurability, int shieldDurability, int shieldDefence, int armourAttack, int armourDefence,
             int mindControlDuration) {

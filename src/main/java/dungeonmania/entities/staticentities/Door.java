@@ -9,6 +9,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Door extends Entity implements Static {
+
     private int keyPair;
     private boolean doorOpen;
 
@@ -57,8 +58,8 @@ public class Door extends Entity implements Static {
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("key", this.keyPair);
         entityJSON.addProperty("collidable", super.isCollidable());
-
         return entityJSON;
 
     }
+    
 }

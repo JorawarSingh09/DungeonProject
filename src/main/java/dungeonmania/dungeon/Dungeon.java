@@ -19,9 +19,9 @@ import dungeonmania.goals.Goal;
 import dungeonmania.entities.movingentities.Assassin;
 import dungeonmania.entities.movingentities.Mercenary;
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.spawners.SpiderSpawn;
 import dungeonmania.entities.spawners.ZombieToastSpawner;
 import dungeonmania.entities.staticentities.Static;
@@ -363,7 +363,7 @@ public class Dungeon {
         return swampTiles;
     }
 
-    public Map<String, Object> getJsonMap(){
+    public Map<String, Object> getJsonMap() {
         JsonArray entities = new JsonArray();
         Map<String, Object> map = new HashMap<>();
         List<Entity> entitiesOnMap = getEntities();
@@ -377,7 +377,7 @@ public class Dungeon {
         return map;
     }
 
-    public void addAlly(Mercenary mercenary, boolean mindControl){
+    public void addAlly(Mercenary mercenary, boolean mindControl) {
         player.addAlly(mercenary, mindControl);
     }
 

@@ -5,11 +5,11 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.movingentities.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
@@ -168,7 +168,6 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
         entityJSON.addProperty("isAlly", this.isAlly());
         entityJSON.addProperty("mindControl", this.mindControlled);
         entityJSON.addProperty("durability", this.durability);
-
         return entityJSON;
 
     }
@@ -198,4 +197,5 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
     public void setMindControl(boolean bool) {
         this.mindControlled = bool;
     }
+    
 }

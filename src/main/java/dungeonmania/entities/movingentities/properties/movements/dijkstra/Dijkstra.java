@@ -13,15 +13,15 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.util.Position;
 
 public class Dijkstra {
-    List<Node> grid = new ArrayList<>();
-    Queue<Node> positions = new PriorityQueue<>();
-    Map<Node, Node> prev = new HashMap<>();
-    Map<Node, Boolean> visited = new HashMap<>();
-    Node source;
-    Node dest;
-    Position followed; 
-    Position follower;
-    Dungeon dungeon;
+    private List<Node> grid = new ArrayList<>();
+    private Queue<Node> positions = new PriorityQueue<>();
+    private Map<Node, Node> prev = new HashMap<>();
+    private Map<Node, Boolean> visited = new HashMap<>();
+    private Node source;
+    private Node dest;
+    private Position followed; 
+    private Position follower;
+    private Dungeon dungeon;
 
     public Dijkstra(Dungeon dungeon, Position follower, Position followed) {
         this.dungeon = dungeon;

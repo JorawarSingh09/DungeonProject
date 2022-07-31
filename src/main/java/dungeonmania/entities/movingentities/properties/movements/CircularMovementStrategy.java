@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class CircularMovementStrategy extends MovementStrategy {
@@ -80,7 +80,6 @@ public class CircularMovementStrategy extends MovementStrategy {
         JsonArray savedMovePath = new JsonArray();
         movePath.forEach(e -> savedMovePath.add(e.getJson()));
         entityJSON.add("movePath", savedMovePath);
-
         return entityJSON;
     }
 

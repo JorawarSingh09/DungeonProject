@@ -1,4 +1,4 @@
-package dungeonmania.entities.movingentities.playerstates.interfaces;
+package dungeonmania.entities.movingentities.interfaces;
 
 public interface Health {
     /* Same as Enemy */

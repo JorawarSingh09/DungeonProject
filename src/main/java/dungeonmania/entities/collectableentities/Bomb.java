@@ -10,7 +10,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Collectable;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.interfaces.Health;
 import dungeonmania.entities.staticentities.Static;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -95,6 +95,5 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
         entityJSON.addProperty("collidable", this.isCollidable());
         return entityJSON;
     }
-
     
 }

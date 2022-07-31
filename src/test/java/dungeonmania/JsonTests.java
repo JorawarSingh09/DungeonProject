@@ -3,11 +3,8 @@ package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -47,13 +44,10 @@ public class JsonTests {
         entityJSON.addProperty("playerState", player.getPlayerState().toString());
         entityJSON.addProperty("health", 10.0);
 
-        JsonArray allys = new JsonArray();
         entityJSON.add("allys", new JsonArray());
 
-        JsonArray inventorys = new JsonArray();
         entityJSON.add("inventory", new JsonArray());
 
-        JsonArray potQ = new JsonArray();
         entityJSON.add("potionQ", new JsonArray());
         assertEquals(entityJSON, player.getJson());
         assertTrue(player.isAlly());

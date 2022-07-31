@@ -17,11 +17,11 @@ import dungeonmania.entities.collectableentities.InvisibilityPotion;
 import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.interfaces.Regenerative;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.Inventory;
 import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
@@ -351,8 +351,6 @@ public class Player extends Entity implements Moveable {
         entityJSON.addProperty("playerState", this.state.toString());
         entityJSON.addProperty("health", this.health);
 
-        // need to make a method to convert List to json array
-        // TODO
         JsonArray allys = new JsonArray();
         mercenaries.forEach(e -> allys.add(e.getJson()));
         entityJSON.add("allys", allys);
