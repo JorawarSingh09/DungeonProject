@@ -51,10 +51,7 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("duration", this.duration);
-
         return entityJSON;
     }
-
-    
 
 }

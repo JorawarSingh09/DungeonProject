@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -63,4 +63,5 @@ public class SwampTile extends Entity implements Static {
         entityJSON.addProperty("movement_factor", movementFactor);
         return entityJSON;
     }
+    
 }

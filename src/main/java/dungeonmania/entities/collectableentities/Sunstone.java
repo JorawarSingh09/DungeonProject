@@ -26,6 +26,5 @@ public class Sunstone extends Entity implements Collectable, Storeable {
         player.addItem(this);
         dungeon.removeEntity(this);        
     }
-    
-    
+      
 }

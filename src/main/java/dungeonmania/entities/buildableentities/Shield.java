@@ -6,10 +6,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Defending;
 import dungeonmania.entities.collectableentities.interfaces.Durability;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
-import dungeonmania.entities.movingentities.Player;
 import dungeonmania.util.Position;
 
-public class Shield extends Entity implements Buildable, Storeable, Defending, Durability {
+public class Shield extends Entity implements Storeable, Defending, Durability {
 
     private int durability;
     private int defence;
@@ -45,16 +44,6 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
     }
 
     @Override
-    public void build(Player player) {
-
-    }
-
-    @Override
-    public void consumeItems(Player player) {
-
-    }
-
-    @Override
     public JsonObject getJson() {
         JsonObject entityJSON = new JsonObject();
         entityJSON.addProperty("id", super.getEntityId());
@@ -63,6 +52,6 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("durability", this.getDurability());
         return entityJSON;
-
     }
+
 }

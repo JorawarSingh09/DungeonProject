@@ -1,13 +1,13 @@
 package dungeonmania.goals;
 
 public enum GoalCondition {
-    AND{
+    AND {
         @Override
         public String toString() {
             return "AND";
         }
     },
-    OR{
+    OR {
         @Override
         public String toString() {
             return "OR";

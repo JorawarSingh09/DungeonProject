@@ -1,7 +1,6 @@
 package dungeonmania.entities.movingentities.properties.movements.dijkstra;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,8 +11,8 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Node implements Comparable<Node> {
+    
     private Position location;
-    private List<Node> shortestPath = new LinkedList<>();
     private Integer distance = Integer.MAX_VALUE;
     private Integer cost;
     private List<Node> neighbours = new ArrayList<>();
@@ -65,14 +64,6 @@ public class Node implements Comparable<Node> {
             }
         }
         return null;
-    }
-
-    public List<Node> getShortestPath() {
-        return shortestPath;
-    }
-
-    public void setShortestPath(List<Node> shortestPath) {
-        this.shortestPath = shortestPath;
     }
 
     public Integer getDistance() {

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.interfaces.Health;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
 import dungeonmania.entities.movingentities.properties.Inventory;
 
 public class Battle {
@@ -34,7 +34,6 @@ public class Battle {
 
         updateWeaponDurability();
         return (isPlayerAlive());
-        // Update player state
     }
 
     private void startRound() {
@@ -59,7 +58,6 @@ public class Battle {
     }
 
     private void updateWeaponDurability() {
-
         playerInventory.updateWeaponsDurability();
     }
 

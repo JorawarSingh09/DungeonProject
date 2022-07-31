@@ -13,7 +13,8 @@ public class Wall extends Entity implements Static {
     }
 
     public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
-
+        // Do nothing.
+        return;
     }
 
     @Override

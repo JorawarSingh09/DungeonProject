@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public abstract class MovementStrategy {
@@ -42,7 +42,7 @@ public abstract class MovementStrategy {
         }
     }
 
-    public JsonObject getJson(){
+    public JsonObject getJson() {
         return null;
     }
 

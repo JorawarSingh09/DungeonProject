@@ -32,11 +32,9 @@ public class ExitGoal implements Goal {
 
     @Override
     public JsonObject getJson(Dungeon dungeon) {
-
         JsonObject goal = new JsonObject();
         goal.addProperty("goal", this.toString(dungeon));
         return goal;
-
     }
 
 }

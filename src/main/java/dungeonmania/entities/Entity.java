@@ -6,6 +6,7 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Position;
 
 public abstract class Entity {
+    
     private int entityId;
     private Position position;
     private boolean Collidable;
@@ -68,4 +69,5 @@ public abstract class Entity {
     public double getDistanceBetweenTwoEntities(Entity other) {
         return Position.getDistanceBetweenTwoPositions(this.getPosition(), other.getPosition());
     }
+
 }

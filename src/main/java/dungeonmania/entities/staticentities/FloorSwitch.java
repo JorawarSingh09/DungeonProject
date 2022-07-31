@@ -64,4 +64,5 @@ public class FloorSwitch extends Entity implements Static {
         entityJSON.addProperty("triggered", this.isTriggered());
         return entityJSON;
     }
+    
 }

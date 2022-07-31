@@ -1,6 +1,5 @@
 package dungeonmania;
 
-// import dungeonmania.controllers.EntityController;
 import dungeonmania.enums.ErrorString;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -41,12 +40,10 @@ public class DungeonManiaController {
      */
     public static List<String> dungeons() {
         return FileLoader.listFileNamesInResourceDirectory("dungeons");
-
     }
 
     public static List<String> saves() {
         return FileLoader.listFileNamesInResourceDirectory("saves");
-
     }
 
     /**
@@ -71,7 +68,6 @@ public class DungeonManiaController {
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
 
             LoadConfig config = new LoadConfig(configs, configName);
-            System.out.println(config.player_attack);
             dungeon = DungeonFactory.createDungeon(dungeonName, assignDungeonID(), jsonObject, false, config);
         } catch (IOException e) {
             throw new IllegalArgumentException();
@@ -84,7 +80,6 @@ public class DungeonManiaController {
      * /game/save
      */
     public DungeonResponse saveGame(String name) {
-
         try {
             GameFile.saveDungeon(dungeon);
         } catch (URISyntaxException e) {
@@ -127,7 +122,6 @@ public class DungeonManiaController {
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-
         return dungeon.createDungeonResponse();
     }
 

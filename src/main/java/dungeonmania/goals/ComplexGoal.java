@@ -7,6 +7,7 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.enums.GoalString;
 
 public class ComplexGoal implements Goal {
+    
     private Goal goal1 = null;
     private Goal goal2 = null;
     public GoalCondition condition;

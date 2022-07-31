@@ -10,6 +10,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.util.Position;
 
 public class Key extends Entity implements Storeable, Collectable {
+
     private int keyPair;
 
     public Key(int id, Position position, int keyPair) {
@@ -43,7 +44,6 @@ public class Key extends Entity implements Storeable, Collectable {
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("key", this.keyPair);
-
         return entityJSON;
 
     }

@@ -1,9 +1,7 @@
 package dungeonmania.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -87,9 +85,8 @@ public final class FileLoader {
     }
 
     public static String getSavedFile(String path) throws IOException{
-        // file to byte[], Path
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    }
+}

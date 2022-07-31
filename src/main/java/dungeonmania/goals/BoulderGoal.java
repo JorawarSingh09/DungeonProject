@@ -25,4 +25,5 @@ public class BoulderGoal implements Goal {
         return goal;
 
     }
+    
 }

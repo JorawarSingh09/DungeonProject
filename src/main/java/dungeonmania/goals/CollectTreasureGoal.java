@@ -9,6 +9,7 @@ import dungeonmania.entities.collectableentities.Sunstone;
 import dungeonmania.entities.collectableentities.Treasure;
 
 public class CollectTreasureGoal implements Goal {
+    
     private int treasure;
 
     public CollectTreasureGoal(int treasure) {

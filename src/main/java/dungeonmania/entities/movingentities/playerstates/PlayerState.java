@@ -9,4 +9,5 @@ public interface PlayerState {
     public abstract void drinkInvis();
 
     public abstract void drinkInvinc();
+    
 }

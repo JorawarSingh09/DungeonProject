@@ -12,6 +12,7 @@ import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.util.Position;
 
 public class SpiderSpawn implements Spawn<Spider> {
+    
     private List<Position> spawnArea = new ArrayList<>();
     private int spawnRate;
     private int radius;

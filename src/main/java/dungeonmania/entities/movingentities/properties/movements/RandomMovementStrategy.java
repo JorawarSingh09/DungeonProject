@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
-import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.interfaces.Moveable;
 import dungeonmania.util.Position;
 
 public class RandomMovementStrategy extends MovementStrategy {
@@ -37,4 +37,5 @@ public class RandomMovementStrategy extends MovementStrategy {
     public String toString(){
         return "Random";
     }
+
 }

@@ -57,7 +57,6 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("duration", this.duration);
-
         return entityJSON;
     }
     

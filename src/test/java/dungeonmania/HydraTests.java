@@ -1,6 +1,5 @@
 package dungeonmania;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +16,6 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Hydra;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class HydraTests {

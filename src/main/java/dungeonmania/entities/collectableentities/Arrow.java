@@ -36,8 +36,7 @@ public class Arrow extends Entity implements Collectable, Storeable {
         entityJSON.addProperty("type", this.getType());
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
-
         return entityJSON;
-
     }
+    
 }
