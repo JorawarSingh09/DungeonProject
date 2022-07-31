@@ -82,11 +82,11 @@ public class Player extends Entity implements Moveable {
     }
 
     public void setPlayerStateFromJSON(String jState) {
-        if (jState.contains("alive")) {
+        if (jState.contains("Alive")) {
             setPlayerState(new AliveState(this));
-        } else if (jState.contains("invinc")) {
+        } else if (jState.contains("Invincible")) {
             setPlayerState(new InvincibleState(this));
-        } else {
+        } else if (jState.contains("Invisible")) {
             setPlayerState(new InvisibleState(this));
         }
     }
@@ -329,7 +329,7 @@ public class Player extends Entity implements Moveable {
         this.moveStrat = movementStrategy;
     }
 
-    public boolean isAllyToPlayer() {
+    public boolean isAlly() {
         return true;
     }
 

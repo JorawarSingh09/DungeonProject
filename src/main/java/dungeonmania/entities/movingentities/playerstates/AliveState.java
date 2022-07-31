@@ -29,4 +29,9 @@ public class AliveState implements PlayerState {
         // No potion activated, stays alive        
     }
 
+    @Override
+    public String toString(){
+        return "Alive";
+    }
+
 }

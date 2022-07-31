@@ -30,4 +30,9 @@ public class InvisibleState implements PlayerState {
         return;
     }
 
+    @Override
+    public String toString() {
+        return "Invisible";
+    }
+
 }

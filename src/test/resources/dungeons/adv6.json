@@ -5,11 +5,10 @@
         "x" : 1,
         "y" : -1
       },{
-        "type" : "mercenary",
+        "type" : "assassin",
         "x" : -1,
         "y" : -1
       }
-      
     ],
     "goal-condition": {
       "goal": "treasure"

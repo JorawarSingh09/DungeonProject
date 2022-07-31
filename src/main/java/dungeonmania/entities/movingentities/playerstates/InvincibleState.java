@@ -31,4 +31,9 @@ public class InvincibleState implements PlayerState {
         // The player is already invisible.
     }
 
+    @Override
+    public String toString(){
+        return "Invincible";
+    }
+
 }

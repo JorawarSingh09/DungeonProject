@@ -84,4 +84,9 @@ public class CircularMovementStrategy extends MovementStrategy {
         return entityJSON;
     }
 
+    @Override
+    public String toString() {
+        return "Circular";
+    }
+
 }

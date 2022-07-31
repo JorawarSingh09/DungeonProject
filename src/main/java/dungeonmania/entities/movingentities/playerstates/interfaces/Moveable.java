@@ -14,7 +14,7 @@ public interface Moveable {
 
     public void changeMovementStrategy(MovementStrategy movementStrategy);
 
-    public boolean isAllyToPlayer();
+    public boolean isAlly();
 
     public Position getPosition();
 

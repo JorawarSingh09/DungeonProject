@@ -33,4 +33,8 @@ public class RandomMovementStrategy extends MovementStrategy {
             movingEntity.setPosition(getNextPosition(dungeon, player));
     }
 
+    @Override 
+    public String toString(){
+        return "Random";
+    }
 }

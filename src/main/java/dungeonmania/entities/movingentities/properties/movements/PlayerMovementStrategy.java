@@ -47,4 +47,9 @@ public class PlayerMovementStrategy extends MovementStrategy {
         }
     }
 
+    @Override 
+    public String toString(){
+        return "Player";
+    }
+
 }

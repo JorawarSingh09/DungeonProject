@@ -22,10 +22,10 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
     public Position getNextPosition(Dungeon dungeon, Player player) {
         Position followed = player.getPosition();
         Position follower = movingEntity.getPosition();
-        boolean isAlly = movingEntity.isAllyToPlayer();
+        boolean isAlly = movingEntity.isAlly();
 
         if (isAlly && followed.equals(follower)) {
-            // player has moved onto you, swap
+            // ally has moved onto you, they stay where they were.
             return player.getPreviousPosition();
         }
         if (isAlly && followed.equals(findMoveableBlock(dungeon, followed, follower))) {
@@ -94,6 +94,11 @@ public class FollowPlayerMovementStrategy extends MovementStrategy {
 
     public void updateMovement(Dungeon dungeon, Player player) {
         movingEntity.setPosition(getNextPosition(dungeon, player));
+    }
+
+    @Override 
+    public String toString(){
+        return "Follow";
     }
 
 }
