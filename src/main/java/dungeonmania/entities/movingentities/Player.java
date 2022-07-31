@@ -275,6 +275,7 @@ public class Player extends Entity implements Moveable {
                 addAlly(assassin, false);
             } else {
                 inventory.removeItem(assassin.getBribeAmount(), Treasure.class);
+                return ErrorString.BRIBECHANCE.toString();
             }
         }
         return bribeState;
