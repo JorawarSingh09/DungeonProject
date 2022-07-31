@@ -201,7 +201,6 @@ public class Player extends Entity implements Moveable {
 
     public void drinkInvinc(int itemId) {
         if (inventory.getItemFromId(itemId) instanceof Regenerative) {
-            System.out.println("am i regen");
             Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
             queueItems.add(invincPotion);
             if (queueItems.size() == 1) {
@@ -296,8 +295,6 @@ public class Player extends Entity implements Moveable {
             return ErrorString.BRIBETREAS.toString();
         if (this.getDistanceBetweenTwoEntities(mercenary) > mercenary.getbribeRadius())
             return ErrorString.BRIBERAD.toString();
-        if (!mercenary.isInteractable())
-            return ErrorString.NOTINTERACT.toString();
         return ErrorString.SUCCESS.toString();
     }
 

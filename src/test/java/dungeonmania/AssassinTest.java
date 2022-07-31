@@ -103,7 +103,6 @@ public class AssassinTest {
 				bribeSuccessCounter += 1;
 		}
 		assertTrue(bribeSuccessCounter > 400 && bribeSuccessCounter < 600);
-
 	}
 
 	@Test
