@@ -22,7 +22,7 @@ public class InvincibleState implements PlayerState {
     }
 
     public void drinkInvis() {
-        player.setPlayerState(new InvincibleState(player));
+        player.setPlayerState(new InvisibleState(player));
 
     }
 

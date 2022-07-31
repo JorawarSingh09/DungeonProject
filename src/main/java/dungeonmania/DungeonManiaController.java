@@ -83,7 +83,6 @@ public class DungeonManiaController {
         try {
             GameFile.saveDungeon(dungeon);
         } catch (URISyntaxException e) {
-            System.out.println("could not save game");
             e.printStackTrace();
         }
         return getDungeonResponseModel();
@@ -95,7 +94,6 @@ public class DungeonManiaController {
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         String savedFile = "";
         if (!saves().contains(name)) {
-            System.out.println("save not found");
             throw new IllegalArgumentException();
         }
         try {

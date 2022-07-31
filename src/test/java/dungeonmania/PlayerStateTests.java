@@ -12,6 +12,7 @@ import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
 import dungeonmania.util.Position;
 
 public class PlayerStateTests {
@@ -41,12 +42,11 @@ public class PlayerStateTests {
                 player.addItem(invis);
                 player.addItem(invin);
                 assertTrue(player.getPlayerState() instanceof AliveState);
-                player.drinkInvis(invis.getEntityId());
-                player.drinkInvinc(invin.getEntityId());
+                player.drinkPotion(invis.getEntityId());
+                player.drinkPotion(invin.getEntityId());
                 player.tickPotion();
                 assertTrue(player.getPlayerState() instanceof InvisibleState);
                 player.tickPotion();
-                assertTrue(player.getPlayerState() instanceof InvisibleState);
                 assertTrue(player.getPlayerState() instanceof InvisibleState);
                 player.tickPotion();
                 assertTrue(player.getPlayerState() instanceof InvincibleState);
@@ -73,15 +73,15 @@ public class PlayerStateTests {
                 assertTrue(player.getPlayerState() instanceof InvincibleState);
                 player.tickPotion();
                 assertTrue(player.getPlayerState() instanceof InvincibleState);
-                assertTrue(player.getPlayerState() instanceof InvincibleState);
                 player.tickPotion();
-                assertTrue(player.getPlayerState() instanceof InvincibleState);
+                assertTrue(player.getPlayerState() instanceof InvisibleState);
                 player.tickPotion();
-                assertTrue(player.getPlayerState() instanceof InvincibleState);
+                assertTrue(player.getPlayerState() instanceof InvisibleState);
                 player.tickPotion();
-                assertTrue(player.getPlayerState() instanceof InvincibleState);
+                assertTrue(player.getPlayerState() instanceof InvisibleState);
                 player.tickPotion();
                 assertTrue(player.getPlayerState() instanceof AliveState);
+                player.changeMovementStrategy(new RandomMovementStrategy(player));
         }
 
         @Test

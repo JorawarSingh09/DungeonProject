@@ -23,7 +23,6 @@ public class PersistenceTests {
 
         dmc = new DungeonManiaController();
 
-        System.out.println(DungeonManiaController.saves());
         dmc.loadGame(DungeonManiaController.saves().get(0));
         assertEquals(newMap, dmc.dungeon.getJsonMap());
     }
@@ -43,7 +42,6 @@ public class PersistenceTests {
 
         dmc = new DungeonManiaController();
 
-        System.out.println(DungeonManiaController.saves());
         dmc.loadGame(DungeonManiaController.saves().get(0));
         assertEquals(savedItems.size(), dmc.dungeon.createItemResponse().size());
         // assertEquals(newMap, dmc.dungeon.getJsonMap());

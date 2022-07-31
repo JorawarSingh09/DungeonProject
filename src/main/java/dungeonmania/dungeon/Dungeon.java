@@ -337,7 +337,6 @@ public class Dungeon {
         }
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));
-            System.out.println(config);
             config.deIncrementEnemyGoal();
         } else {
             removeEntity(player);
