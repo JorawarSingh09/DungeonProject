@@ -8,13 +8,11 @@ import dungeonmania.entities.Entity;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.ThaiBuddhistChronology;
+import java.time.LocalTime;
 import java.time.chrono.ThaiBuddhistDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +27,7 @@ public class GameFile {
      * 
      * @return
      */
-    private static String getTime() {
+    private String getTime() {
         try {
 
             String tbd = ThaiBuddhistDate.now()
@@ -51,29 +49,30 @@ public class GameFile {
         return null;
     }
 
-    private static String setSaveName(String dungeonName) {
+    private String setSaveName(String dungeonName) {
         return dungeonName + java.time.LocalTime.now().toString();
 
     }
 
-    public static void saveDungeon(Dungeon dungeon) {
+    public static void saveDungeon(Dungeon dungeon) throws URISyntaxException {
         JsonArray entities = new JsonArray();
         Map<String, Object> map = new HashMap<>();
         List<Entity> entitiesOnMap = dungeon.getEntities();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        entitiesOnMap.forEach(e -> entities.add(e.getJson()));
+        map.put("maxEntityID", dungeon.getCurrMaxEntityId());
         map.put("config", dungeon.getConfigJson());
+        entitiesOnMap.forEach(e -> entities.add(e.getJson()));
         map.put("entities", entities);
-        // get json stuff in dungeon??
         map.put("goal-condition", dungeon.getGoal().getJson(dungeon));
+        // LocalTime time = LocalTime.now();
         try {
-            Writer writer = new FileWriter("src/main/resources/saves/" + 
-            dungeon.getDungeonId() + ".json");
+            Writer writer = new FileWriter(FileLoader.createSaveFolder()
+                    + dungeon.getDungeonId() + ".json");
 
             gson.toJson(map, writer);
             writer.close();
-             
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -32,6 +32,10 @@ public class InvisibilityPotion extends Entity implements Collectable, Storeable
     public int getItemId() {
         return getEntityId();
     }
+    
+    public void setRemainingDuration(int Duration){
+        this.duration = Duration;
+    }
 
     public int getRemainingDuration() {
         return duration;

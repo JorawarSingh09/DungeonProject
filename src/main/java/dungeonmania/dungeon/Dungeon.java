@@ -2,9 +2,12 @@ package dungeonmania.dungeon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import dungeonmania.controllers.BattleController;
@@ -225,6 +228,14 @@ public class Dungeon {
         return currMaxEntityId;
     }
 
+    public int getCurrMaxitemId() {
+        return currMaxEntityId++;
+    }
+
+    public void setCurrMaxItemId(int id){
+        this.currMaxEntityId = id;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -326,6 +337,8 @@ public class Dungeon {
         }
         if (bc.newBattle(player, enemy)) {
             removeEntity(getEntityById(enemy.getEntityId()));
+            System.out.println(config);
+            config.deIncrementEnemyGoal();
         } else {
             removeEntity(player);
         }
@@ -349,4 +362,23 @@ public class Dungeon {
     public List<SwampTile> getSwampTiles() {
         return swampTiles;
     }
+
+    public Map<String, Object> getJsonMap(){
+        JsonArray entities = new JsonArray();
+        Map<String, Object> map = new HashMap<>();
+        List<Entity> entitiesOnMap = getEntities();
+
+        map.put("maxEntityID", getCurrMaxEntityId());
+        map.put("config", getConfigJson());
+        entitiesOnMap.forEach(e -> entities.add(e.getJson()));
+        map.put("entities", entities);
+        map.put("goal-condition", getGoal().getJson(this));
+
+        return map;
+    }
+
+    public void addAlly(Mercenary mercenary, boolean mindControl){
+        player.addAlly(mercenary, mindControl);
+    }
+
 }

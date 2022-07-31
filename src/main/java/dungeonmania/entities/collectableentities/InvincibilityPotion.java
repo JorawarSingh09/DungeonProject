@@ -54,4 +54,6 @@ public class InvincibilityPotion extends Entity implements Storeable, Collectabl
         return entityJSON;
     }
 
+    
+
 }

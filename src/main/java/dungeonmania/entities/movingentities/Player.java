@@ -18,6 +18,8 @@ import dungeonmania.entities.collectableentities.Treasure;
 import dungeonmania.entities.collectableentities.interfaces.Regenerative;
 import dungeonmania.entities.collectableentities.interfaces.Storeable;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.playerstates.PlayerState;
 import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
 import dungeonmania.entities.movingentities.properties.Inventory;
@@ -79,9 +81,23 @@ public class Player extends Entity implements Moveable {
         this.state = state;
     }
 
+    public void setPlayerStateFromJSON(String jState) {
+        if (jState.contains("alive")) {
+            setPlayerState(new AliveState(this));
+        } else if (jState.contains("invinc")) {
+            setPlayerState(new InvincibleState(this));
+        } else {
+            setPlayerState(new InvisibleState(this));
+        }
+    }
+
     public double getHealth() {
 
         return health;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
     }
 
     public double loseHealth(double deltaHealth) {
@@ -132,7 +148,8 @@ public class Player extends Entity implements Moveable {
     }
 
     public void engageBattle(boolean playerDied) {
-        if (state != null) state.engageBattle(playerDied);
+        if (state != null)
+            state.engageBattle(playerDied);
     }
 
     public void tickPotion() {
@@ -145,11 +162,13 @@ public class Player extends Entity implements Moveable {
                 if (queueItems.size() > 0) {
                     nextItem();
                 } else {
-                    if (state != null) state = new AliveState(this);
+                    if (state != null)
+                        state = new AliveState(this);
                 }
             }
         } else {
-            if (state != null) state.tick(0);
+            if (state != null)
+                state.tick(0);
         }
     }
 
@@ -173,7 +192,8 @@ public class Player extends Entity implements Moveable {
             Regenerative invisPotion = (Regenerative) inventory.getItemFromId(itemId);
             queueItems.add(invisPotion);
             if (queueItems.size() == 1) {
-                if (state != null) state.drinkInvis();
+                if (state != null)
+                    state.drinkInvis();
             }
         }
         inventory.removeItemById(itemId);
@@ -181,10 +201,12 @@ public class Player extends Entity implements Moveable {
 
     public void drinkInvinc(int itemId) {
         if (inventory.getItemFromId(itemId) instanceof Regenerative) {
+            System.out.println("am i regen");
             Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);
             queueItems.add(invincPotion);
             if (queueItems.size() == 1) {
-                if (state != null) state.drinkInvinc();
+                if (state != null)
+                    state.drinkInvinc();
             }
         }
         inventory.removeItemById(itemId);
@@ -192,9 +214,11 @@ public class Player extends Entity implements Moveable {
 
     private void nextItem() {
         if (queueItems.peek() instanceof InvisibilityPotion) {
-            if (state != null) state.drinkInvis();
+            if (state != null)
+                state.drinkInvis();
         } else if (queueItems.peek() instanceof InvincibilityPotion) {
-            if (state != null) state.drinkInvinc();
+            if (state != null)
+                state.drinkInvinc();
         }
     }
 

@@ -38,6 +38,7 @@ public class Key extends Entity implements Storeable, Collectable {
     @Override
     public JsonObject getJson(){
         JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.getEntityId());
         entityJSON.addProperty("type", this.getType());
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());

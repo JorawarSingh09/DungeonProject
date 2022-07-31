@@ -12,6 +12,7 @@ import dungeonmania.dungeon.Dungeon;
 import dungeonmania.dungeon.DungeonFactory;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -28,6 +29,10 @@ public class DungeonManiaController {
 
     public String getLocalisation() {
         return "en_US";
+    }
+
+    private int assignDungeonID() {
+        return currMaxDungeonId++;
     }
 
     /**
@@ -66,7 +71,8 @@ public class DungeonManiaController {
             JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();
 
             LoadConfig config = new LoadConfig(configs, configName);
-            dungeon = DungeonFactory.createDungeon(dungeonName, currMaxDungeonId, jsonObject, false, config);
+            System.out.println(config.player_attack);
+            dungeon = DungeonFactory.createDungeon(dungeonName, assignDungeonID(), jsonObject, false, config);
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
@@ -77,8 +83,14 @@ public class DungeonManiaController {
     /**
      * /game/save
      */
-    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        GameFile.saveDungeon(dungeon);
+    public DungeonResponse saveGame(String name) {
+
+        try {
+            GameFile.saveDungeon(dungeon);
+        } catch (URISyntaxException e) {
+            System.out.println("could not save game");
+            e.printStackTrace();
+        }
         return getDungeonResponseModel();
     }
 
@@ -86,25 +98,28 @@ public class DungeonManiaController {
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        String savedFile = "";
         if (!saves().contains(name)) {
             System.out.println("save not found");
             throw new IllegalArgumentException();
         }
         try {
-            String savedFile = new String(
-                    FileLoader.loadResourceFile("saves/" + name + ".json"));
-            JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();
-
-            JsonObject config = gameFile.get("config").getAsJsonObject();
-            LoadConfig loadedConfig = new LoadConfig(config, 
-                config.get("configName").getAsString());
-            
-            dungeon = DungeonFactory.createDungeon(
-                name, currMaxDungeonId, gameFile, true, loadedConfig);
-
+            savedFile = 
+                FileLoader.getSavedFile(FileLoader.createSaveFolder() + name + ".json");
+                
         } catch (IOException e) {
             throw new IllegalArgumentException();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
+        JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();
+
+        JsonObject config = gameFile.get("config").getAsJsonObject();
+        LoadConfig loadedConfig = new LoadConfig(config,
+                config.get("configName").getAsString());
+
+        dungeon = DungeonFactory.createDungeon(
+                name, assignDungeonID(), gameFile, true, loadedConfig);
         return dungeon.createDungeonResponse();
     }
 

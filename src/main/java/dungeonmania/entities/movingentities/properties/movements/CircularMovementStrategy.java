@@ -1,5 +1,8 @@
 package dungeonmania.entities.movingentities.properties.movements;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
@@ -16,6 +19,14 @@ public class CircularMovementStrategy extends MovementStrategy {
         this.clockwise = true;
         calculatePath();
         this.moveState = 0;
+    }
+
+    public CircularMovementStrategy(Moveable movingEntity, boolean clockwise,
+            int movestate, CircularMovement<Position> movePath) {
+        super(movingEntity);
+        this.clockwise = clockwise;
+        this.movePath = movePath;
+        this.moveState = movestate;
     }
 
     public Position getNextPosition(Dungeon dungeon, Player player) {
@@ -42,7 +53,7 @@ public class CircularMovementStrategy extends MovementStrategy {
         if (clockwise) {
             moveState++;
         } else {
-            moveState = ((moveState - 1)+ movePath.size());
+            moveState = ((moveState - 1) + movePath.size());
         }
 
     }
@@ -59,6 +70,18 @@ public class CircularMovementStrategy extends MovementStrategy {
     @Override
     public boolean isReversed() {
         return clockwise;
+    }
+
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("clockwise", clockwise);
+        entityJSON.addProperty("moveState", moveState);
+        JsonArray savedMovePath = new JsonArray();
+        movePath.forEach(e -> savedMovePath.add(e.getJson()));
+        entityJSON.add("movePath", savedMovePath);
+
+        return entityJSON;
     }
 
 }

@@ -1,6 +1,14 @@
 package dungeonmania.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +55,7 @@ public final class FileLoader {
                 .collect(Collectors.toList());
     }
 
-    public static JsonObject getDungeonFile(String name){
+    public static JsonObject getDungeonFile(String name) {
         try {
             String file = FileLoader.loadResourceFile("dungeons/" + name + ".json");
             return JsonParser.parseString(file).getAsJsonObject();
@@ -56,7 +64,7 @@ public final class FileLoader {
         }
     }
 
-    public static JsonObject getConfigFile(String name){
+    public static JsonObject getConfigFile(String name) {
         try {
             String file = FileLoader.loadResourceFile("configs/" + name + ".json");
             return JsonParser.parseString(file).getAsJsonObject();
@@ -64,4 +72,24 @@ public final class FileLoader {
             throw new IllegalArgumentException();
         }
     }
-}
+
+    public static String createSaveFolder() throws URISyntaxException{
+        Path root;
+        try{
+            root = Paths.get(FileLoader.class.getResource("../../saves").toURI());
+        }catch(NullPointerException e){
+            root = Paths.get(FileLoader.class.getResource("../../").toURI());
+            File savepath = new File(root.toString() + "/saves");
+            savepath.mkdir();
+            root = Paths.get(FileLoader.class.getResource("../../saves").toURI());
+        }
+        return root.toString() + "\\";        
+    }
+
+    public static String getSavedFile(String path) throws IOException{
+        // file to byte[], Path
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    }

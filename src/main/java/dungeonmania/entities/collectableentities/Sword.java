@@ -31,6 +31,10 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         return durability;
     }
 
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     public boolean isAdditive() {
         return true;
     }
@@ -62,7 +66,6 @@ public class Sword extends Entity implements Storeable, Attacking, Durability, C
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("durability", this.getDurability());
         return entityJSON;
-
     }
-
+    
 }

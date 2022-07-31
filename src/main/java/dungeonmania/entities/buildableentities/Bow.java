@@ -28,6 +28,10 @@ public class Bow extends Entity implements Buildable, Storeable, Durability, Att
         return durability;
     }
 
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     public boolean isAdditive() {
         return false;
     }

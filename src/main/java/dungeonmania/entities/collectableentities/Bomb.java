@@ -20,7 +20,7 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
     private List<Position> blastArea = new ArrayList<>();
 
     public Bomb(int id, Position position, int bomb_radius) {
-        super(id, position, true, false);
+        super(id, position, false, false);
         this.bomb_radius = bomb_radius;
         Position bombOrigin = new Position(this.getPosition().getX() - this.bomb_radius, this.getPosition().getY() - this.bomb_radius);
         for (int i = 0; i < ((2 * this.bomb_radius) + 2); i++) {
@@ -95,4 +95,6 @@ public class Bomb extends Entity implements Collectable, Storeable, Static {
         entityJSON.addProperty("collidable", this.isCollidable());
         return entityJSON;
     }
+
+    
 }

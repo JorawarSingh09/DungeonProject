@@ -1,5 +1,7 @@
 package dungeonmania.entities.staticentities;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
@@ -17,6 +19,7 @@ public class FloorSwitch extends Entity implements Static {
     }
 
     public void setTriggered(boolean bool) {
+        this.setCollidable(bool);
         this.triggered = bool;
     }
 
@@ -51,4 +54,14 @@ public class FloorSwitch extends Entity implements Static {
         return false;
     }
 
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("triggered", this.isTriggered());
+        return entityJSON;
+    }
 }

@@ -45,6 +45,7 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
         this.bribe_amount = bribe_amount;
         this.isAlly = false;
         currMoveStrat = standard;
+        this.durability = 0; 
     }
 
     public MovementStrategy getPlayerInvis() {
@@ -108,12 +109,12 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
     }
 
     public void updatePosition(Dungeon dungeon, Player player) {
-        if (player.getPlayerState().equals(new InvisibleState(player))) {
+        if (player.getPlayerState() instanceof InvisibleState) {
             currMoveStrat = playerInvis;
-        } else if (player.getPlayerState().equals(new InvincibleState(player)) && !isAlly && !currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState() instanceof InvincibleState && !isAlly && !currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
-        } else if (player.getPlayerState().equals(new AliveState(player)) && currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState() instanceof AliveState && currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
         } else {
@@ -165,6 +166,9 @@ public class Mercenary extends Entity implements Moveable, Health, Durability {
         entityJSON.addProperty("x", this.getPosition().getX());
         entityJSON.addProperty("y", this.getPosition().getY());
         entityJSON.addProperty("isAlly", this.isAlly());
+        entityJSON.addProperty("mindControl", this.mindControlled);
+        entityJSON.addProperty("durability", this.durability);
+
         return entityJSON;
 
     }
