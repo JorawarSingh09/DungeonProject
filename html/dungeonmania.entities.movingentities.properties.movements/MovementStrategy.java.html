@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovementStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties.movements</a> &gt; <span class="el_source">MovementStrategy.java</span></div><h1>MovementStrategy.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties.movements;
+
+import java.util.stream.Collectors;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.util.Position;
+
+public abstract class MovementStrategy {
+
+    Moveable movingEntity;
+
+<span class="fc" id="L16">    public MovementStrategy(Moveable movingEntity) {</span>
+<span class="fc" id="L17">        this.movingEntity = movingEntity;</span>
+<span class="fc" id="L18">    }</span>
+
+    public abstract Position getNextPosition(Dungeon dungeon, Player player);
+
+    public abstract void updateMovement(Dungeon dungeon, Player player);
+
+    public void reversePath() {
+        // Do nothing
+<span class="nc" id="L26">        return;</span>
+    }
+
+    public boolean isReversed() {
+<span class="fc" id="L30">        return false;</span>
+    }
+
+    public boolean nextStepIsMoveable(Dungeon dungeon, Player player) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (movingEntity.isTangible()) {</span>
+<span class="fc" id="L35">            return (dungeon.getStaticsOnBlock(getNextPosition(dungeon, player)).stream()</span>
+<span class="pc" id="L36">                    .filter(s -&gt; s.isCollidable())</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">                    .collect(Collectors.toList()).size()) &lt; 1;</span>
+        } else {
+<span class="fc" id="L39">            return (dungeon.getStaticsOnBlock(getNextPosition(dungeon, player)).stream()</span>
+<span class="fc" id="L40">                    .filter(s -&gt; s.isRepellent())</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">                    .collect(Collectors.toList()).size()) &lt; 1;</span>
+        }
+    }
+
+    public JsonObject getJson(){
+<span class="nc" id="L46">        return null;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

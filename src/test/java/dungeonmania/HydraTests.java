@@ -59,4 +59,68 @@ public class HydraTests {
         assertTrue(xs.contains(hydra.getPosition()));
     }
 
+    @Test
+    @DisplayName("Test hydra with 1.0 absorption chance")
+    public void hydraAlwaysAbsorb() {
+        // Attacks should never succeed and hydra should always absord.
+        Dungeon dng = new Dungeon("nameOfDungeon", 1);
+        Player p = new Player(0, new Position(1, 1), 10, 10, 10, 10, 10, 10, 10, 10);
+        dng.addEntity(p);
+        dng.setPlayer(p);
+
+        Hydra h = new Hydra(1, new Position(1, 2), 10, 10, 1.0, 10);
+        dng.addEntity(h);
+
+        double ogHealth = h.getHealth();
+        h.loseHealth(10);
+        assertEquals(ogHealth + h.getIncreaseAmount(), h.getHealth());
+
+        ogHealth = h.getHealth();
+        h.loseHealth(10);
+        assertEquals(ogHealth + h.getIncreaseAmount(), h.getHealth());
+
+        ogHealth = h.getHealth();
+        h.loseHealth(10);
+        h.loseHealth(10);
+        h.loseHealth(10);
+        assertEquals(ogHealth + h.getIncreaseAmount() * 3, h.getHealth());
+    }
+
+    @Test
+    @DisplayName("Test hydra with 0.0 absorption chance")
+    public void hydraNeverAbsorb() {
+        // Attacks should always succeed.
+        Hydra h = new Hydra(1, new Position(1, 2), 10, 10, 0.00, 10);
+
+        double ogHealth = h.getHealth();
+        h.loseHealth(-1);
+        assertEquals(ogHealth - 1, h.getHealth());
+
+        ogHealth = h.getHealth();
+        h.loseHealth(-5);
+        assertEquals(ogHealth - 5, h.getHealth());
+    }
+
+    @Test
+    @DisplayName("Test hydra with 0.5 absorption chance")
+    public void hydraSometimesAbsorb() {
+
+        // since damage == heal-amount, and the absorption rate is 50%,
+        // hydra's overall health shouldnt move too much from the og value.
+        Hydra h = new Hydra(1, new Position(1, 2), 10, 10000, 0.5, 1);
+        double ogHealth = h.getHealth();
+        for (int i = 0; i < 10000; i++) {
+            h.loseHealth(-1);
+        }
+        assertTrue(h.getHealth() > (ogHealth - 1000) && h.getHealth() < (ogHealth + 1000));
+
+        // similarly, if we double the damage, and keep the absorption rate, we should
+        // expect hydra's health == 1/2 after many many attacks.
+        h = new Hydra(1, new Position(1, 2), 10, 10000, 0.5, 1);
+        ogHealth = h.getHealth();
+        for (int i = 0; i < 10000; i++) {
+            h.loseHealth(-2);
+        }
+        assertTrue(h.getHealth() > (ogHealth / 2) - 1000 && h.getHealth() < (ogHealth / 2) + 1000);
+    }
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mercenary.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities</a> &gt; <span class="el_source">Mercenary.java</span></div><h1>Mercenary.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.properties.movements.FollowPlayerMovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.RandomMovementStrategy;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.util.Position;
+
+public class Mercenary extends Entity implements Moveable, Health, Durability {
+
+    protected boolean isAlly;
+    private double ally_attack;
+    private double ally_defence;
+    private double attack;
+    private double health;
+    private int bribe_radius;
+    private int bribe_amount;
+    protected MovementStrategy currMoveStrat;
+<span class="fc" id="L30">    protected MovementStrategy playerInvis = new RandomMovementStrategy(this);</span>
+<span class="fc" id="L31">    protected MovementStrategy standard = new FollowPlayerMovementStrategy(this);</span>
+    private int durability;
+<span class="fc" id="L33">    private boolean mindControlled = false;</span>
+
+    public Mercenary(int id, Position position,
+            double ally_attack, double ally_defence, double mercenary_attack,
+            double mercenary_health, int bribe_radius, int bribe_amount) {
+
+<span class="fc" id="L39">        super(id, position, true, false);</span>
+<span class="fc" id="L40">        this.ally_attack = ally_attack;</span>
+<span class="fc" id="L41">        this.ally_defence = ally_defence;</span>
+<span class="fc" id="L42">        this.attack = mercenary_attack;</span>
+<span class="fc" id="L43">        this.health = mercenary_health;</span>
+<span class="fc" id="L44">        this.bribe_radius = bribe_radius;</span>
+<span class="fc" id="L45">        this.bribe_amount = bribe_amount;</span>
+<span class="fc" id="L46">        this.isAlly = false;</span>
+<span class="fc" id="L47">        currMoveStrat = standard;</span>
+<span class="fc" id="L48">        this.durability = 0; </span>
+<span class="fc" id="L49">    }</span>
+
+    public MovementStrategy getPlayerInvis() {
+<span class="nc" id="L52">        return playerInvis;</span>
+    }
+
+    public MovementStrategy getStandard() {
+<span class="nc" id="L56">        return standard;</span>
+    }
+
+    public double getAllyAttackDamage() {
+<span class="fc" id="L60">        return ally_attack;</span>
+    }
+
+    public double getAllyDefenceBonus() {
+<span class="fc" id="L64">        return ally_defence;</span>
+    }
+
+    public boolean isAlly() {
+<span class="fc" id="L68">        return isAlly;</span>
+    }
+
+    public void setAlly() {
+<span class="fc" id="L72">        this.isAlly = true;</span>
+<span class="fc" id="L73">        this.setInteractable(false);</span>
+<span class="fc" id="L74">    }</span>
+
+    public void removeAlly() {
+<span class="fc" id="L77">        this.isAlly = false;</span>
+<span class="fc" id="L78">        this.setInteractable(true);</span>
+<span class="fc" id="L79">    }</span>
+
+    public double getHealth() {
+<span class="fc" id="L82">        return health;</span>
+    }
+
+    public double getAttackDamage() {
+<span class="fc" id="L86">        return attack;</span>
+    }
+
+    public int getbribeRadius() {
+<span class="fc" id="L90">        return bribe_radius;</span>
+    }
+
+    public int getBribeAmount() {
+<span class="fc" id="L94">        return bribe_amount;</span>
+    }
+
+    public void loseHealth(double deltaHealth) {
+<span class="fc" id="L98">        health = health + deltaHealth;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (health &lt;= 0)</span>
+<span class="fc" id="L100">            health = 0;</span>
+<span class="fc" id="L101">    }</span>
+
+    public void setHealth(double health) {
+<span class="fc" id="L104">        this.health = health;</span>
+<span class="fc" id="L105">    }</span>
+
+    public void reversePath() {
+<span class="nc" id="L108">        currMoveStrat.reversePath();</span>
+<span class="nc" id="L109">    }</span>
+
+    public void updatePosition(Dungeon dungeon, Player player) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (player.getPlayerState() instanceof InvisibleState) {</span>
+<span class="fc" id="L113">            currMoveStrat = playerInvis;</span>
+<span class="pc bpc" id="L114" title="2 of 6 branches missed.">        } else if (player.getPlayerState() instanceof InvincibleState &amp;&amp; !isAlly &amp;&amp; !currMoveStrat.isReversed()) {</span>
+<span class="fc" id="L115">            currMoveStrat = standard;</span>
+<span class="fc" id="L116">            currMoveStrat.reversePath();</span>
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">        } else if (player.getPlayerState() instanceof AliveState &amp;&amp; currMoveStrat.isReversed()) {</span>
+<span class="fc" id="L118">            currMoveStrat = standard;</span>
+<span class="fc" id="L119">            currMoveStrat.reversePath();</span>
+        } else {
+<span class="fc" id="L121">            currMoveStrat = standard;</span>
+        }
+
+<span class="fc" id="L124">        boolean foundPortal = false;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        for (Static portal : dungeon.getStaticsOnBlock(currMoveStrat.getNextPosition(dungeon, player))) {</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">            if (portal instanceof Portal) {</span>
+<span class="nc" id="L127">                ((Portal) portal).mercenaryMoveOnto(this, dungeon, Position.getDirection(this.getPosition(),</span>
+<span class="nc" id="L128">                        currMoveStrat.getNextPosition(dungeon, player)));</span>
+
+<span class="nc" id="L130">                foundPortal = true;</span>
+<span class="nc" id="L131">                break;</span>
+            }
+<span class="fc" id="L133">        }</span>
+
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        if (!foundPortal)</span>
+<span class="fc" id="L136">            currMoveStrat.updateMovement(dungeon, player);</span>
+<span class="fc" id="L137">    }</span>
+
+    @Override
+    public String getType() {
+<span class="fc" id="L141">        return &quot;mercenary&quot;;</span>
+    }
+
+    public boolean isTangible() {
+<span class="fc" id="L145">        return true;</span>
+    }
+
+    public MovementStrategy getMovementStrategy() {
+<span class="fc" id="L149">        return currMoveStrat;</span>
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+<span class="nc" id="L153">        currMoveStrat = movementStrategy;</span>
+
+<span class="nc" id="L155">    }</span>
+
+    public boolean isAllyToPlayer() {
+<span class="fc" id="L158">        return isAlly;</span>
+    }
+
+    @Override
+    public JsonObject getJson() {
+<span class="fc" id="L163">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L164">        entityJSON.addProperty(&quot;id&quot;, super.getEntityId());</span>
+<span class="fc" id="L165">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L166">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L167">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L168">        entityJSON.addProperty(&quot;isAlly&quot;, this.isAlly());</span>
+<span class="fc" id="L169">        entityJSON.addProperty(&quot;mindControl&quot;, this.mindControlled);</span>
+<span class="fc" id="L170">        entityJSON.addProperty(&quot;durability&quot;, this.durability);</span>
+
+<span class="fc" id="L172">        return entityJSON;</span>
+
+    }
+
+    public void reduceDurability() {
+<span class="fc" id="L177">        this.durability -= 1;</span>
+<span class="fc" id="L178">    }</span>
+
+    @Override
+    public int getDurability() {
+<span class="fc" id="L182">        return this.durability;</span>
+    }
+
+    @Override
+    public int getItemId() {
+<span class="nc" id="L187">        return getEntityId();</span>
+    }
+
+    public void setDurability(int durability) {
+<span class="fc" id="L191">        this.durability = durability;</span>
+<span class="fc" id="L192">    }</span>
+
+    public boolean isMindControlled() {
+<span class="fc" id="L195">        return this.mindControlled;</span>
+    }
+
+    public void setMindControl(boolean bool) {
+<span class="fc" id="L199">        this.mindControlled = bool;</span>
+<span class="fc" id="L200">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities</a> &gt; <span class="el_source">Entity.java</span></div><h1>Entity.java</h1><pre class="source lang-java linenums">package dungeonmania.entities;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Position;
+
+public abstract class Entity {
+    private int entityId;
+    private Position position;
+    private boolean Collidable;
+    private boolean Interactable;
+
+<span class="fc" id="L14">    public Entity(int entityId, Position position, boolean interactable, boolean collidable) {</span>
+<span class="fc" id="L15">        this.entityId = entityId;</span>
+<span class="fc" id="L16">        this.position = position;</span>
+<span class="fc" id="L17">        this.Interactable = interactable;</span>
+<span class="fc" id="L18">        this.Collidable = collidable;</span>
+<span class="fc" id="L19">    }</span>
+
+    public abstract String getType();
+
+    public int getEntityId() {
+<span class="fc" id="L24">        return entityId;</span>
+    }
+
+    public void setEntityId(int entityId) {
+<span class="nc" id="L28">        this.entityId = entityId;</span>
+<span class="nc" id="L29">    }</span>
+
+    public boolean isCollidable() {
+<span class="fc" id="L32">        return this.Collidable;</span>
+    }
+
+    public void setCollidable(boolean isCollidable) {
+<span class="fc" id="L36">        this.Collidable = isCollidable;</span>
+<span class="fc" id="L37">    }</span>
+
+    public boolean isInteractable() {
+<span class="fc" id="L40">        return this.Interactable;</span>
+    }
+
+    public void setInteractable(boolean isInteractable) {
+<span class="fc" id="L44">        this.Interactable = isInteractable;</span>
+<span class="fc" id="L45">    }</span>
+
+    public void setPosition(Position position) {
+<span class="fc" id="L48">        this.position = position;</span>
+<span class="fc" id="L49">    }</span>
+
+    public Position getPosition() {
+<span class="fc" id="L52">        return position;</span>
+    }
+
+    public JsonObject getJson() {
+<span class="fc" id="L56">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L57">        entityJSON.addProperty(&quot;id&quot;, this.entityId);</span>
+<span class="fc" id="L58">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L59">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L60">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L61">        return entityJSON;</span>
+    }
+
+    public EntityResponse createEntityResponse() {
+<span class="fc" id="L65">        return new EntityResponse(Integer.toString(getEntityId()), getType(), getPosition(), isInteractable());</span>
+    }
+    
+    public double getDistanceBetweenTwoEntities(Entity other) {
+<span class="fc" id="L69">        return Position.getDistanceBetweenTwoPositions(this.getPosition(), other.getPosition());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

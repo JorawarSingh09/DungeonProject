@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Node.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties.movements.dijkstra</a> &gt; <span class="el_source">Node.java</span></div><h1>Node.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties.movements.dijkstra;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+
+public class Node implements Comparable&lt;Node&gt; {
+    private Position location;
+<span class="fc" id="L16">    private List&lt;Node&gt; shortestPath = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L17">    private Integer distance = Integer.MAX_VALUE;</span>
+    private Integer cost;
+<span class="fc" id="L19">    private List&lt;Node&gt; neighbours = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L20">    private List&lt;Position&gt; neighbourPos = new ArrayList&lt;&gt;();</span>
+    private Dungeon dungeon;
+    private Dijkstra dijkstra;
+
+<span class="fc" id="L24">    public Node(Position location, Integer cost, Dungeon dungeon, Dijkstra dijkstra) {</span>
+<span class="fc" id="L25">        this.location = location;</span>
+<span class="fc" id="L26">        this.cost = cost;</span>
+<span class="fc" id="L27">        this.dungeon = dungeon;</span>
+<span class="fc" id="L28">        this.dijkstra = dijkstra;</span>
+<span class="fc" id="L29">        neighbourPos = determineAdjacents();</span>
+<span class="fc" id="L30">    }</span>
+
+    private List&lt;Position&gt; determineAdjacents() {
+<span class="fc" id="L33">        List&lt;Position&gt; toRemove = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        List&lt;Position&gt; toAdd = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L35">        List&lt;Position&gt; adjacents = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L36">        adjacents.addAll(location.getCardinallyAdjacentPositions());</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (Position pos : adjacents) {</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            for (Static posPortal : dungeon.getStaticsOnBlock(pos)) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                if (posPortal instanceof Portal) {</span>
+<span class="fc" id="L40">                    Direction dir = Position.getDirection(this.location, pos);</span>
+<span class="fc" id="L41">                    Position pairPosition = ((Portal) posPortal).getPairPosition();</span>
+<span class="fc" id="L42">                    Position position = ((Portal) posPortal).getPairPosition().translateBy(dir);</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                    if (findPortalNextPos(position, pairPosition) != null)  {</span>
+<span class="fc" id="L44">                        toRemove.add(pos);</span>
+<span class="fc" id="L45">                        toAdd.add(findPortalNextPos(position, pairPosition));</span>
+                    }
+                }
+<span class="fc" id="L48">            }</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">        adjacents.addAll(toAdd);</span>
+<span class="fc" id="L51">        adjacents.removeAll(toRemove);</span>
+
+<span class="fc" id="L53">        return adjacents;</span>
+    }
+
+    private Position findPortalNextPos(Position pos, Position pairPosition) {
+<span class="fc" id="L57">        List&lt;Position&gt; possiblePositions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L58">        possiblePositions.add(pos);</span>
+<span class="fc" id="L59">        possiblePositions.addAll(pairPosition.getCardinallyAdjacentPositions());</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        for (Position position : possiblePositions) {</span>
+<span class="pc bnc" id="L61" title="All 4 branches missed.">            int col = dungeon.getStaticsOnBlock(position).stream().filter(e -&gt; e.isCollidable() || e.isRepellent())</span>
+<span class="fc" id="L62">                    .collect(Collectors.toList()).size();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            if (col == 0) {</span>
+<span class="fc" id="L64">                return position;</span>
+            }
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return null;</span>
+    }
+
+    public List&lt;Node&gt; getShortestPath() {
+<span class="nc" id="L71">        return shortestPath;</span>
+    }
+
+    public void setShortestPath(List&lt;Node&gt; shortestPath) {
+<span class="nc" id="L75">        this.shortestPath = shortestPath;</span>
+<span class="nc" id="L76">    }</span>
+
+    public Integer getDistance() {
+<span class="fc" id="L79">        return distance;</span>
+    }
+
+    public void setDistance(Integer distance) {
+<span class="fc" id="L83">        this.distance = distance;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Integer getCost() {
+<span class="fc" id="L87">        return cost;</span>
+    }
+
+    public void setCost(Integer cost) {
+<span class="nc" id="L91">        this.cost = cost;</span>
+<span class="nc" id="L92">    }</span>
+
+    public List&lt;Node&gt; getNeighbours() {
+<span class="fc" id="L95">        return neighbours;</span>
+    }
+
+    public void setNeighbours() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        neighbours = neighbourPos.stream().map(s -&gt; dijkstra.getNodeForPos(s)).filter(s -&gt; s != null).collect(Collectors.toList());</span>
+<span class="fc" id="L100">    }</span>
+
+    public Position getLocation() {
+<span class="fc" id="L103">        return location;</span>
+    }
+
+    @Override
+    public int compareTo(Node o) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        return o.getDistance() &lt; this.distance ? 1 : -1;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

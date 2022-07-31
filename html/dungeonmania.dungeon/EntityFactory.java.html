@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.dungeon</a> &gt; <span class="el_source">EntityFactory.java</span></div><h1>EntityFactory.java</h1><pre class="source lang-java linenums">package dungeonmania.dungeon;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.buildableentities.Bow;
+import dungeonmania.entities.buildableentities.MidnightArmour;
+import dungeonmania.entities.buildableentities.Sceptre;
+import dungeonmania.entities.buildableentities.Shield;
+import dungeonmania.entities.collectableentities.Arrow;
+import dungeonmania.entities.collectableentities.Bomb;
+import dungeonmania.entities.collectableentities.InvincibilityPotion;
+import dungeonmania.entities.collectableentities.InvisibilityPotion;
+import dungeonmania.entities.collectableentities.Key;
+import dungeonmania.entities.collectableentities.Sunstone;
+import dungeonmania.entities.collectableentities.Sword;
+import dungeonmania.entities.collectableentities.Treasure;
+import dungeonmania.entities.collectableentities.Wood;
+import dungeonmania.entities.movingentities.Assassin;
+import dungeonmania.entities.movingentities.Hydra;
+import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.Spider;
+import dungeonmania.entities.movingentities.ZombieToast;
+import dungeonmania.entities.spawners.SpiderSpawn;
+import dungeonmania.entities.spawners.ZombieToastSpawner;
+import dungeonmania.entities.staticentities.Boulder;
+import dungeonmania.entities.staticentities.Door;
+import dungeonmania.entities.staticentities.Exit;
+import dungeonmania.entities.staticentities.FloorSwitch;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.SwampTile;
+import dungeonmania.entities.staticentities.Wall;
+import dungeonmania.goals.BoulderGoal;
+import dungeonmania.goals.CollectTreasureGoal;
+import dungeonmania.goals.ComplexGoal;
+import dungeonmania.goals.EnemiesGoal;
+import dungeonmania.goals.ExitGoal;
+import dungeonmania.goals.Goal;
+import dungeonmania.goals.GoalCondition;
+import dungeonmania.util.LoadConfig;
+import dungeonmania.util.Position;
+
+<span class="nc" id="L51">public class EntityFactory {</span>
+
+    public static void makeEntities(JsonArray entities, Dungeon dungeon, boolean isSaved, LoadConfig loadedConfig) {
+<span class="nc" id="L54">        Map&lt;String, List&lt;Portal&gt;&gt; portals = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        for (JsonElement entity : entities) {</span>
+<span class="nc" id="L57">            int x = Integer.parseInt(((JsonObject) entity).get(&quot;x&quot;).toString());</span>
+<span class="nc" id="L58">            int y = Integer.parseInt(((JsonObject) entity).get(&quot;y&quot;).toString());</span>
+
+<span class="nc" id="L60">            String type = ((JsonObject) entity).get(&quot;type&quot;).getAsString();</span>
+<span class="nc bnc" id="L61" title="All 28 branches missed.">            switch (type) {</span>
+
+                case &quot;player&quot;:
+
+<span class="nc" id="L65">                    Player player = new Player(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.player_attack, loadedConfig.player_health,
+                            loadedConfig.bow_durability, loadedConfig.shield_durability, loadedConfig.shield_defence,
+                            loadedConfig.midnight_armour_attack, loadedConfig.midnight_armour_defence,
+                            loadedConfig.mind_control_duration);
+
+<span class="nc" id="L71">                    dungeon.addEntity(player);</span>
+<span class="nc" id="L72">                    dungeon.setPlayer(player);</span>
+<span class="nc" id="L73">                    dungeon.setSpiderSpawner(</span>
+                            new SpiderSpawn(loadedConfig.spider_spawn_rate, new Position(x, y),
+                                    loadedConfig.spider_attack,
+                                    loadedConfig.spider_health));
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                    if (isSaved) {</span>
+                        // // run saved player stuff here
+                        // // add items to inventor
+                        // // player.addItem(item);
+<span class="nc" id="L81">                        JsonArray inventory = ((JsonObject) entity).get(&quot;inventory&quot;).getAsJsonArray();</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                        for (JsonElement item : inventory) {</span>
+
+<span class="nc" id="L84">                            player.addItem(makeItem((JsonObject) item, dungeon, dungeon.getPlayer()));</span>
+<span class="nc" id="L85">                        }</span>
+<span class="nc" id="L86">                    }</span>
+                    break;
+
+                case &quot;wall&quot;:
+<span class="nc" id="L90">                    dungeon.addEntity(new Wall(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L91">                    break;</span>
+                case &quot;exit&quot;:
+<span class="nc" id="L93">                    dungeon.addEntity(new Exit(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L94">                    break;</span>
+                case &quot;boulder&quot;:
+<span class="nc" id="L96">                    dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L97">                    break;</span>
+                case &quot;switch&quot;:
+<span class="nc" id="L99">                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L100">                    break;</span>
+                case &quot;door&quot;:
+<span class="nc" id="L102">                    dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+<span class="nc" id="L103">                            Integer.parseInt(((JsonObject) entity).get(&quot;key&quot;).toString())));</span>
+<span class="nc" id="L104">                    break;</span>
+                case &quot;portal&quot;:
+<span class="nc" id="L106">                    String colour = ((JsonObject) entity).get(&quot;colour&quot;).toString();</span>
+<span class="nc" id="L107">                    Portal portal = new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), colour);</span>
+<span class="nc" id="L108">                    dungeon.addEntity(portal);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                    if (portals.containsKey(colour)) {</span>
+<span class="nc" id="L110">                        portals.get(colour).add(portal);</span>
+                    } else {
+<span class="nc" id="L112">                        List&lt;Portal&gt; portalsPair = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L113">                        portalsPair.add(portal);</span>
+<span class="nc" id="L114">                        portals.put(colour, portalsPair);</span>
+                    }
+<span class="nc" id="L116">                    break;</span>
+                case &quot;zombie_toast_spawner&quot;:
+<span class="nc" id="L118">                    dungeon.addEntity(new ZombieToastSpawner(dungeon.getCurrMaxEntityId(), new Position(x, y), true,</span>
+                            true, loadedConfig.zombie_spawn_rate, loadedConfig.zombie_attack,
+                            loadedConfig.zombie_health));
+<span class="nc" id="L121">                    break;</span>
+                case &quot;spider&quot;:
+<span class="nc" id="L123">                    dungeon.addEntity(new Spider(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.spider_attack, loadedConfig.spider_health));
+<span class="nc" id="L125">                    break;</span>
+                case &quot;zombie_toast&quot;:
+<span class="nc" id="L127">                    dungeon.addEntity(new ZombieToast(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.zombie_attack, loadedConfig.zombie_health));
+<span class="nc" id="L129">                    break;</span>
+                case &quot;mercenary&quot;:
+<span class="nc" id="L131">                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.ally_attack,
+                            loadedConfig.ally_defence, loadedConfig.mercenary_attack, loadedConfig.mercenary_health,
+                            loadedConfig.bribe_radius,
+                            loadedConfig.bribe_amount));
+<span class="nc" id="L136">                    break;</span>
+                case &quot;treasure&quot;:
+<span class="nc" id="L138">                    dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L139">                    break;</span>
+                case &quot;key&quot;:
+<span class="nc" id="L141">                    dungeon.addEntity(new Key(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+<span class="nc" id="L142">                            Integer.parseInt(((JsonObject) entity).get(&quot;key&quot;).toString())));</span>
+<span class="nc" id="L143">                    break;</span>
+                case &quot;invincibility_potion&quot;:
+<span class="nc" id="L145">                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.invincibility_potion_duration));
+<span class="nc" id="L147">                    break;</span>
+                case &quot;invisibility_potion&quot;:
+<span class="nc" id="L149">                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.invisibility_potion_duration));
+<span class="nc" id="L151">                    break;</span>
+                case &quot;wood&quot;:
+<span class="nc" id="L153">                    dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L154">                    break;</span>
+                case &quot;arrow&quot;:
+<span class="nc" id="L156">                    dungeon.addEntity(new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L157">                    break;</span>
+                case &quot;bomb&quot;:
+<span class="nc" id="L159">                    dungeon.addEntity(</span>
+<span class="nc" id="L160">                            new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                                    loadedConfig.bomb_radius));
+<span class="nc" id="L162">                    break;</span>
+                case &quot;sword&quot;:
+<span class="nc" id="L164">                    dungeon.addEntity(new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.sword_attack, loadedConfig.sword_durability));
+<span class="nc" id="L166">                    break;</span>
+                case &quot;bow&quot;:
+<span class="nc" id="L168">                    dungeon.addEntity(new Bow(dungeon.getCurrMaxEntityId(), loadedConfig.bow_durability));</span>
+<span class="nc" id="L169">                    break;</span>
+                case &quot;shield&quot;:
+<span class="nc" id="L171">                    dungeon.addEntity(</span>
+<span class="nc" id="L172">                            new Shield(dungeon.getCurrMaxEntityId(), loadedConfig.shield_durability,</span>
+                                    loadedConfig.shield_defence));
+<span class="nc" id="L174">                    break;</span>
+
+                case &quot;swamp_tile&quot;:
+<span class="nc" id="L177">                    SwampTile swampTile = new SwampTile(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+<span class="nc" id="L178">                            Integer.parseInt(((JsonObject) entity).get(&quot;movement_factor&quot;).toString()));</span>
+<span class="nc" id="L179">                    dungeon.addEntity(swampTile);</span>
+<span class="nc" id="L180">                    dungeon.addSwampTile(swampTile);</span>
+<span class="nc" id="L181">                    break;</span>
+
+                case &quot;sun_stone&quot;:
+<span class="nc" id="L184">                    dungeon.addEntity(new Sunstone(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+<span class="nc" id="L185">                    break;</span>
+
+                case &quot;midnight_armour&quot;:
+<span class="nc" id="L188">                    dungeon.addEntity(new MidnightArmour(dungeon.getCurrMaxEntityId(), loadedConfig.midnight_armour_attack,</span>
+                            loadedConfig.midnight_armour_defence));
+<span class="nc" id="L190">                    break;</span>
+
+                case &quot;sceptre&quot;:
+<span class="nc" id="L193">                    dungeon.addEntity(new Sceptre(dungeon.getCurrMaxEntityId()));</span>
+<span class="nc" id="L194">                    break;</span>
+                case &quot;assassin&quot;:
+<span class="nc" id="L196">                    dungeon.addEntity(new Assassin(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                            loadedConfig.ally_attack, loadedConfig.ally_defence, loadedConfig.assassin_attack,
+                            loadedConfig.assassin_health,
+                            loadedConfig.bribe_radius, loadedConfig.assassin_bribe_amount,
+                            loadedConfig.assassin_bribe_fail_rate,
+                            loadedConfig.assassin_recon_radius));
+<span class="nc" id="L202">                    break;</span>
+                case &quot;hydra&quot;:
+<span class="nc" id="L204">                    dungeon.addEntity(new Hydra(dungeon.getCurrMaxEntityId(), new Position(x, y), loadedConfig.hydra_attack,</span>
+                            loadedConfig.hydra_health, loadedConfig.hydra_health_increase_rate,
+                            loadedConfig.hydra_health_increase_amount));
+                    break;
+            }
+<span class="nc" id="L209">        }</span>
+<span class="nc" id="L210">        portalFactory(portals);</span>
+<span class="nc" id="L211">    }</span>
+
+    private static void portalFactory(Map&lt;String, List&lt;Portal&gt;&gt; portals) {
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        for (List&lt;Portal&gt; portalPair : portals.values()) {</span>
+<span class="nc" id="L215">            portalPair.get(0).setPair(portalPair.get(1));</span>
+<span class="nc" id="L216">        }</span>
+<span class="nc" id="L217">    }</span>
+
+    private static Entity makeItem(JsonObject item, Dungeon dungeon, Player player) {
+<span class="nc" id="L220">        LoadConfig loadedConfig = dungeon.getConfig();</span>
+<span class="nc" id="L221">        String type = item.get(&quot;type&quot;).getAsString();</span>
+<span class="nc" id="L222">        int x = 0;</span>
+<span class="nc" id="L223">        int y = 0;</span>
+<span class="nc bnc" id="L224" title="All 11 branches missed.">        switch (type) {</span>
+            case &quot;treasure&quot;:
+<span class="nc" id="L226">                return (new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+
+            case &quot;key&quot;:
+<span class="nc" id="L229">                return (new Key(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+<span class="nc" id="L230">                        Integer.parseInt(((JsonObject) item).get(&quot;key&quot;).toString())));</span>
+
+            case &quot;invincibility_potion&quot;:
+<span class="nc" id="L233">                return (new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                        loadedConfig.invincibility_potion_duration));
+
+            case &quot;invisibility_potion&quot;:
+<span class="nc" id="L237">                return (new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                        loadedConfig.invisibility_potion_duration));
+
+            case &quot;wood&quot;:
+<span class="nc" id="L241">                return (new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+
+            case &quot;arrow&quot;:
+<span class="nc" id="L244">                return (new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y)));</span>
+
+            case &quot;bomb&quot;:
+<span class="nc" id="L247">                return (new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                        loadedConfig.bomb_radius));
+
+            case &quot;sword&quot;:
+<span class="nc" id="L251">                return (new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y),</span>
+                        loadedConfig.sword_attack, loadedConfig.sword_durability));
+            case &quot;bow&quot;:
+<span class="nc" id="L254">                return (new Bow(dungeon.getCurrMaxEntityId(), loadedConfig.bow_durability));</span>
+            case &quot;shield&quot;:
+<span class="nc" id="L256">                return (new Shield(dungeon.getCurrMaxEntityId(), loadedConfig.shield_durability,</span>
+                        loadedConfig.shield_defence));
+
+        }
+<span class="nc" id="L260">        return null;</span>
+    }
+
+    public static Goal prepareGoals(JsonObject goals, LoadConfig config) {
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (goals.has(&quot;subgoals&quot;)) {</span>
+            GoalCondition condition;
+<span class="nc bnc" id="L266" title="All 2 branches missed.">            if (goals.get(&quot;goal&quot;).getAsString().equals(&quot;OR&quot;)) {</span>
+<span class="nc" id="L267">                condition = GoalCondition.OR;</span>
+            } else {
+<span class="nc" id="L269">                condition = GoalCondition.AND;</span>
+            }
+<span class="nc" id="L271">            ComplexGoal newGoal = new ComplexGoal(condition);</span>
+<span class="nc" id="L272">            JsonArray subgoals = goals.get(&quot;subgoals&quot;).getAsJsonArray();</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">            for (JsonElement subgoal : subgoals) {</span>
+<span class="nc bnc" id="L274" title="All 4 branches missed.">                if (subgoal.isJsonObject() &amp;&amp; ((JsonObject) subgoal).has(&quot;subgoals&quot;)) {</span>
+<span class="nc" id="L275">                    newGoal.addSubgoal(prepareGoals((JsonObject) subgoal, config));</span>
+                } else {
+<span class="nc" id="L277">                    String subgoalString = ((JsonObject) subgoal).get(&quot;goal&quot;).getAsString();</span>
+<span class="nc" id="L278">                    newGoal.addSubgoal(goalType(subgoalString, config));</span>
+                }
+<span class="nc" id="L280">            }</span>
+<span class="nc" id="L281">            return newGoal;</span>
+        } else {
+<span class="nc" id="L283">            return goalType(goals.get(&quot;goal&quot;).getAsString(), config);</span>
+        }
+    }
+
+    private static Goal goalType(String goal, LoadConfig loadedConfig) {
+
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        if (goal.contains(&quot;enemies&quot;)) {</span>
+<span class="nc" id="L290">            return new EnemiesGoal(loadedConfig.enemy_goal);</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">        } else if (goal.contains(&quot;boulders&quot;)) {</span>
+<span class="nc" id="L292">            return new BoulderGoal();</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        } else if (goal.contains(&quot;treasure&quot;)) {</span>
+<span class="nc" id="L294">            return new CollectTreasureGoal(loadedConfig.treasure_goal);</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        } else if (goal.contains(&quot;exit&quot;)) {</span>
+<span class="nc" id="L296">            return new ExitGoal();</span>
+        }
+<span class="nc" id="L298">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

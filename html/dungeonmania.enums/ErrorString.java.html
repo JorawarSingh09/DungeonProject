@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorString.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.enums</a> &gt; <span class="el_source">ErrorString.java</span></div><h1>ErrorString.java</h1><pre class="source lang-java linenums">package dungeonmania.enums;
+
+<span class="fc" id="L3">public enum ErrorString {</span>
+<span class="fc" id="L4">    BRIBECHANCE {</span>
+        public String toString() {
+<span class="nc" id="L6">            return &quot;Player failed random chance of bribing assassin.&quot;;</span>
+        }
+    },
+<span class="fc" id="L9">    BRIBERAD {</span>
+        public String toString() {
+<span class="fc" id="L11">            return &quot;Mercenary is not within the player's bribe radius.&quot;;</span>
+        }
+    },
+<span class="fc" id="L14">    BRIBETREAS {</span>
+        public String toString() {
+<span class="fc" id="L16">            return &quot;Player does not have enough treasure to bribe this mercenary.&quot;;</span>
+        }
+    },
+
+<span class="fc" id="L20">    ZOMRAD {</span>
+        public String toString() {
+<span class="fc" id="L22">            return &quot;Player is not cardinally adjacent to the Zombie Toast Spawner.&quot;;</span>
+        }
+    },
+
+<span class="fc" id="L26">    NOWEAP {</span>
+        public String toString() {
+<span class="fc" id="L28">            return &quot;Player does not have a weapon so it cannot destroy the Zombie Toast Spawner.&quot;;</span>
+        }
+    },
+
+<span class="fc" id="L32">    NOTINTERACT {</span>
+        public String toString() {
+<span class="nc" id="L34">            return &quot;Entity is not interactable.&quot;;</span>
+        }
+    },
+
+<span class="fc" id="L38">    SUCCESS {</span>
+        public String toString() {
+<span class="fc" id="L40">            return &quot;SUCCESS!&quot;;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

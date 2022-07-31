@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FollowPlayerMovementStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties.movements</a> &gt; <span class="el_source">FollowPlayerMovementStrategy.java</span></div><h1>FollowPlayerMovementStrategy.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties.movements;
+
+import dungeonmania.dungeon.Dungeon;
+import java.util.stream.Collectors;
+
+
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.properties.movements.dijkstra.Dijkstra;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.util.Position;
+
+public class FollowPlayerMovementStrategy extends MovementStrategy {
+
+    boolean reversed;
+
+    public FollowPlayerMovementStrategy(Moveable movingEntity) {
+<span class="fc" id="L18">        super(movingEntity);</span>
+<span class="fc" id="L19">        reversed = false;</span>
+<span class="fc" id="L20">    }</span>
+
+    public Position getNextPosition(Dungeon dungeon, Player player) {
+<span class="fc" id="L23">        Position followed = player.getPosition();</span>
+<span class="fc" id="L24">        Position follower = movingEntity.getPosition();</span>
+<span class="fc" id="L25">        boolean isAlly = movingEntity.isAlly();</span>
+
+<span class="fc bfc" id="L27" title="All 4 branches covered.">        if (isAlly &amp;&amp; followed.equals(follower)) {</span>
+            // ally has moved onto you, they stay where they were.
+<span class="fc" id="L29">            return player.getPreviousPosition();</span>
+        }
+<span class="fc bfc" id="L31" title="All 4 branches covered.">        if (isAlly &amp;&amp; followed.equals(findMoveableBlock(dungeon, followed, follower))) {</span>
+            // player hasnt moved you do not move
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if (player.getPosition().equals(player.getPreviousPosition())) {</span>
+<span class="fc" id="L34">                return follower;</span>
+            }
+<span class="nc bnc" id="L36" title="All 4 branches missed.">            if (isAlly &amp;&amp; followed.equals(follower)) {</span>
+                // player has moved, swap
+<span class="nc" id="L38">                return player.getPreviousPosition();</span>
+            }
+        }
+<span class="fc" id="L41">        return findMoveableBlock(dungeon, followed, follower);</span>
+    }
+
+    private Position findMoveableBlock(Dungeon dungeon, Position followed, Position follower) {
+<span class="fc" id="L45">        Dijkstra dijkstra = new Dijkstra(dungeon, follower, followed);</span>
+<span class="fc bfc" id="L46" title="All 4 branches covered.">        if (!dijkstra.generateGrid() || reversed) {</span>
+<span class="fc" id="L47">            return simpleFollow(dungeon, followed, follower);</span>
+        } 
+<span class="fc" id="L49">        Position nextMove = dijkstra.getNextPos();</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (nextMove != null) {</span>
+<span class="fc" id="L51">            return nextMove;</span>
+        } else {
+<span class="nc" id="L53">            return simpleFollow(dungeon, followed, follower);</span>
+        }
+    }
+
+    private Position simpleFollow(Dungeon dungeon, Position followed, Position follower){
+<span class="fc" id="L58">        Position newPos = follower;</span>
+<span class="fc" id="L59">        double distance = Double.POSITIVE_INFINITY;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (reversed)</span>
+<span class="fc" id="L61">            distance = Double.NEGATIVE_INFINITY;</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (Position pos : follower.getCardinallyAdjacentPositions()) {</span>
+<span class="fc bfc" id="L64" title="All 4 branches covered.">            if (getMinMaxDis(pos, followed, distance) &amp;&amp; dungeon.getStaticsOnBlock(pos).stream().filter(t -&gt; (t.isCollidable())).collect(Collectors.toList()).size() &lt; 1</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                || getMinMaxDis(pos, followed, distance) &amp;&amp; </span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                    dungeon.getStaticsOnBlock(pos).size() == 1 &amp;&amp;</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                        dungeon.getStaticsOnBlock(pos).get(0) instanceof Portal) {</span>
+<span class="fc" id="L68">                distance = Position.getDistanceBetweenTwoPositions(pos, followed);</span>
+<span class="fc" id="L69">                newPos = pos;</span>
+            }
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">        return newPos;</span>
+    }
+
+    private boolean getMinMaxDis(Position pos, Position followed, double currDistance) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (reversed) {</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">            return Position.getDistanceBetweenTwoPositions(pos, followed) &gt; currDistance;</span>
+        }
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        return Position.getDistanceBetweenTwoPositions(pos, followed) &lt; currDistance;</span>
+    }
+
+    public void reversePath() {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (reversed) {</span>
+<span class="fc" id="L84">            reversed = false;</span>
+        } else {
+<span class="fc" id="L86">            reversed = true;</span>
+        }
+<span class="fc" id="L88">    }</span>
+
+    @Override
+    public boolean isReversed() {
+<span class="fc" id="L92">        return reversed;</span>
+    }
+
+    public void updateMovement(Dungeon dungeon, Player player) {
+<span class="fc" id="L96">        movingEntity.setPosition(getNextPosition(dungeon, player));</span>
+<span class="fc" id="L97">    }</span>
+
+    @Override 
+    public String toString(){
+<span class="fc" id="L101">        return &quot;Follow&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

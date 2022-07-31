@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inventory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties</a> &gt; <span class="el_source">Inventory.java</span></div><h1>Inventory.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import dungeonmania.entities.buildableentities.Bow;
+import dungeonmania.entities.buildableentities.Buildable;
+import dungeonmania.entities.buildableentities.Shield;
+import dungeonmania.entities.buildableentities.MidnightArmour;
+import dungeonmania.entities.buildableentities.Sceptre;
+import dungeonmania.entities.collectableentities.Arrow;
+import dungeonmania.entities.collectableentities.Key;
+import dungeonmania.entities.collectableentities.Sunstone;
+import dungeonmania.entities.collectableentities.Sword;
+import dungeonmania.entities.collectableentities.Treasure;
+import dungeonmania.entities.collectableentities.Wood;
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
+import dungeonmania.entities.collectableentities.interfaces.Durability;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
+
+public class Inventory {
+
+<span class="fc" id="L27">    List&lt;Storeable&gt; inventoryItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">    List&lt;Buildable&gt; buildableItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L29">    List&lt;Attacking&gt; attackingItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">    List&lt;Defending&gt; defendingItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L31">    List&lt;Durability&gt; weapons = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L32">    Map&lt;Integer, Storeable&gt; items = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L33">    public Map&lt;Integer, String&gt; itemHistory = new HashMap&lt;&gt;();</span>
+    private int bowDurability;
+    private int shieldDurability;
+    private int shieldDefence;
+    private int armourAttack;
+    private int armourDefence;
+    private int mindControlDuration;
+
+    // private Position playerPos;
+
+    public Inventory(int bowDurability, int shieldDurability, int shieldDefence, int armourAttack, int armourDefence,
+<span class="fc" id="L44">            int mindControlDuration) {</span>
+<span class="fc" id="L45">        this.bowDurability = bowDurability;</span>
+<span class="fc" id="L46">        this.shieldDurability = shieldDurability;</span>
+<span class="fc" id="L47">        this.shieldDefence = shieldDefence;</span>
+<span class="fc" id="L48">        this.armourAttack = armourAttack;</span>
+<span class="fc" id="L49">        this.armourDefence = armourDefence;</span>
+<span class="fc" id="L50">        this.mindControlDuration = mindControlDuration;</span>
+<span class="fc" id="L51">    }</span>
+
+    public void addItem(Storeable item) {
+<span class="fc" id="L54">        inventoryItems.add(item);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (item instanceof Attacking) {</span>
+<span class="fc" id="L56">            attackingItems.add((Attacking) item);</span>
+        }
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (item instanceof Defending) {</span>
+<span class="fc" id="L59">            defendingItems.add((Defending) item);</span>
+        }
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (item instanceof Durability) {</span>
+<span class="fc" id="L62">            weapons.add((Durability) item);</span>
+        }
+<span class="fc" id="L64">        items.put(item.getItemId(), item);</span>
+<span class="fc" id="L65">        itemHistory.put(item.getItemId(), item.getType());</span>
+
+<span class="fc" id="L67">    }</span>
+
+    public String getHistoricalItemType(int id) {
+<span class="fc" id="L70">        return itemHistory.get(id);</span>
+    }
+
+    public Storeable getItemFromId(int id) {
+<span class="fc" id="L74">        return items.get(id);</span>
+    }
+
+    public boolean hasItem(int id) {
+<span class="fc" id="L78">        return items.containsKey(id);</span>
+    }
+
+    public List&lt;Storeable&gt; getKeys() {
+<span class="fc" id="L82">        return inventoryItems.stream()</span>
+<span class="fc" id="L83">                .filter(e -&gt; e.getType().equals(&quot;key&quot;))</span>
+<span class="fc" id="L84">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Storeable&gt; getInventoryItems() {
+<span class="fc" id="L88">        return inventoryItems;</span>
+    }
+
+    public List&lt;String&gt; getBuildableItems(boolean hasZombie) {
+<span class="fc" id="L92">        List&lt;String&gt; buildables = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L93">        int wood = countItem(Wood.class);</span>
+<span class="fc" id="L94">        int arrows = countItem(Arrow.class);</span>
+<span class="fc" id="L95">        int treasure = countItem(Treasure.class);</span>
+<span class="fc" id="L96">        int key = countItem(Key.class);</span>
+<span class="fc" id="L97">        int sword = countItem(Sword.class);</span>
+<span class="fc" id="L98">        int sunstone = countItem(Sunstone.class);</span>
+
+<span class="fc bfc" id="L100" title="All 8 branches covered.">        if ((hasSunStone() || key &gt;= 1 || treasure &gt;= 1) &amp;&amp; (wood &gt;= 2)) {</span>
+<span class="fc" id="L101">            buildables.add(&quot;shield&quot;);</span>
+        }
+<span class="fc bfc" id="L103" title="All 4 branches covered.">        if (wood &gt;= 1 &amp;&amp; arrows &gt;= 3) {</span>
+<span class="fc" id="L104">            buildables.add(&quot;bow&quot;);</span>
+        }
+<span class="fc bfc" id="L106" title="All 6 branches covered.">        if (!hasZombie &amp;&amp; sword &gt;= 1 &amp;&amp; sunstone &gt;= 1) {</span>
+<span class="fc" id="L107">            buildables.add(&quot;midnight_armour&quot;);</span>
+<span class="fc bfc" id="L108" title="All 10 branches covered.">        } else if ((wood &gt;= 1 || arrows &gt;= 2) &amp;&amp; (key &gt;= 1 || treasure &gt;= 1) &amp;&amp; sunstone &gt;= 1) {</span>
+<span class="fc" id="L109">            buildables.add(&quot;sceptre&quot;);</span>
+        }
+<span class="fc" id="L111">        return buildables;</span>
+    }
+
+    public void build(String itemBuild, int nextItemMaxId) {
+<span class="pc bpc" id="L115" title="1 of 5 branches missed.">        switch (itemBuild) {</span>
+            case &quot;shield&quot;:
+<span class="fc" id="L117">                Shield shield = new Shield(nextItemMaxId, shieldDurability, shieldDefence);</span>
+<span class="fc" id="L118">                addItem(shield);</span>
+<span class="fc" id="L119">                removeShieldItems();</span>
+<span class="fc" id="L120">                break;</span>
+            case &quot;bow&quot;:
+<span class="fc" id="L122">                Bow bow = new Bow(nextItemMaxId, bowDurability);</span>
+<span class="fc" id="L123">                addItem(bow);</span>
+<span class="fc" id="L124">                removeBowItems();</span>
+<span class="fc" id="L125">                break;</span>
+            case &quot;midnight_armour&quot;:
+<span class="fc" id="L127">                MidnightArmour armour = new MidnightArmour(nextItemMaxId, armourAttack, armourDefence);</span>
+<span class="fc" id="L128">                addItem(armour);</span>
+<span class="fc" id="L129">                removeArmourItems();</span>
+<span class="fc" id="L130">                break;</span>
+            case &quot;sceptre&quot;:
+<span class="fc" id="L132">                Sceptre sceptre = new Sceptre(nextItemMaxId);</span>
+<span class="fc" id="L133">                inventoryItems.add(sceptre);</span>
+<span class="fc" id="L134">                buildableItems.add(sceptre);</span>
+<span class="fc" id="L135">                removeSceptreItems();</span>
+                break;
+        }
+<span class="fc" id="L138">    }</span>
+
+    public List&lt;Attacking&gt; getAttackingItems() {
+<span class="fc" id="L141">        return attackingItems;</span>
+    }
+
+    public List&lt;Defending&gt; getDefendingItems() {
+<span class="fc" id="L145">        return defendingItems;</span>
+    }
+
+    public void updateWeaponsDurability() {
+<span class="fc" id="L149">        List&lt;Integer&gt; idsToRemove = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        for (Durability weapon : weapons) {</span>
+<span class="fc" id="L151">            weapon.reduceDurability();</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">            if (weapon.getDurability() &lt;= 0) {</span>
+<span class="fc" id="L153">                removeItemById(weapon.getItemId());</span>
+<span class="fc" id="L154">                idsToRemove.add(weapon.getItemId());</span>
+            }
+<span class="fc" id="L156">        }</span>
+<span class="fc" id="L157">        attackingItems.removeIf(w -&gt; idsToRemove.contains(w.getItemId()));</span>
+<span class="fc" id="L158">        defendingItems.removeIf(w -&gt; idsToRemove.contains(w.getItemId()));</span>
+<span class="fc" id="L159">        weapons.removeIf(w -&gt; idsToRemove.contains(w.getItemId()));</span>
+<span class="fc" id="L160">    }</span>
+
+    public int countItem(Class&lt;?&gt; t) {
+<span class="fc" id="L163">        int count = 0;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        for (Storeable item : inventoryItems) {</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">            if (item.getClass().equals(t)) {</span>
+<span class="fc" id="L166">                count += 1;</span>
+            }
+<span class="fc" id="L168">        }</span>
+<span class="fc" id="L169">        return count;</span>
+    }
+
+    private void removeShieldItems() {
+<span class="fc" id="L173">        removeItem(2, Wood.class);</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (!hasSunStone()) {</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">            if (!removeItem(1, Treasure.class)) {</span>
+<span class="nc" id="L176">                removeItem(1, Key.class);</span>
+            }
+        }
+<span class="fc" id="L179">    }</span>
+
+    private void removeBowItems() {
+<span class="fc" id="L182">        removeItem(1, Wood.class);</span>
+<span class="fc" id="L183">        removeItem(3, Arrow.class);</span>
+<span class="fc" id="L184">    }</span>
+
+    private void removeArmourItems() {
+<span class="fc" id="L187">        removeItem(1, Sword.class);</span>
+<span class="fc" id="L188">        removeWeapon(1, Sword.class);</span>
+<span class="fc" id="L189">        removeItem(1, Sunstone.class);</span>
+<span class="fc" id="L190">    }</span>
+
+    private void removeSceptreItems() {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (countItem(Wood.class) &gt;= 1) {</span>
+<span class="fc" id="L194">            removeItem(1, Wood.class);</span>
+        } else {
+<span class="fc" id="L196">            removeItem(2, Arrow.class);</span>
+        }
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (countItem(Key.class) &gt;= 1) {</span>
+<span class="fc" id="L199">            removeItem(1, Key.class);</span>
+        } else {
+<span class="fc" id="L201">            removeItem(1, Treasure.class);</span>
+        }
+<span class="fc" id="L203">        removeItem(1, Sunstone.class);</span>
+<span class="fc" id="L204">    }</span>
+
+    private void removeWeapon(int removeAmount, Class&lt;?&gt; t) {
+<span class="fc" id="L207">        int itemRemoved = 0;</span>
+<span class="fc" id="L208">        List&lt;Attacking&gt; toRemove = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (Attacking.class.isAssignableFrom(t)) {</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">            for (Attacking attackItem : attackingItems) {</span>
+<span class="pc bpc" id="L211" title="1 of 4 branches missed.">                if (attackItem.getClass().equals(t) &amp;&amp; itemRemoved &lt; removeAmount) {</span>
+<span class="fc" id="L212">                    toRemove.add(attackItem);</span>
+<span class="fc" id="L213">                    itemRemoved++;</span>
+                }
+<span class="fc" id="L215">            }</span>
+        }
+<span class="fc" id="L217">        attackingItems.removeAll(toRemove);</span>
+<span class="fc" id="L218">        itemRemoved = 0;</span>
+<span class="fc" id="L219">        List&lt;Defending&gt; toRemoveDefend = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if (Defending.class.isAssignableFrom(t)) {</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            for (Defending defendItem : defendingItems) {</span>
+<span class="nc bnc" id="L222" title="All 4 branches missed.">                if (defendItem.getClass().equals(t) &amp;&amp; itemRemoved &lt; removeAmount) {</span>
+<span class="nc" id="L223">                    toRemoveDefend.add(defendItem);</span>
+<span class="nc" id="L224">                    itemRemoved++;</span>
+                }
+<span class="nc" id="L226">            }</span>
+        }
+<span class="fc" id="L228">        defendingItems.removeAll(toRemoveDefend);</span>
+<span class="fc" id="L229">        itemRemoved = 0;</span>
+<span class="fc" id="L230">        List&lt;Durability&gt; toRemoveDur = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if (Durability.class.isAssignableFrom(t)) {</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">            for (Durability durItem : weapons) {</span>
+<span class="pc bpc" id="L233" title="2 of 4 branches missed.">                if (durItem.getClass().equals(t) &amp;&amp; itemRemoved &lt; removeAmount) {</span>
+<span class="fc" id="L234">                    toRemoveDur.add(durItem);</span>
+<span class="fc" id="L235">                    itemRemoved++;</span>
+                }
+<span class="fc" id="L237">            }</span>
+        }
+<span class="fc" id="L239">        weapons.removeAll(toRemoveDur);</span>
+<span class="fc" id="L240">    }</span>
+
+    public boolean removeItem(int removeAmount, Class&lt;?&gt; t) {
+<span class="fc" id="L243">        int itemRemoved = 0;</span>
+<span class="fc" id="L244">        List&lt;Storeable&gt; toRemove = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        for (Storeable item : inventoryItems) {</span>
+<span class="fc bfc" id="L247" title="All 4 branches covered.">            if (item.getClass().equals(t)</span>
+                    &amp;&amp; itemRemoved &lt; removeAmount) {
+<span class="fc" id="L249">                toRemove.add(item);</span>
+<span class="fc" id="L250">                itemRemoved++;</span>
+            }
+<span class="fc" id="L252">        }</span>
+<span class="fc" id="L253">        inventoryItems.removeAll(toRemove);</span>
+
+<span class="fc" id="L255">        List&lt;Integer&gt; remainingIds = inventoryItems.stream().map(Storeable::getItemId).collect(Collectors.toList());</span>
+<span class="fc" id="L256">        List&lt;Integer&gt; keys = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L257">        keys.addAll(items.keySet());</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">        for (Integer key : keys) {</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            if (!remainingIds.contains(key))</span>
+<span class="fc" id="L260">                items.remove(key);</span>
+<span class="fc" id="L261">        }</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        return (itemRemoved == removeAmount);</span>
+    }
+
+    public void removeItemById(int id) {
+<span class="fc" id="L266">        inventoryItems.remove(items.get(id));</span>
+<span class="fc" id="L267">        items.remove(id);</span>
+<span class="fc" id="L268">    }</span>
+
+    public boolean hasRightKey(int keyPair) {
+<span class="fc" id="L271">        boolean foundKey = false;</span>
+<span class="fc" id="L272">        Storeable foundItem = null;</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">        for (Storeable item : inventoryItems) {</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">            if (item instanceof Key) {</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">                if (((Key) item).getKeyPair() == keyPair) {</span>
+<span class="fc" id="L276">                    foundKey = true;</span>
+<span class="fc" id="L277">                    foundItem = item;</span>
+<span class="fc" id="L278">                    break;</span>
+                }
+            }
+<span class="fc" id="L281">        }</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">        if (foundKey)</span>
+<span class="fc" id="L283">            removeItemById(foundItem.getItemId());</span>
+<span class="fc" id="L284">        return foundKey;</span>
+    }
+
+    public boolean hasSunStone() {
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        return (countItem(Sunstone.class) &gt; 0);</span>
+    }
+
+    public int getMindControlDuration() {
+<span class="fc" id="L292">        return this.mindControlDuration;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
