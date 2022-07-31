@@ -22,6 +22,12 @@ import dungeonmania.entities.movingentities.Spider;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
 import dungeonmania.entities.movingentities.playerstates.InvisibleState;
 import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
+import dungeonmania.goals.BoulderGoal;
+import dungeonmania.goals.CollectTreasureGoal;
+import dungeonmania.goals.ComplexGoal;
+import dungeonmania.goals.EnemiesGoal;
+import dungeonmania.goals.ExitGoal;
+import dungeonmania.goals.GoalCondition;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -56,6 +62,8 @@ public class JsonTests {
         player.setPlayerStateFromJSON("Invincible");
         assertTrue(player.getPlayerState() instanceof InvincibleState);
         player.setPlayerStateFromJSON("Invisible");
+        assertTrue(player.getPlayerState() instanceof InvisibleState);
+        player.setPlayerStateFromJSON("xyz");
         assertTrue(player.getPlayerState() instanceof InvisibleState);
     }
 
@@ -124,6 +132,48 @@ public class JsonTests {
         assertEquals(arrow.getPosition().getX(), arrowJson.get("x").getAsInt());
         assertEquals(arrow.getPosition().getY(), arrowJson.get("y").getAsInt());
         assertEquals(arrow.getEntityId(), arrowJson.get("id").getAsInt());
+    }
+
+    @Test
+    @DisplayName("goal to json")
+    public void testGoaltojson() {
+        Dungeon dungeon = new Dungeon("dungeonName", 1);
+        Player player = new Player(0, new Position(1, 1), 10, 10, 10, 10, 10, 10, 10, 10);
+        dungeon.addEntity(player);
+        dungeon.setPlayer(player);
+        CollectTreasureGoal treasure = new CollectTreasureGoal(5);
+        JsonObject goal = new JsonObject();
+        goal.addProperty("goal", ":treasure");
+        assertEquals(goal, treasure.getJson(dungeon));
+
+        ExitGoal exit = new ExitGoal();
+        goal = new JsonObject();
+        goal.addProperty("goal", ":exit");
+        assertEquals(goal, exit.getJson(dungeon));
+
+        EnemiesGoal enemy  = new EnemiesGoal(5);
+        goal = new JsonObject();
+        goal.addProperty("goal", ":enemies");
+        assertEquals(goal, enemy.getJson(dungeon));
+
+        BoulderGoal boulder  = new BoulderGoal();
+        goal = new JsonObject();
+        goal.addProperty("goal", ":boulders");
+        assertEquals(goal, boulder.getJson(dungeon));
+        ComplexGoal compGoal = new ComplexGoal(GoalCondition.AND);
+        compGoal.addSubgoal(enemy);
+        compGoal.addSubgoal(exit);
+        goal = new JsonObject();
+        goal.addProperty("goal", "AND");
+        JsonObject goal1 = new JsonObject();
+        goal1.addProperty("goal", ":enemies");
+        JsonObject goal2 = new JsonObject();
+        goal2.addProperty("goal", ":exit");
+        JsonArray subgoals = new JsonArray();
+        subgoals.add(goal1);
+        subgoals.add(goal2);
+        goal.add("subgoals", subgoals);
+        assertEquals(goal, compGoal.getJson(dungeon));
     }
 
     @Test
