@@ -38,17 +38,10 @@ import dungeonmania.entities.staticentities.FloorSwitch;
 import dungeonmania.entities.staticentities.Portal;
 import dungeonmania.entities.staticentities.SwampTile;
 import dungeonmania.entities.staticentities.Wall;
-import dungeonmania.goals.BoulderGoal;
-import dungeonmania.goals.CollectTreasureGoal;
-import dungeonmania.goals.ComplexGoal;
-import dungeonmania.goals.EnemiesGoal;
-import dungeonmania.goals.ExitGoal;
-import dungeonmania.goals.Goal;
-import dungeonmania.goals.GoalCondition;
-import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.util.FileLoader;
+
 import dungeonmania.util.LoadConfig;
 import dungeonmania.util.Position;
+
 public class EntityFactory {
 
     public static void makeEntities(JsonArray entities, Dungeon dungeon, boolean isSaved, LoadConfig loadedConfig) {
@@ -76,14 +69,17 @@ public class EntityFactory {
                                     loadedConfig.spider_attack,
                                     loadedConfig.spider_health));
                     if (isSaved) {
-                        // // run saved player stuff here
-                        // // add items to inventor
-                        // // player.addItem(item);
                         JsonArray inventory = ((JsonObject) entity).get("inventory").getAsJsonArray();
                         for (JsonElement item : inventory) {
 
-                            player.addItem(makeItem((JsonObject) item, dungeon, dungeon.getPlayer()));
+                            player.addItem(makeItem((JsonObject) item,
+                                    dungeon, dungeon.getPlayer()));
                         }
+                        player.setHealth(
+                                Double.parseDouble(
+                                        ((JsonObject) entity).get("health").toString()));
+                        player.setPlayerStateFromJSON(
+                                ((JsonObject) entity).get("playerState").toString());
                     }
                     break;
 
@@ -97,11 +93,23 @@ public class EntityFactory {
                     dungeon.addEntity(new Boulder(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
                 case "switch":
-                    dungeon.addEntity(new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y)));
+                    FloorSwitch fs = (new FloorSwitch(dungeon.getCurrMaxEntityId(), new Position(x, y)));
+                    if (isSaved) {
+                        fs.setTriggered(
+                                ((JsonObject) entity).get("triggered")
+                                        .getAsBoolean());
+                    }
+                    dungeon.addEntity(fs);
                     break;
                 case "door":
-                    dungeon.addEntity(new Door(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                    Door door = (new Door(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             Integer.parseInt(((JsonObject) entity).get("key").toString())));
+                    if (isSaved) {
+                        door.setCollidable(
+                                ((JsonObject) entity).get("collidable")
+                                        .getAsBoolean());
+                    }
+                    dungeon.addEntity(door);
                     break;
                 case "portal":
                     String colour = ((JsonObject) entity).get("colour").toString();
@@ -129,12 +137,24 @@ public class EntityFactory {
                             loadedConfig.zombie_attack, loadedConfig.zombie_health));
                     break;
                 case "mercenary":
-                    dungeon.addEntity(new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                    Mercenary merc = (new Mercenary(dungeon.getCurrMaxEntityId(), new Position(x, y),
                             loadedConfig.ally_attack,
                             loadedConfig.ally_defence, loadedConfig.mercenary_attack, loadedConfig.mercenary_health,
                             loadedConfig.bribe_radius,
                             loadedConfig.bribe_amount));
+                    if (isSaved && ((JsonObject) entity).get("isAlly")
+                            .getAsBoolean()) {
+                        dungeon.addAlly(merc, ((JsonObject) entity)
+                                .get("mindControl")
+                                .getAsBoolean());
+                        merc.setDurability(Integer.parseInt(
+                                ((JsonObject) entity)
+                                        .get("durability")
+                                        .getAsString()));
+                    }
+                    dungeon.addEntity(merc);
                     break;
+
                 case "treasure":
                     dungeon.addEntity(new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));
                     break;
@@ -143,12 +163,24 @@ public class EntityFactory {
                             Integer.parseInt(((JsonObject) entity).get("key").toString())));
                     break;
                 case "invincibility_potion":
-                    dungeon.addEntity(new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
-                                    loadedConfig.invincibility_potion_duration));
+                    InvincibilityPotion VINpotion = (new InvincibilityPotion(dungeon.getCurrMaxEntityId(),
+                            new Position(x, y),
+                            loadedConfig.invincibility_potion_duration));
+                    if (isSaved) {
+                        VINpotion.setRemainingDuration(
+                                Integer.parseInt(((JsonObject) entity).get("duration").getAsString()));
+                    }
+                    dungeon.addEntity(VINpotion);
                     break;
                 case "invisibility_potion":
-                    dungeon.addEntity(new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
-                                    loadedConfig.invisibility_potion_duration));
+                    InvisibilityPotion VISpotion = (new InvisibilityPotion(dungeon.getCurrMaxEntityId(),
+                            new Position(x, y),
+                            loadedConfig.invisibility_potion_duration));
+                    if (isSaved) {
+                        VISpotion.setRemainingDuration(
+                                Integer.parseInt(((JsonObject) entity).get("duration").getAsString()));
+                    }
+                    dungeon.addEntity(VISpotion);
                     break;
                 case "wood":
                     dungeon.addEntity(new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));
@@ -186,8 +218,9 @@ public class EntityFactory {
                     break;
 
                 case "midnight_armour":
-                    dungeon.addEntity(new MidnightArmour(dungeon.getCurrMaxEntityId(), loadedConfig.midnight_armour_attack,
-                            loadedConfig.midnight_armour_defence));
+                    dungeon.addEntity(
+                            new MidnightArmour(dungeon.getCurrMaxEntityId(), loadedConfig.midnight_armour_attack,
+                                    loadedConfig.midnight_armour_defence));
                     break;
 
                 case "sceptre":
@@ -202,9 +235,10 @@ public class EntityFactory {
                             loadedConfig.assassin_recon_radius));
                     break;
                 case "hydra":
-                    dungeon.addEntity(new Hydra(dungeon.getCurrMaxEntityId(), new Position(x, y), loadedConfig.hydra_attack,
-                            loadedConfig.hydra_health, loadedConfig.hydra_health_increase_rate,
-                            loadedConfig.hydra_health_increase_amount));
+                    dungeon.addEntity(
+                            new Hydra(dungeon.getCurrMaxEntityId(), new Position(x, y), loadedConfig.hydra_attack,
+                                    loadedConfig.hydra_health, loadedConfig.hydra_health_increase_rate,
+                                    loadedConfig.hydra_health_increase_amount));
                     break;
             }
         }
@@ -224,41 +258,57 @@ public class EntityFactory {
         int y = 0;
         switch (type) {
             case "treasure":
-                return (new Treasure(dungeon.getCurrMaxEntityId(), new Position(x, y)));
+                return (new Treasure(dungeon.getCurrMaxitemId(), new Position(x, y)));
 
             case "key":
-                return (new Key(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                return (new Key(dungeon.getCurrMaxitemId(), new Position(x, y),
                         Integer.parseInt(((JsonObject) item).get("key").toString())));
 
             case "invincibility_potion":
-                return (new InvincibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                return (new InvincibilityPotion(dungeon.getCurrMaxitemId(), new Position(x, y),
                         loadedConfig.invincibility_potion_duration));
 
             case "invisibility_potion":
-                return (new InvisibilityPotion(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                return (new InvisibilityPotion(dungeon.getCurrMaxitemId(), new Position(x, y),
                         loadedConfig.invisibility_potion_duration));
 
             case "wood":
-                return (new Wood(dungeon.getCurrMaxEntityId(), new Position(x, y)));
+                return (new Wood(dungeon.getCurrMaxitemId(), new Position(x, y)));
 
             case "arrow":
-                return (new Arrow(dungeon.getCurrMaxEntityId(), new Position(x, y)));
+                return (new Arrow(dungeon.getCurrMaxitemId(), new Position(x, y)));
 
             case "bomb":
-                return (new Bomb(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                return (new Bomb(dungeon.getCurrMaxitemId(), new Position(x, y),
                         loadedConfig.bomb_radius));
 
             case "sword":
-                return (new Sword(dungeon.getCurrMaxEntityId(), new Position(x, y),
+                Sword sword = (new Sword(dungeon.getCurrMaxitemId(), new Position(x, y),
                         loadedConfig.sword_attack, loadedConfig.sword_durability));
+                sword.setDurability(
+                        Integer.parseInt(
+                                ((JsonObject) item).get("durability").toString()));
+                return sword;
+
             case "bow":
-                return (new Bow(dungeon.getCurrMaxEntityId(), loadedConfig.bow_durability));
+                Bow bow = (new Bow(dungeon.getCurrMaxitemId(), loadedConfig.bow_durability));
+                bow.setDurability(
+                        Integer.parseInt(
+                                ((JsonObject) item).get("durability").toString()));
+
             case "shield":
-                return (new Shield(dungeon.getCurrMaxEntityId(), loadedConfig.shield_durability,
+                Shield shield = (new Shield(dungeon.getCurrMaxitemId(), loadedConfig.shield_durability,
                         loadedConfig.shield_defence));
+                shield.setDurability(
+                        Integer.parseInt(
+                                ((JsonObject) item).get("durability").toString()));
+                return shield;
+
+            case "sun_stone":
+                return (new Sunstone(dungeon.getCurrMaxitemId(), new Position(0, 0)));
 
         }
         return null;
     }
-    
+
 }

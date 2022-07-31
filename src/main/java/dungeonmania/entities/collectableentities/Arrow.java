@@ -1,5 +1,7 @@
 package dungeonmania.entities.collectableentities;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectableentities.interfaces.Collectable;
@@ -25,5 +27,17 @@ public class Arrow extends Entity implements Collectable, Storeable {
 
     public String getType() {
         return "arrow";
+    }
+
+    @Override
+    public JsonObject getJson(){
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+
+        return entityJSON;
+
     }
 }

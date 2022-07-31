@@ -1,5 +1,7 @@
 package dungeonmania.entities.movingentities;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.playerstates.AliveState;
 import dungeonmania.entities.movingentities.playerstates.InvincibleState;
@@ -38,16 +40,16 @@ public class Assassin extends Mercenary {
 
     @Override
     public void updatePosition(Dungeon dungeon, Player player) {
-        if (player.getPlayerState().equals(new InvisibleState(player))) {
+        if (player.getPlayerState() instanceof InvisibleState) {
             if (this.getDistanceBetweenTwoEntities(player) > reconRadius) {
                 currMoveStrat = playerInvis;
             } else {
                 currMoveStrat = standard;
             }
-        } else if (player.getPlayerState().equals(new InvincibleState(player)) && !isAlly && !currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState() instanceof InvincibleState && !isAlly && !currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
-        } else if (player.getPlayerState().equals(new AliveState(player)) && currMoveStrat.isReversed()) {
+        } else if (player.getPlayerState() instanceof AliveState && currMoveStrat.isReversed()) {
             currMoveStrat = standard;
             currMoveStrat.reversePath();
         } else {
@@ -67,5 +69,18 @@ public class Assassin extends Mercenary {
 
         if (!foundPortal)
             currMoveStrat.updateMovement(dungeon, player);
+    }
+
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", super.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.addProperty("isAlly", this.isAlly());
+
+        return entityJSON;
+
     }
 }

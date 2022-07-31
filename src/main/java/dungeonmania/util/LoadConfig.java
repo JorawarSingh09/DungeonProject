@@ -3,7 +3,6 @@ package dungeonmania.util;
 import com.google.gson.JsonObject;
 
 public class LoadConfig {
-
     public int ally_attack;
     public int ally_defence;
     public int assassin_attack;
@@ -109,7 +108,7 @@ public class LoadConfig {
 
     }
 
-    public JsonObject getJson(){
+    public JsonObject getJson() {
         JsonObject configs = new JsonObject();
         configs.addProperty("configName", configName);
 
@@ -150,8 +149,14 @@ public class LoadConfig {
         configs.addProperty("zombie_attack", zombie_attack);
         configs.addProperty("zombie_health", zombie_health);
         configs.addProperty("zombie_spawn_rate", zombie_spawn_rate);
-        
+
         return configs;
+    }
+
+    public void deIncrementEnemyGoal() {
+        if (enemy_goal > 0) {
+            this.enemy_goal--;
+        }
     }
 
 }

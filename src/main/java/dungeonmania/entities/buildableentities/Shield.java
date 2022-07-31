@@ -28,6 +28,10 @@ public class Shield extends Entity implements Buildable, Storeable, Defending, D
         return durability;
     }
 
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     public int defenceBonus() {
         return defence;
     }

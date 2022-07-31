@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import com.google.gson.JsonObject;
+
 public final class Position {
     private final int x, y, layer;
 
@@ -135,5 +137,13 @@ public final class Position {
         adjacentPositions.add(new Position(x, y + 1));
         adjacentPositions.add(new Position(x - 1, y));
         return adjacentPositions;
+    }
+
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("x", this.x);
+        entityJSON.addProperty("y", this.y);
+
+        return entityJSON;
     }
 }

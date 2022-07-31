@@ -1,5 +1,7 @@
 package dungeonmania.entities.movingentities;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 
 import dungeonmania.entities.Entity;
@@ -76,6 +78,16 @@ public class Spider extends Entity implements Moveable, Health {
 
     public boolean isAllyToPlayer() {
         return false;
+    }
+
+    public JsonObject getJson() {
+        JsonObject entityJSON = new JsonObject();
+        entityJSON.addProperty("id", this.getEntityId());
+        entityJSON.addProperty("type", this.getType());
+        entityJSON.addProperty("x", this.getPosition().getX());
+        entityJSON.addProperty("y", this.getPosition().getY());
+        entityJSON.add("movement", this.moveStrat.getJson());
+        return entityJSON;
     }
 
 }

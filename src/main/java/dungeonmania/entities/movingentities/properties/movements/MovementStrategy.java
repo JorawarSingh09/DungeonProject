@@ -2,6 +2,8 @@ package dungeonmania.entities.movingentities.properties.movements;
 
 import java.util.stream.Collectors;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.movingentities.Player;
 import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
@@ -38,6 +40,10 @@ public abstract class MovementStrategy {
                     .filter(s -> s.isRepellent())
                     .collect(Collectors.toList()).size()) < 1;
         }
+    }
+
+    public JsonObject getJson(){
+        return null;
     }
 
 }
