@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dijkstra.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties.movements.dijkstra</a> &gt; <span class="el_source">Dijkstra.java</span></div><h1>Dijkstra.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties.movements.dijkstra;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.stream.Collectors;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.util.Position;
+
+public class Dijkstra {
+<span class="fc" id="L16">    List&lt;Node&gt; grid = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    Queue&lt;Node&gt; positions = new PriorityQueue&lt;&gt;();</span>
+<span class="fc" id="L18">    Map&lt;Node, Node&gt; prev = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L19">    Map&lt;Node, Boolean&gt; visited = new HashMap&lt;&gt;();</span>
+    Node source;
+    Node dest;
+    Position followed; 
+    Position follower;
+    Dungeon dungeon;
+
+<span class="fc" id="L26">    public Dijkstra(Dungeon dungeon, Position follower, Position followed) {</span>
+<span class="fc" id="L27">        this.dungeon = dungeon;</span>
+<span class="fc" id="L28">        this.follower = follower;</span>
+<span class="fc" id="L29">        this.followed = followed;</span>
+<span class="fc" id="L30">    }</span>
+
+    public boolean generateGrid() {
+<span class="fc" id="L33">        grid.clear();</span>
+<span class="fc" id="L34">        Position bottomLeft = new Position(follower.getX() - 12, follower.getY() - 12);</span>
+<span class="fc" id="L35">        boolean foundPlayer = false;</span>
+
+        // Get all co-ords in the grid
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (int i = 0; i &lt; 25; i++) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            for (int j = 0; j &lt; 25; j++) {</span>
+<span class="fc" id="L40">                Position curr = new Position(bottomLeft.getX() + i, bottomLeft.getY() + j);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                if (curr.equals(followed)) {</span>
+<span class="fc" id="L42">                    dest = new Node(curr, determineCost(curr, dungeon), dungeon, this);</span>
+<span class="fc" id="L43">                    grid.add(dest);</span>
+<span class="fc" id="L44">                    foundPlayer = true;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                } else if (curr.equals(follower)) {</span>
+<span class="fc" id="L46">                    source = new Node(curr, determineCost(curr, dungeon), dungeon, this);</span>
+<span class="fc" id="L47">                    grid.add(source);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                } else if (determineCost(curr, dungeon) != null) {</span>
+<span class="fc" id="L49">                    grid.add(new Node(curr, determineCost(curr, dungeon), dungeon, this));</span>
+                }
+            }
+        }
+<span class="fc" id="L53">        return foundPlayer;</span>
+    }
+
+    private Integer determineCost(Position position, Dungeon dungeon) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (dungeon.getStaticsOnBlock(position).stream().filter(t -&gt; t.isCollidable()).collect(Collectors.toList()).size() &gt; 0) {</span>
+<span class="fc" id="L58">            return null;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        } else if (dungeon.getSwampTiles().stream().filter(t -&gt; t.getPosition().equals(position)).collect(Collectors.toList()).size() &gt; 0) {</span>
+<span class="fc" id="L60">            return dungeon.getSwampTiles().stream().filter(t -&gt; t.getPosition().equals(position)).collect(Collectors.toList()).get(0).getMovementFactor() + 1;</span>
+        }
+<span class="fc" id="L62">        return 1;</span>
+    }
+
+    private Map&lt;Node, Node&gt; pathOfTraversal() {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Node node : grid) {</span>
+<span class="fc" id="L67">            prev.put(node, null);</span>
+<span class="fc" id="L68">            visited.put(node, false);</span>
+<span class="fc" id="L69">            node.setNeighbours();</span>
+<span class="fc" id="L70">        }</span>
+
+<span class="fc" id="L72">        source.setDistance(0);</span>
+<span class="fc" id="L73">        positions.add(source);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        while (!positions.isEmpty()) {</span>
+<span class="fc" id="L75">            Node currTraversing = positions.poll();</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            if (currTraversing.equals(dest)) {</span>
+<span class="fc" id="L77">                return prev;</span>
+            }
+<span class="fc" id="L79">            visited.put(currTraversing, true);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            for (Node neighbour : currTraversing.getNeighbours()) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (!visited.get(neighbour)) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                    if (neighbour.getDistance() &gt; (neighbour.getCost() + currTraversing.getDistance())) {</span>
+<span class="fc" id="L83">                        neighbour.setDistance((neighbour.getCost() + currTraversing.getDistance()));</span>
+<span class="fc" id="L84">                        prev.replace(neighbour, currTraversing);</span>
+                    }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                    if (positions.contains(neighbour)) {</span>
+<span class="fc" id="L87">                        positions.remove(neighbour);</span>
+<span class="fc" id="L88">                        positions.add(neighbour);</span>
+                    } else {
+<span class="fc" id="L90">                        positions.add(neighbour);</span>
+                    }
+                }
+<span class="fc" id="L93">            }</span>
+<span class="fc" id="L94">        }</span>
+<span class="nc" id="L95">        return prev;</span>
+    }
+
+    public Node getNodeForPos(Position pos) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (grid.stream().filter(n -&gt; n.getLocation().equals(pos)).collect(Collectors.toList()).size() &gt; 0) {</span>
+<span class="fc" id="L100">            return grid.stream().filter(n -&gt; n.getLocation().equals(pos)).collect(Collectors.toList()).get(0);</span>
+        } else {
+<span class="fc" id="L102">            return null;</span>
+        }
+    }
+
+    public Position getNextPos() {
+<span class="fc" id="L107">        Map&lt;Node, Node&gt; prevs = pathOfTraversal();</span>
+<span class="fc" id="L108">        List&lt;Node&gt; path = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L109">        Node u = dest;</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        while(u != null) {</span>
+<span class="fc" id="L111">            path.add(u);</span>
+<span class="fc" id="L112">            u = prevs.get(u);</span>
+        }
+<span class="fc" id="L114">        Collections.reverse(path);</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        if (path.size() &gt; 1) {</span>
+<span class="fc" id="L116">            return path.get(1).getLocation();</span>
+        }
+<span class="nc" id="L118">        return null;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

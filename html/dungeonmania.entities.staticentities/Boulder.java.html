@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Boulder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.staticentities</a> &gt; <span class="el_source">Boulder.java</span></div><h1>Boulder.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.staticentities;
+
+import java.util.stream.Collectors;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+
+public class Boulder extends Entity implements Static {
+
+    public Boulder(int id, Position position) {
+<span class="fc" id="L14">        super(id, position, false, true);</span>
+<span class="fc" id="L15">    }</span>
+
+    public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (checkNextPos(getPosition().translateBy(direction), dungeon, player, direction)) {</span>
+<span class="fc" id="L20">            player.setPosition(this.getPosition());</span>
+<span class="fc" id="L21">            setPosition(getPosition().translateBy(direction));</span>
+        }
+<span class="fc" id="L23">    }</span>
+
+    private boolean checkNextPos(Position position, Dungeon dungeon, Player player, Direction direction) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (Static portal : dungeon.getStaticsOnBlock(position)) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (portal instanceof Portal) {</span>
+<span class="fc" id="L28">                Position pos = getPosition();</span>
+<span class="fc" id="L29">                ((Portal) portal).boulderMoveOnto(this, dungeon, direction);</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">                if (!pos.equals(getPosition())) {</span>
+<span class="fc" id="L31">                    player.setPosition(pos);</span>
+                }
+<span class="fc" id="L33">                return false;</span>
+            }
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">        return !(dungeon.getStaticsOnBlock(position).stream().filter(entity -&gt; entity.isCollidable())</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">                .collect(Collectors.toList()).size() &gt; 0);</span>
+    }
+
+    @Override
+    public String getType() {
+<span class="fc" id="L42">        return &quot;boulder&quot;;</span>
+    }
+
+    public boolean isRepellent() {
+<span class="nc" id="L46">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

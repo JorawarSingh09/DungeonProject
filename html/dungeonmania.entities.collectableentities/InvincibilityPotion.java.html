@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InvincibilityPotion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.collectableentities</a> &gt; <span class="el_source">InvincibilityPotion.java</span></div><h1>InvincibilityPotion.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.collectableentities;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Regenerative;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.util.Position;
+
+public class InvincibilityPotion extends Entity implements Storeable, Collectable, Regenerative {
+
+    private int duration;
+
+    public InvincibilityPotion(int id, Position position, int duration) {
+<span class="fc" id="L18">        super(id, position, false, false);</span>
+<span class="fc" id="L19">        this.duration = duration;</span>
+<span class="fc" id="L20">    }</span>
+
+    public void pickup(Player player, Dungeon dungeon) {
+<span class="fc" id="L23">        player.addItem(this);</span>
+<span class="fc" id="L24">        dungeon.removeEntity(this);</span>
+<span class="fc" id="L25">    }</span>
+
+    public int getItemId() {
+<span class="fc" id="L28">        return getEntityId();</span>
+    }
+
+    public void setRemainingDuration(int Duration){
+<span class="fc" id="L32">        this.duration = Duration;</span>
+<span class="fc" id="L33">    }</span>
+    public int getRemainingDuration() {
+<span class="fc" id="L35">        return duration;</span>
+    }
+
+    public void decrementDuration() {
+<span class="fc" id="L39">        duration--;</span>
+<span class="fc" id="L40">    }</span>
+
+    public String getType() {
+<span class="fc" id="L43">        return &quot;invincibility_potion&quot;;</span>
+    }
+
+    @Override
+    public JsonObject getJson(){
+<span class="fc" id="L48">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L49">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L50">        entityJSON.addProperty(&quot;id&quot;, this.getEntityId());</span>
+<span class="fc" id="L51">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L52">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L53">        entityJSON.addProperty(&quot;duration&quot;, this.duration);</span>
+
+<span class="fc" id="L55">        return entityJSON;</span>
+    }
+
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dungeon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.dungeon</a> &gt; <span class="el_source">Dungeon.java</span></div><h1>Dungeon.java</h1><pre class="source lang-java linenums">package dungeonmania.dungeon;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import dungeonmania.controllers.BattleController;
+import dungeonmania.controllers.MovementController;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
+import dungeonmania.goals.Goal;
+import dungeonmania.entities.movingentities.Assassin;
+import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.spawners.SpiderSpawn;
+import dungeonmania.entities.spawners.ZombieToastSpawner;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.entities.staticentities.SwampTile;
+import dungeonmania.enums.Buildable;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.GoalString;
+import dungeonmania.enums.Interactable;
+import dungeonmania.enums.Usable;
+import dungeonmania.response.models.BattleResponse;
+import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.response.models.ItemResponse;
+import dungeonmania.util.Direction;
+import dungeonmania.util.LoadConfig;
+import dungeonmania.util.Position;
+import dungeonmania.dungeon.Dungeon;
+
+public class Dungeon {
+
+    private int dungeonId;
+    private String dungeonName;
+    private LoadConfig config;
+    private int tickCount;
+<span class="fc" id="L49">    private List&lt;Entity&gt; entities = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L50">    private BattleController bc = new BattleController();</span>
+    private MovementController mc;
+    private Goal goal;
+    private Player player;
+    private int currMaxEntityId;
+    private SpiderSpawn spiderSpawner;
+<span class="fc" id="L56">    private List&lt;SwampTile&gt; swampTiles = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L58">    public Dungeon(String dungeonName, int dungeonId, LoadConfig config) {</span>
+<span class="fc" id="L59">        this.dungeonId = dungeonId;</span>
+<span class="fc" id="L60">        this.dungeonName = dungeonName;</span>
+<span class="fc" id="L61">        this.config = config;</span>
+<span class="fc" id="L62">        currMaxEntityId = 0;</span>
+<span class="fc" id="L63">        tickCount = 1;</span>
+<span class="fc" id="L64">    }</span>
+
+<span class="fc" id="L66">    public Dungeon(String dungeonName, int dungeonId) {</span>
+<span class="fc" id="L67">        this.dungeonId = dungeonId;</span>
+<span class="fc" id="L68">        this.dungeonName = dungeonName;</span>
+<span class="fc" id="L69">        currMaxEntityId = 0;</span>
+<span class="fc" id="L70">        tickCount = 1;</span>
+<span class="fc" id="L71">    }</span>
+
+    public String getDungeonName() {
+<span class="fc" id="L74">        return this.dungeonName;</span>
+    }
+
+    public LoadConfig getConfig() {
+<span class="fc" id="L78">        return this.config;</span>
+    }
+
+    public JsonObject getConfigJson() {
+<span class="fc" id="L82">        return config.getJson();</span>
+    }
+
+    public boolean isGoalCompleted() {
+<span class="nc" id="L86">        return goal.isGoalCompleted(this);</span>
+    }
+
+    // Dungeon Response
+    public DungeonResponse createDungeonResponse() {
+<span class="fc" id="L91">        String goalComplete = goal.toString(this);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (goal.isGoalCompleted(this)) {</span>
+<span class="fc" id="L93">            goalComplete = GoalString.COMPLETED.toString();</span>
+        }
+<span class="fc" id="L95">        return new DungeonResponse(Integer.toString(dungeonId), dungeonName, createEntityResponse(),</span>
+<span class="fc" id="L96">                createItemResponse(), createBattleResponse(), getBuildable(), goalComplete);</span>
+    }
+
+    public List&lt;EntityResponse&gt; createEntityResponse() {
+<span class="fc" id="L100">        List&lt;EntityResponse&gt; entityResponses = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L101">        entities.forEach((entity) -&gt; {</span>
+<span class="fc" id="L102">            entityResponses.add(entity.createEntityResponse());</span>
+<span class="fc" id="L103">        });</span>
+<span class="fc" id="L104">        return entityResponses;</span>
+    }
+
+    public List&lt;ItemResponse&gt; createItemResponse() {
+<span class="fc" id="L108">        List&lt;ItemResponse&gt; inventory = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        for (Storeable item : player.getInventoryItems()) {</span>
+<span class="fc" id="L110">            inventory.add(item.createItemResponse());</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">        return inventory;</span>
+    }
+
+    public List&lt;BattleResponse&gt; createBattleResponse() {
+<span class="fc" id="L116">        return bc.getBattleResponseObj(player);</span>
+    }
+
+    public BattleController getBattleController() {
+<span class="fc" id="L120">        return this.bc;</span>
+    }
+
+    public List&lt;String&gt; getBuildable() {
+<span class="fc" id="L124">        List&lt;String&gt; buildable = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L125" title="All 4 branches covered.">        for (String item : player.getBuildableItems(getEntitiesOfType(&quot;zombie_toast&quot;).size() &gt; 0)) {</span>
+<span class="fc" id="L126">            buildable.add(item);</span>
+<span class="fc" id="L127">        }</span>
+<span class="fc" id="L128">        return buildable;</span>
+    }
+
+    public String getDungeonId() {
+<span class="fc" id="L132">        return Integer.toString(this.dungeonId);</span>
+    }
+
+    public void setDungeonId(int dungeonId) {
+<span class="nc" id="L136">        this.dungeonId = dungeonId;</span>
+<span class="nc" id="L137">    }</span>
+
+    public String getDungeonString() {
+<span class="nc" id="L140">        return this.dungeonName;</span>
+    }
+
+    public void setDungeonString(String dungeonString) {
+<span class="nc" id="L144">        this.dungeonName = dungeonString;</span>
+<span class="nc" id="L145">    }</span>
+
+    public int getTickCount() {
+<span class="nc" id="L148">        return this.tickCount;</span>
+    }
+
+    public void setTickCount(int tickCount) {
+<span class="nc" id="L152">        this.tickCount = tickCount;</span>
+<span class="nc" id="L153">    }</span>
+
+    public void tick(boolean hasMoved) {
+        //
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (!hasMoved) {</span>
+<span class="fc" id="L158">            player.setPreviousPosition(player.getPosition());</span>
+<span class="fc" id="L159">            player.tickMindControl();</span>
+        }
+<span class="fc" id="L161">        player.tickPotion();</span>
+
+<span class="fc" id="L163">        mc.updateEntityPositions();</span>
+<span class="fc bfc" id="L164" title="All 4 branches covered.">        if (spiderSpawner.getSpawnRate() != 0 &amp;&amp; tickCount % spiderSpawner.getSpawnRate() == 0) {</span>
+<span class="fc" id="L165">            addEntity(spiderSpawner.spawnEntity(getCurrMaxEntityId(), this));</span>
+        }
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        for (Entity zombieToastSpawner : getEntitiesOfType(&quot;zombie_toast_spawner&quot;)) {</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            if (((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() != 0 &amp;&amp;</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">                    tickCount % ((ZombieToastSpawner) zombieToastSpawner).getSpawnRate() == 0) {</span>
+<span class="fc" id="L170">                addEntity(((ZombieToastSpawner) zombieToastSpawner).spawnEntity(getCurrMaxEntityId(), this));</span>
+            }
+<span class="fc" id="L172">        }</span>
+<span class="fc" id="L173">        this.tickCount++;</span>
+<span class="fc" id="L174">    }</span>
+
+    public List&lt;Entity&gt; getEntities() {
+<span class="fc" id="L177">        return entities;</span>
+    }
+
+    public List&lt;Entity&gt; getEntitiesOfType(String type) {
+<span class="fc" id="L181">        return entities.stream().filter(t -&gt; t.getType().equals(type)).collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Static&gt; getStaticsOnBlock(Position pos) {
+<span class="fc" id="L185">        return entities.stream().filter(t -&gt; t.getPosition().equals(pos)).filter(Static.class::isInstance)</span>
+<span class="fc" id="L186">                .map(Static.class::cast).collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Collectable&gt; getCollectablesOnBlock(Position pos) {
+<span class="fc" id="L190">        return entities.stream().filter(t -&gt; t.getPosition().equals(pos)).filter(Collectable.class::isInstance)</span>
+<span class="fc" id="L191">                .map(Collectable.class::cast).collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Moveable&gt; getEnemies() {
+<span class="fc" id="L195">        return entities.stream().filter(Moveable.class::isInstance).map(Moveable.class::cast)</span>
+<span class="fc" id="L196">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Health&gt; getEnemiesOnBlock(Position pos) {
+<span class="fc" id="L200">        return entities.stream().filter(t -&gt; t.getPosition().equals(pos)).filter(Health.class::isInstance)</span>
+<span class="fc" id="L201">                .map(Health.class::cast).collect(Collectors.toList());</span>
+    }
+
+    public boolean areAllSwitchesTriggered() {
+<span class="fc" id="L205">        return mc.allSwitchestriggered();</span>
+    }
+
+    public void setEntities(List&lt;Entity&gt; entities) {
+<span class="nc" id="L209">        this.entities = entities;</span>
+<span class="nc" id="L210">    }</span>
+
+    public void addEntity(Entity entity) {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (entity != null) {</span>
+<span class="fc" id="L214">            this.entities.add(entity);</span>
+<span class="fc" id="L215">            currMaxEntityId += 1;</span>
+        }
+<span class="fc" id="L217">    }</span>
+
+    public void removeEntity(Entity removing) {
+<span class="fc" id="L220">        entities.remove(removing);</span>
+<span class="fc" id="L221">    }</span>
+
+    public void addKillCount() {
+<span class="fc" id="L224">        bc.addKill();</span>
+<span class="fc" id="L225">    }</span>
+
+    public int getCurrMaxEntityId() {
+<span class="fc" id="L228">        return currMaxEntityId;</span>
+    }
+
+    public int getCurrMaxitemId() {
+<span class="fc" id="L232">        return currMaxEntityId++;</span>
+    }
+
+    public void setCurrMaxItemId(int id){
+<span class="nc" id="L236">        this.currMaxEntityId = id;</span>
+<span class="nc" id="L237">    }</span>
+
+    public Player getPlayer() {
+<span class="fc" id="L240">        return this.player;</span>
+    }
+
+    public void setPlayer(Player player) {
+<span class="fc" id="L244">        this.player = player;</span>
+<span class="fc" id="L245">        this.mc = new MovementController(player, this);</span>
+<span class="fc" id="L246">    }</span>
+
+    public Goal getGoal() {
+<span class="fc" id="L249">        return goal;</span>
+    }
+
+    public void setGoals(Goal goal) {
+<span class="fc" id="L253">        this.goal = goal;</span>
+<span class="fc" id="L254">    }</span>
+
+    public void setSpiderSpawner(SpiderSpawn spawner) {
+<span class="fc" id="L257">        this.spiderSpawner = spawner;</span>
+<span class="fc" id="L258">    }</span>
+
+    public Entity getEntityById(int id) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        for (Entity entity : entities) {</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">            if (entity.getEntityId() == id) {</span>
+<span class="fc" id="L263">                return entity;</span>
+            }
+<span class="fc" id="L265">        }</span>
+<span class="fc" id="L266">        return null;</span>
+    }
+
+    public String getEntityType(int id) {
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        if (getEntityById(id) != null) {</span>
+<span class="fc" id="L271">            return getEntityById(id).getType();</span>
+        }
+<span class="fc" id="L273">        return &quot;&quot;;</span>
+    }
+
+    public boolean itemInPlayerInventory(int id) {
+<span class="fc" id="L277">        return player.hasItem(id);</span>
+    }
+
+    public boolean itemIsUsable(int id) {
+<span class="fc" id="L281">        return Arrays.stream(Usable.values()).anyMatch((t) -&gt; t.toString().equals(player.itemType(id)));</span>
+    }
+
+    public boolean itemIsInteractable(int id) {
+<span class="fc" id="L285">        return Arrays.stream(Interactable.values()).anyMatch((t) -&gt; t.toString().equals(getEntityType(id)));</span>
+    }
+
+    public static boolean itemIsBuildable(String item) {
+<span class="fc" id="L289">        return Arrays.stream(Buildable.values()).anyMatch((t) -&gt; t.toString().equals(item));</span>
+    }
+
+    public boolean canBuild(String itemString) {
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        return player.getBuildableItems(getEntitiesOfType(&quot;zombie_toast&quot;).size() &gt; 0).contains(itemString);</span>
+    }
+
+    public void useItem(int id) {
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        if (player.itemType(id).equals(Usable.BOMB.toString())) {</span>
+<span class="fc" id="L298">            player.putDownBomb(this, id);</span>
+        } else {
+<span class="fc" id="L300">            player.drinkPotion(id);</span>
+        }
+<span class="fc" id="L302">    }</span>
+
+    public String interact(int id) {
+<span class="fc bfc" id="L305" title="All 2 branches covered.">        if (getEntityType(id).equals(Interactable.MERC.toString())) {</span>
+<span class="fc" id="L306">            Mercenary mercenary = (Mercenary) getEntityById(id);</span>
+<span class="fc" id="L307">            return player.attemptBribe(mercenary);</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        } else if (getEntityType(id).equals(Interactable.ASS.toString())) {</span>
+<span class="fc" id="L309">            Assassin assassin = (Assassin) getEntityById(id);</span>
+<span class="fc" id="L310">            return player.attemptBribe(assassin);</span>
+        } else {
+<span class="fc" id="L312">            ZombieToastSpawner zomSpawn = (ZombieToastSpawner) getEntityById(id);</span>
+<span class="fc" id="L313">            return tryBreakZomSpawn(zomSpawn);</span>
+        }
+    }
+
+    public void build(String item) {
+<span class="fc" id="L318">        player.build(item, currMaxEntityId);</span>
+<span class="fc" id="L319">        currMaxEntityId += 1;</span>
+<span class="fc" id="L320">    }</span>
+
+    public void updateMovement(Direction playerMovement) {
+<span class="fc" id="L323">        mc.movePlayer(playerMovement);</span>
+<span class="fc" id="L324">    }</span>
+
+    public List&lt;Integer&gt; getEntityIds() {
+<span class="nc" id="L327">        return entities.stream().map(Entity::getEntityId).collect(Collectors.toList());</span>
+    }
+
+    public void removeEntityById(int id) {
+<span class="fc" id="L331">        removeEntity(getEntityById(id));</span>
+<span class="fc" id="L332">    }</span>
+
+    public void startBattle(Health enemy) {
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">        if (player.getPlayerState() instanceof InvisibleState) {</span>
+<span class="nc" id="L336">            return;</span>
+        }
+<span class="fc bfc" id="L338" title="All 2 branches covered.">        if (bc.newBattle(player, enemy)) {</span>
+<span class="fc" id="L339">            removeEntity(getEntityById(enemy.getEntityId()));</span>
+<span class="fc" id="L340">            System.out.println(config);</span>
+<span class="fc" id="L341">            config.deIncrementEnemyGoal();</span>
+        } else {
+<span class="fc" id="L343">            removeEntity(player);</span>
+        }
+<span class="fc" id="L345">    }</span>
+
+    public String tryBreakZomSpawn(ZombieToastSpawner zomSpawn) {
+<span class="fc bfc" id="L348" title="All 2 branches covered.">        if (!(player.getPosition().getCardinallyAdjacentPositions().contains(zomSpawn.getPosition()))) {</span>
+<span class="fc" id="L349">            return ErrorString.ZOMRAD.toString();</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        } else if (!player.hasWeapon()) {</span>
+<span class="fc" id="L351">            return ErrorString.NOWEAP.toString();</span>
+        }
+<span class="fc" id="L353">        removeEntity(zomSpawn);</span>
+<span class="fc" id="L354">        bc.addKill();</span>
+<span class="fc" id="L355">        return ErrorString.SUCCESS.toString();</span>
+    }
+
+    public void addSwampTile(SwampTile swampTile) {
+<span class="fc" id="L359">        swampTiles.add(swampTile);</span>
+<span class="fc" id="L360">    }</span>
+
+    public List&lt;SwampTile&gt; getSwampTiles() {
+<span class="fc" id="L363">        return swampTiles;</span>
+    }
+
+    public Map&lt;String, Object&gt; getJsonMap(){
+<span class="fc" id="L367">        JsonArray entities = new JsonArray();</span>
+<span class="fc" id="L368">        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L369">        List&lt;Entity&gt; entitiesOnMap = getEntities();</span>
+
+<span class="fc" id="L371">        map.put(&quot;maxEntityID&quot;, getCurrMaxEntityId());</span>
+<span class="fc" id="L372">        map.put(&quot;config&quot;, getConfigJson());</span>
+<span class="fc" id="L373">        entitiesOnMap.forEach(e -&gt; entities.add(e.getJson()));</span>
+<span class="fc" id="L374">        map.put(&quot;entities&quot;, entities);</span>
+<span class="fc" id="L375">        map.put(&quot;goal-condition&quot;, getGoal().getJson(this));</span>
+
+<span class="fc" id="L377">        return map;</span>
+    }
+
+    public void addAlly(Mercenary mercenary, boolean mindControl){
+<span class="nc" id="L381">        player.addAlly(mercenary, mindControl);</span>
+<span class="nc" id="L382">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

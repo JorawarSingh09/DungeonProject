@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Portal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.staticentities</a> &gt; <span class="el_source">Portal.java</span></div><h1>Portal.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.staticentities;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Mercenary;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+
+public class Portal extends Entity implements Static {
+    private Position pairPosition;
+    private String colour;
+
+    public Portal(int id, Position position, String colour) {
+<span class="fc" id="L21">        super(id, position, false, false);</span>
+<span class="fc" id="L22">        this.colour = colour;</span>
+<span class="fc" id="L23">    }</span>
+
+    public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
+<span class="fc" id="L26">        onTo(player, dungeon, direction);</span>
+<span class="fc" id="L27">    }</span>
+
+    public void mercenaryMoveOnto(Mercenary mercernary, Dungeon dungeon, Direction direction) {
+<span class="fc" id="L30">        onTo(mercernary, dungeon, direction);</span>
+<span class="fc" id="L31">    }</span>
+
+    public void boulderMoveOnto(Boulder boulder, Dungeon dungeon, Direction direction) {
+<span class="fc" id="L34">        onTo(boulder, dungeon, direction);</span>
+<span class="fc" id="L35">    }</span>
+
+    public void onTo(Entity entity, Dungeon dungeon, Direction direction) {
+<span class="fc" id="L38">        List&lt;Position&gt; possiblePositions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L39">        possiblePositions.add(pairPosition.translateBy(direction));</span>
+<span class="fc" id="L40">        possiblePositions.addAll(pairPosition.getCardinallyAdjacentPositions());</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (Position position : possiblePositions) {</span>
+<span class="pc bpc" id="L42" title="3 of 4 branches missed.">            int col = dungeon.getStaticsOnBlock(position).stream().filter(e -&gt; e.isCollidable() || e.isRepellent())</span>
+<span class="fc" id="L43">                    .collect(Collectors.toList()).size();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (col == 0) {</span>
+<span class="fc" id="L45">                boolean chainPortal = false;</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">                for (Static posPortal : dungeon.getStaticsOnBlock(position)) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                    if (posPortal instanceof Portal) {</span>
+<span class="nc" id="L48">                        ((Portal) posPortal).onTo(entity, dungeon, direction);</span>
+<span class="nc" id="L49">                        chainPortal = true;</span>
+                    }
+<span class="nc" id="L51">                }</span>
+                
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                if (!chainPortal) entity.setPosition(position);</span>
+                break;
+            }
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">    }</span>
+
+    public boolean isRepellent() {
+<span class="nc" id="L60">        return false;</span>
+    }
+
+    public void setPairPosition(Position position) {
+<span class="fc" id="L64">        this.pairPosition = position;</span>
+<span class="fc" id="L65">    }</span>
+
+    public void setPair(Portal portal) {
+<span class="fc" id="L68">        this.setPairPosition(portal.getPosition());</span>
+<span class="fc" id="L69">        portal.setPairPosition(this.getPosition());</span>
+<span class="fc" id="L70">    }</span>
+
+    @Override
+    public String getType() {
+<span class="fc" id="L74">        return &quot;portal&quot;;</span>
+    }
+
+    public Position getPairPosition() {
+<span class="fc" id="L78">        return pairPosition;</span>
+    }
+
+    @Override
+    public JsonObject getJson(){
+<span class="fc" id="L83">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L84">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L85">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L86">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L87">        entityJSON.addProperty(&quot;colour&quot;, this.colour);</span>
+
+<span class="fc" id="L89">        return entityJSON;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

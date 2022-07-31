@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Round.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.battles</a> &gt; <span class="el_source">Round.java</span></div><h1>Round.java</h1><pre class="source lang-java linenums">package dungeonmania.battles;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeonmania.entities.collectableentities.interfaces.Attacking;
+import dungeonmania.entities.collectableentities.interfaces.Defending;
+import dungeonmania.entities.movingentities.Mercenary;
+
+public class Round {
+
+    private double playerAttackDamage;
+    private double enemyAttackDamage;
+    private List&lt;Attacking&gt; attackWeaponryUsed;
+    private List&lt;Defending&gt; defenceWeaponryUsed;
+    private List&lt;Mercenary&gt; allies;
+
+    public Round(double playerAttackDamage, double enemyAttackDamage, List&lt;Attacking&gt; attackWeaponryUsed,
+<span class="fc" id="L19">            List&lt;Defending&gt; defenceWeaponryUsed, List&lt;Mercenary&gt; allies, boolean isInvinceable, double enemyHealth) {</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (isInvinceable) {</span>
+<span class="fc" id="L21">            this.playerAttackDamage = enemyHealth;</span>
+<span class="fc" id="L22">            this.enemyAttackDamage = 0;</span>
+        } else {
+<span class="fc" id="L24">            this.playerAttackDamage = playerAttackDamage;</span>
+<span class="fc" id="L25">            this.enemyAttackDamage = enemyAttackDamage;</span>
+        }
+<span class="fc" id="L27">        this.attackWeaponryUsed = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">        this.attackWeaponryUsed.addAll(attackWeaponryUsed);</span>
+<span class="fc" id="L29">        this.defenceWeaponryUsed = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">        this.defenceWeaponryUsed.addAll(defenceWeaponryUsed);</span>
+<span class="fc" id="L31">        this.allies = allies;</span>
+<span class="fc" id="L32">    }</span>
+
+    public double playerHealthChange() {
+<span class="fc" id="L35">        return (((-calculateEnemyAttackDamage()) + calculatePlayerDefenceBonus()) / 10);</span>
+    }
+
+    public double enemyHealthChange() {
+<span class="fc" id="L39">        return ((-calculatePlayerAttackDamage()) / 5);</span>
+    }
+
+    public List&lt;Integer&gt; weaponryUsed() {
+<span class="fc" id="L43">        List&lt;Integer&gt; weapons = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (Attacking attackItem : attackWeaponryUsed) {</span>
+<span class="fc" id="L45">            weapons.add(attackItem.getItemId());</span>
+<span class="fc" id="L46">        }</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        for (Defending defendItem : defenceWeaponryUsed) {</span>
+<span class="fc" id="L48">            weapons.add(defendItem.getItemId());</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">        return weapons;</span>
+    }
+
+    private double calculatePlayerAttackDamage() {
+<span class="fc" id="L54">        int additiveBonus = 0;</span>
+<span class="fc" id="L55">        int multiplicativeBonus = 0;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (Attacking item : attackWeaponryUsed) {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (item.isAdditive()) {</span>
+<span class="fc" id="L58">                additiveBonus += item.attackBonus();</span>
+            } else {
+<span class="nc" id="L60">                multiplicativeBonus += item.attackBonus();</span>
+            }
+<span class="fc" id="L62">        }</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (multiplicativeBonus == 0)</span>
+<span class="fc" id="L64">            multiplicativeBonus = 1;</span>
+<span class="fc" id="L65">        return ((playerAttackDamage + additiveBonus + allyAttackBonus()) * multiplicativeBonus);</span>
+    }
+
+    private double calculateEnemyAttackDamage() {
+<span class="fc" id="L69">        return enemyAttackDamage;</span>
+    }
+
+    private double calculatePlayerDefenceBonus() {
+<span class="fc" id="L73">        int defenceBonus = 0;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Defending item : defenceWeaponryUsed) {</span>
+<span class="fc" id="L75">            defenceBonus += item.defenceBonus();</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">        return (defenceBonus + allyDefenceBonus());</span>
+    }
+
+    private int allyAttackBonus() {
+<span class="fc" id="L81">        int attackBonus = 0;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (Mercenary ally : allies) {</span>
+<span class="fc" id="L83">            attackBonus += ally.getAllyAttackDamage();</span>
+<span class="fc" id="L84">        }</span>
+<span class="fc" id="L85">        return attackBonus;</span>
+    }
+
+    private int allyDefenceBonus() {
+<span class="fc" id="L89">        int defenceBonus = 0;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (Mercenary ally : allies) {</span>
+<span class="fc" id="L91">            defenceBonus += ally.getAllyDefenceBonus();</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">        return defenceBonus;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

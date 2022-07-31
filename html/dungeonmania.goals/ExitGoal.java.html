@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExitGoal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.goals</a> &gt; <span class="el_source">ExitGoal.java</span></div><h1>ExitGoal.java</h1><pre class="source lang-java linenums">package dungeonmania.goals;
+
+import java.util.List;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.util.Position;
+
+<span class="fc" id="L12">public class ExitGoal implements Goal {</span>
+
+    public boolean isGoalCompleted(Dungeon dungeon) {
+<span class="fc" id="L15">        List&lt;Entity&gt; exits = dungeon.getEntitiesOfType(&quot;exit&quot;);</span>
+<span class="fc" id="L16">        Player player = dungeon.getPlayer();</span>
+<span class="fc" id="L17">        Position playerPos = player.getPosition();</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (Entity exit : exits) {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            if (playerPos.equals(exit.getPosition())) {</span>
+<span class="fc" id="L20">                return true;</span>
+            }
+<span class="fc" id="L22">        }</span>
+<span class="fc" id="L23">        return false;</span>
+    }
+
+    @Override
+    public String toString(Dungeon dungeon) {
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (isGoalCompleted(dungeon))</span>
+<span class="nc" id="L29">            return &quot;&quot;;</span>
+<span class="fc" id="L30">        return &quot;:exit&quot;;</span>
+    }
+
+    @Override
+    public JsonObject getJson(Dungeon dungeon) {
+
+<span class="fc" id="L36">        JsonObject goal = new JsonObject();</span>
+<span class="fc" id="L37">        goal.addProperty(&quot;goal&quot;, this.toString(dungeon));</span>
+<span class="fc" id="L38">        return goal;</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

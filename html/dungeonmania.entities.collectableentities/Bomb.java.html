@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Bomb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.collectableentities</a> &gt; <span class="el_source">Bomb.java</span></div><h1>Bomb.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.collectableentities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+
+public class Bomb extends Entity implements Collectable, Storeable, Static {
+    private int bomb_radius;
+<span class="fc" id="L20">    private List&lt;Position&gt; blastArea = new ArrayList&lt;&gt;();</span>
+
+    public Bomb(int id, Position position, int bomb_radius) {
+<span class="fc" id="L23">        super(id, position, false, false);</span>
+<span class="fc" id="L24">        this.bomb_radius = bomb_radius;</span>
+<span class="fc" id="L25">        Position bombOrigin = new Position(this.getPosition().getX() - this.bomb_radius, this.getPosition().getY() - this.bomb_radius);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (int i = 0; i &lt; ((2 * this.bomb_radius) + 2); i++) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            for (int j = 0; j &lt; ((2 * this.bomb_radius) + 2); j++) {</span>
+<span class="fc" id="L28">                Position curr = new Position(bombOrigin.getX() + i, bombOrigin.getY() + j);</span>
+<span class="fc" id="L29">                blastArea.add(curr);</span>
+            }
+        }
+<span class="fc" id="L32">    }</span>
+
+    public void explode(Dungeon dungeon) {
+<span class="fc" id="L35">        List&lt;Integer&gt; idsToRemove = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (Position pos : blastArea) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            for (Static stat : dungeon.getStaticsOnBlock(pos)) {</span>
+<span class="fc" id="L38">                idsToRemove.add(stat.getEntityId());</span>
+<span class="fc" id="L39">            }</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            for (Collectable collect : dungeon.getCollectablesOnBlock(pos)) {</span>
+<span class="fc" id="L41">                idsToRemove.add(collect.getEntityId());</span>
+<span class="fc" id="L42">            }</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            for (Health enemy : dungeon.getEnemiesOnBlock(pos)) {</span>
+<span class="fc" id="L44">                idsToRemove.add(enemy.getEntityId());</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                if (!enemy.isAlly()) {</span>
+<span class="fc" id="L46">                    dungeon.addKillCount();</span>
+                }
+<span class="fc" id="L48">            }</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (Integer id : idsToRemove) {</span>
+<span class="fc" id="L51">            dungeon.removeEntityById(id);</span>
+<span class="fc" id="L52">        }</span>
+<span class="fc" id="L53">    }</span>
+
+    public void pickup(Player player, Dungeon dungeon) {
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (!this.isCollidable()) {</span>
+<span class="fc" id="L57">            player.addItem(this);</span>
+<span class="fc" id="L58">            dungeon.removeEntity(this);</span>
+<span class="fc" id="L59">            player.setPosition(this.getPosition());</span>
+        }
+
+<span class="fc" id="L62">    }</span>
+
+    public void drop(Dungeon dungeon, Player player) {
+<span class="fc" id="L65">        setPosition(player.getPosition());</span>
+<span class="fc" id="L66">        setCollidable(true);</span>
+<span class="fc" id="L67">        dungeon.addEntity(this);</span>
+<span class="fc" id="L68">        player.removeItem(this);</span>
+<span class="fc" id="L69">    }</span>
+
+    public int getItemId() {
+<span class="fc" id="L72">        return getEntityId();</span>
+    }
+
+    @Override
+    public String getType() {
+<span class="fc" id="L77">        return &quot;bomb&quot;;</span>
+    }
+
+    public void playerOnTo(Player player, Dungeon dungeon, Direction direction) {
+<span class="fc" id="L81">        return;</span>
+    }
+
+    public boolean isRepellent() {
+<span class="nc" id="L85">        return false;</span>
+    }
+
+    @Override
+    public JsonObject getJson() {
+<span class="fc" id="L90">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L91">        entityJSON.addProperty(&quot;id&quot;, this.getEntityId());</span>
+<span class="fc" id="L92">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L93">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L94">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L95">        entityJSON.addProperty(&quot;collidable&quot;, this.isCollidable());</span>
+<span class="fc" id="L96">        return entityJSON;</span>
+    }
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

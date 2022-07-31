@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.buildableentities.Sceptre;
+import dungeonmania.entities.collectableentities.InvincibilityPotion;
+import dungeonmania.entities.collectableentities.InvisibilityPotion;
+import dungeonmania.entities.collectableentities.Treasure;
+import dungeonmania.entities.collectableentities.interfaces.Regenerative;
+import dungeonmania.entities.collectableentities.interfaces.Storeable;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.movingentities.playerstates.PlayerState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.movingentities.properties.Inventory;
+import dungeonmania.entities.movingentities.properties.movements.MovementStrategy;
+import dungeonmania.entities.movingentities.properties.movements.PlayerMovementStrategy;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.enums.Usable;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+import dungeonmania.entities.collectableentities.Bomb;
+
+public class Player extends Entity implements Moveable {
+
+    private double health;
+    private double attack;
+    private Inventory inventory;
+    private MovementStrategy moveStrat;
+    private Direction movement;
+<span class="fc" id="L41">    private List&lt;Mercenary&gt; mercenaries = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L42">    private Queue&lt;Regenerative&gt; queueItems = new LinkedList&lt;&gt;();</span>
+
+    private PlayerState state;
+    private Position prevPosition;
+
+    public Player(int id, Position position,
+            double player_attack, double player_health, int bowDurability, int shieldDurability, int shieldDefence,
+            int armourAttack, int armourDefence, int mindControlDuration) {
+<span class="fc" id="L50">        super(id, position, false, false);</span>
+<span class="fc" id="L51">        this.prevPosition = position;</span>
+<span class="fc" id="L52">        this.health = player_health;</span>
+<span class="fc" id="L53">        this.attack = player_attack;</span>
+<span class="fc" id="L54">        this.inventory = new Inventory(bowDurability, shieldDurability, shieldDefence, armourAttack, armourDefence,</span>
+                mindControlDuration);
+<span class="fc" id="L56">        this.state = new AliveState(this);</span>
+<span class="fc" id="L57">        this.moveStrat = new PlayerMovementStrategy(this);</span>
+<span class="fc" id="L58">    }</span>
+
+    public PlayerState getPlayerState() {
+<span class="fc" id="L61">        return state;</span>
+    }
+
+    public Direction getMovement() {
+<span class="fc" id="L65">        return movement;</span>
+    }
+
+    public void setMovement(Direction movement) {
+<span class="fc" id="L69">        this.movement = movement;</span>
+<span class="fc" id="L70">    }</span>
+
+    public List&lt;Storeable&gt; getInventoryItems() {
+<span class="fc" id="L73">        return inventory.getInventoryItems();</span>
+    }
+
+    public List&lt;String&gt; getBuildableItems(boolean hasZombie) {
+<span class="fc" id="L77">        return inventory.getBuildableItems(hasZombie);</span>
+    }
+
+    public void setPlayerState(PlayerState state) {
+<span class="fc" id="L81">        this.state = state;</span>
+<span class="fc" id="L82">    }</span>
+
+    public void setPlayerStateFromJSON(String jState) {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (jState.contains(&quot;Alive&quot;)) {</span>
+<span class="fc" id="L86">            setPlayerState(new AliveState(this));</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        } else if (jState.contains(&quot;Invincible&quot;)) {</span>
+<span class="fc" id="L88">            setPlayerState(new InvincibleState(this));</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        } else if (jState.contains(&quot;Invisible&quot;)) {</span>
+<span class="fc" id="L90">            setPlayerState(new InvisibleState(this));</span>
+        }
+<span class="fc" id="L92">    }</span>
+
+    public double getHealth() {
+
+<span class="fc" id="L96">        return health;</span>
+    }
+
+    public void setHealth(double health) {
+<span class="fc" id="L100">        this.health = health;</span>
+<span class="fc" id="L101">    }</span>
+
+    public double loseHealth(double deltaHealth) {
+<span class="fc" id="L104">        health = health + deltaHealth;</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (health &lt;= 0) {</span>
+<span class="fc" id="L106">            health = 0;</span>
+<span class="fc" id="L107">            state = null;</span>
+        }
+<span class="fc" id="L109">        return health;</span>
+    }
+
+    public double getAttack() {
+<span class="fc" id="L113">        return attack;</span>
+    }
+
+    public void addAlly(Mercenary mercenary, boolean mindControl) {
+<span class="fc" id="L117">        mercenaries.add(mercenary);</span>
+<span class="fc" id="L118">        mercenary.setAlly();</span>
+<span class="fc" id="L119">        mercenary.setInteractable(false);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (mindControl) {</span>
+<span class="fc" id="L121">            mercenary.setMindControl(true);</span>
+<span class="fc" id="L122">            mercenary.setDurability(inventory.getMindControlDuration());</span>
+        } else {
+<span class="fc" id="L124">            inventory.removeItem(mercenary.getBribeAmount(), Treasure.class);</span>
+        }
+<span class="fc" id="L126">    }</span>
+
+    public void removeAlly(Mercenary mercenary) {
+<span class="fc" id="L129">        mercenaries.remove(mercenary);</span>
+<span class="fc" id="L130">        mercenary.removeAlly();</span>
+<span class="fc" id="L131">        mercenary.setMindControl(false);</span>
+<span class="fc" id="L132">    }</span>
+
+    public List&lt;Mercenary&gt; getAllies() {
+<span class="fc" id="L135">        return mercenaries;</span>
+    }
+
+    public Inventory getInventory() {
+<span class="fc" id="L139">        return inventory;</span>
+    }
+
+    public Position getNextPosition(Direction movement) {
+<span class="nc" id="L143">        return this.getPosition().translateBy(movement);</span>
+    }
+
+    public void updatePosition(Dungeon dungeon, Direction movement) {
+<span class="fc" id="L147">        moveStrat.updateMovement(dungeon, this);</span>
+<span class="fc" id="L148">    }</span>
+
+    public void engageBattle(boolean playerDied) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (state != null)</span>
+<span class="fc" id="L152">            state.engageBattle(playerDied);</span>
+<span class="fc" id="L153">    }</span>
+
+    public void tickPotion() {
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (queueItems.size() &gt; 0) {</span>
+<span class="fc" id="L157">            Regenerative item = queueItems.peek();</span>
+<span class="fc" id="L158">            item.decrementDuration();</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">            if (item.getRemainingDuration() &lt;= 0) {</span>
+<span class="fc" id="L160">                queueItems.remove();</span>
+
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                if (queueItems.size() &gt; 0) {</span>
+<span class="fc" id="L163">                    nextItem();</span>
+                } else {
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">                    if (state != null)</span>
+<span class="fc" id="L166">                        state = new AliveState(this);</span>
+                }
+            }
+<span class="fc" id="L169">        } else {</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">            if (state != null)</span>
+<span class="fc" id="L171">                state.tick(0);</span>
+        }
+<span class="fc" id="L173">    }</span>
+
+    public void tickMindControl() {
+<span class="fc" id="L176">        List&lt;Mercenary&gt; merc = new ArrayList&lt;Mercenary&gt;();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        for (Mercenary mercenary : mercenaries) {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            if (mercenary.isMindControlled()) {</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">                if (mercenary.getDurability() &lt; 0) {</span>
+<span class="fc" id="L180">                    merc.add(mercenary);</span>
+                }
+<span class="fc" id="L182">                mercenary.reduceDurability();</span>
+            }
+<span class="fc" id="L184">        }</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        for (Mercenary mercenary : merc) {</span>
+<span class="fc" id="L186">            removeAlly(mercenary);</span>
+<span class="fc" id="L187">        }</span>
+<span class="fc" id="L188">    }</span>
+
+    public void drinkInvis(int itemId) {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">        if (inventory.getItemFromId(itemId) instanceof Regenerative) {</span>
+<span class="fc" id="L192">            Regenerative invisPotion = (Regenerative) inventory.getItemFromId(itemId);</span>
+<span class="fc" id="L193">            queueItems.add(invisPotion);</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">            if (queueItems.size() == 1) {</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">                if (state != null)</span>
+<span class="fc" id="L196">                    state.drinkInvis();</span>
+            }
+        }
+<span class="fc" id="L199">        inventory.removeItemById(itemId);</span>
+<span class="fc" id="L200">    }</span>
+
+    public void drinkInvinc(int itemId) {
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">        if (inventory.getItemFromId(itemId) instanceof Regenerative) {</span>
+<span class="fc" id="L204">            System.out.println(&quot;am i regen&quot;);</span>
+<span class="fc" id="L205">            Regenerative invincPotion = (Regenerative) inventory.getItemFromId(itemId);</span>
+<span class="fc" id="L206">            queueItems.add(invincPotion);</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">            if (queueItems.size() == 1) {</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">                if (state != null)</span>
+<span class="fc" id="L209">                    state.drinkInvinc();</span>
+            }
+        }
+<span class="fc" id="L212">        inventory.removeItemById(itemId);</span>
+<span class="fc" id="L213">    }</span>
+
+    private void nextItem() {
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        if (queueItems.peek() instanceof InvisibilityPotion) {</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            if (state != null)</span>
+<span class="fc" id="L218">                state.drinkInvis();</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">        } else if (queueItems.peek() instanceof InvincibilityPotion) {</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">            if (state != null)</span>
+<span class="fc" id="L221">                state.drinkInvinc();</span>
+        }
+<span class="fc" id="L223">    }</span>
+
+    public boolean hasItem(int id) {
+<span class="fc" id="L226">        return inventory.hasItem(id);</span>
+    }
+
+    public Storeable getItemFromId(int id) {
+<span class="fc" id="L230">        return inventory.getItemFromId(id);</span>
+    }
+
+    public void addItem(Entity item) {
+<span class="fc" id="L234">        inventory.addItem((Storeable) item);</span>
+<span class="fc" id="L235">    }</span>
+
+    public void removeItem(Entity entity) {
+<span class="fc" id="L238">        inventory.removeItemById(entity.getEntityId());</span>
+<span class="fc" id="L239">    }</span>
+
+    public String itemType(int id) {
+<span class="fc" id="L242">        return inventory.getHistoricalItemType(id);</span>
+    }
+
+    public void putDownBomb(Dungeon dungeon, int id) {
+<span class="fc" id="L246">        ((Bomb) inventory.getItemFromId(id)).drop(dungeon, this);</span>
+<span class="fc" id="L247">    }</span>
+
+    public void build(String item, int nextItemId) {
+<span class="fc" id="L250">        inventory.build(item, nextItemId);</span>
+<span class="fc" id="L251">    }</span>
+
+    public boolean hasKey(int keyPair) {
+<span class="fc" id="L254">        return inventory.hasRightKey(keyPair);</span>
+    }
+
+    public boolean hasSunStone() {
+<span class="fc" id="L258">        return inventory.hasSunStone();</span>
+    }
+
+    public Position getPreviousPosition() {
+<span class="fc" id="L262">        return prevPosition;</span>
+    }
+
+    public void setPreviousPosition(Position prevPosition) {
+<span class="fc" id="L266">        this.prevPosition = prevPosition;</span>
+<span class="fc" id="L267">    }</span>
+
+    public String attemptBribe(Assassin assassin) {
+<span class="fc" id="L270">        String bribeState = this.canBribe(assassin);</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">        if (bribeState.equals(ErrorString.SUCCESS.toString())) {</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            if (inventory.countItem(Sceptre.class) &gt;= 1) {</span>
+<span class="fc" id="L273">                addAlly(assassin, true);</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">            } else if (new Random().nextDouble() &gt; assassin.getFailChance()) {</span>
+<span class="fc" id="L275">                addAlly(assassin, false);</span>
+            } else {
+<span class="nc" id="L277">                inventory.removeItem(assassin.getBribeAmount(), Treasure.class);</span>
+            }
+        }
+<span class="fc" id="L280">        return bribeState;</span>
+    }
+
+    public String attemptBribe(Mercenary mercenary) {
+<span class="fc" id="L284">        String bribeState = this.canBribe(mercenary);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        if (bribeState.equals(ErrorString.SUCCESS.toString()))</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">            addAlly(mercenary, inventory.countItem(Sceptre.class) &gt;= 1);</span>
+<span class="fc" id="L287">        return bribeState;</span>
+    }
+
+    private String canBribe(Mercenary mercenary) {
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        if (inventory.countItem(Sceptre.class) &gt; 0) {</span>
+<span class="fc" id="L292">            return ErrorString.SUCCESS.toString();</span>
+        }
+<span class="fc bfc" id="L294" title="All 2 branches covered.">        if (inventory.countItem(Treasure.class) &lt; mercenary.getBribeAmount())</span>
+<span class="fc" id="L295">            return ErrorString.BRIBETREAS.toString();</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (this.getDistanceBetweenTwoEntities(mercenary) &gt; mercenary.getbribeRadius())</span>
+<span class="fc" id="L297">            return ErrorString.BRIBERAD.toString();</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        if (!mercenary.isInteractable())</span>
+<span class="nc" id="L299">            return ErrorString.NOTINTERACT.toString();</span>
+<span class="fc" id="L300">        return ErrorString.SUCCESS.toString();</span>
+    }
+
+    @Override
+    public String getType() {
+<span class="fc" id="L305">        return &quot;player&quot;;</span>
+    }
+
+    public boolean hasWeapon() {
+<span class="fc bfc" id="L309" title="All 2 branches covered.">        return inventory.getAttackingItems().size() &gt; 0;</span>
+    }
+
+    public boolean hasKey() {
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        return inventory.getKeys().size() &gt; 0;</span>
+    }
+
+    public void updatePosition(Dungeon dungeon, Player player) {
+<span class="fc" id="L317">        return;</span>
+    }
+
+    public boolean isTangible() {
+<span class="fc" id="L321">        return true;</span>
+    }
+
+    public MovementStrategy getMovementStrategy() {
+<span class="fc" id="L325">        return moveStrat;</span>
+    }
+
+    public void changeMovementStrategy(MovementStrategy movementStrategy) {
+<span class="nc" id="L329">        this.moveStrat = movementStrategy;</span>
+<span class="nc" id="L330">    }</span>
+
+    public boolean isAlly() {
+<span class="fc" id="L333">        return true;</span>
+    }
+
+    public void drinkPotion(int id) {
+<span class="fc bfc" id="L337" title="All 2 branches covered.">        if (itemType(id).equals(Usable.INVINCE.toString())) {</span>
+<span class="fc" id="L338">            drinkInvinc(id);</span>
+<span class="pc bpc" id="L339" title="1 of 2 branches missed.">        } else if (itemType(id).equals(Usable.INVIS.toString())) {</span>
+<span class="fc" id="L340">            drinkInvis(id);</span>
+        }
+<span class="fc" id="L342">    }</span>
+
+    @Override
+    public JsonObject getJson() {
+<span class="fc" id="L346">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L347">        entityJSON.addProperty(&quot;id&quot;, super.getEntityId());</span>
+<span class="fc" id="L348">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L349">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L350">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L351">        entityJSON.addProperty(&quot;playerState&quot;, this.state.toString());</span>
+<span class="fc" id="L352">        entityJSON.addProperty(&quot;health&quot;, this.health);</span>
+
+        // need to make a method to convert List to json array
+        // TODO
+<span class="fc" id="L356">        JsonArray allys = new JsonArray();</span>
+<span class="pc" id="L357">        mercenaries.forEach(e -&gt; allys.add(e.getJson()));</span>
+<span class="fc" id="L358">        entityJSON.add(&quot;allys&quot;, allys);</span>
+
+<span class="fc" id="L360">        JsonArray inventorys = new JsonArray();</span>
+<span class="fc" id="L361">        inventory.getInventoryItems().forEach(e -&gt; inventorys.add(e.getJson()));</span>
+<span class="fc" id="L362">        entityJSON.add(&quot;inventory&quot;, inventorys);</span>
+
+<span class="fc" id="L364">        JsonArray potQ = new JsonArray();</span>
+<span class="pc" id="L365">        queueItems.forEach(e -&gt; potQ.add(e.getJson()));</span>
+<span class="fc" id="L366">        entityJSON.add(&quot;potionQ&quot;, potQ);</span>
+
+<span class="fc" id="L368">        return entityJSON;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

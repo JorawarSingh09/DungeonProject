@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Battle.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.battles</a> &gt; <span class="el_source">Battle.java</span></div><h1>Battle.java</h1><pre class="source lang-java linenums">package dungeonmania.battles;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.properties.Inventory;
+
+public class Battle {
+
+<span class="fc" id="L13">    private List&lt;Round&gt; rounds = new ArrayList&lt;&gt;();</span>
+    private Health enemy;
+    private Player player;
+    private Inventory playerInventory;
+    private double initialPlayerHealth;
+    private double initialEnemyHealth;
+
+<span class="fc" id="L20">    public Battle(Health enemy, Player player, Inventory playerInventory) {</span>
+<span class="fc" id="L21">        this.enemy = enemy;</span>
+<span class="fc" id="L22">        this.player = player;</span>
+<span class="fc" id="L23">        this.playerInventory = playerInventory;</span>
+<span class="fc" id="L24">        this.initialEnemyHealth = enemy.getHealth();</span>
+<span class="fc" id="L25">        this.initialPlayerHealth = player.getHealth();</span>
+<span class="fc" id="L26">    }</span>
+
+    /* returns if player won */
+    public boolean startBattle() {
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        while (!isGameOver()) {</span>
+<span class="fc" id="L32">            startRound();</span>
+        }
+
+<span class="fc" id="L35">        updateWeaponDurability();</span>
+<span class="fc" id="L36">        return (isPlayerAlive());</span>
+        // Update player state
+    }
+
+    private void startRound() {
+<span class="fc" id="L41">        Round round = new Round(player.getAttack(), enemy.getAttackDamage(),</span>
+<span class="fc" id="L42">                playerInventory.getAttackingItems(), playerInventory.getDefendingItems(),</span>
+<span class="fc" id="L43">                player.getAllies(), (player.getPlayerState() instanceof InvincibleState), enemy.getHealth());</span>
+<span class="fc" id="L44">        rounds.add(round);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (!(player.getPlayerState() instanceof InvincibleState)) {</span>
+<span class="fc" id="L46">            enemy.loseHealth(round.enemyHealthChange());</span>
+<span class="fc" id="L47">            player.loseHealth(round.playerHealthChange());</span>
+        } else {
+<span class="fc" id="L49">            enemy.setHealth(0);</span>
+        }
+<span class="fc" id="L51">    }</span>
+
+    private boolean isGameOver() {
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        return (player.getHealth() &lt;= 0 || enemy.getHealth() &lt;= 0);</span>
+    }
+
+    private boolean isPlayerAlive() {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        return (player.getHealth() &gt; 0);</span>
+    }
+
+    private void updateWeaponDurability() {
+
+<span class="fc" id="L63">        playerInventory.updateWeaponsDurability();</span>
+<span class="fc" id="L64">    }</span>
+
+    public Health getEnemy() {
+<span class="fc" id="L67">        return this.enemy;</span>
+    }
+
+    public List&lt;Round&gt; getRounds() {
+<span class="fc" id="L71">        return rounds;</span>
+    }
+
+    public double getInitialPlayerHealth() {
+<span class="fc" id="L75">        return initialPlayerHealth;</span>
+    }
+
+    public double getInitialEnemyHealth() {
+<span class="fc" id="L79">        return initialEnemyHealth;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

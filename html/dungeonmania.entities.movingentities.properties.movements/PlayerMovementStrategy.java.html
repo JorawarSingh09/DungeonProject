@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerMovementStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities.properties.movements</a> &gt; <span class="el_source">PlayerMovementStrategy.java</span></div><h1>PlayerMovementStrategy.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities.properties.movements;
+
+import java.util.List;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.collectableentities.interfaces.Collectable;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.util.Position;
+
+public class PlayerMovementStrategy extends MovementStrategy {
+
+    public PlayerMovementStrategy(Moveable movingEntity) {
+<span class="fc" id="L15">        super(movingEntity);</span>
+<span class="fc" id="L16">    }</span>
+
+    public Position getNextPosition(Dungeon dungeon, Player player) {
+<span class="fc" id="L19">        Position newPosition = (new Position(player.getPosition().getX(), player.getPosition().getY()))</span>
+<span class="fc" id="L20">                .translateBy(player.getMovement());</span>
+
+<span class="fc" id="L22">        return newPosition;</span>
+    }
+
+    public void updateMovement(Dungeon dungeon, Player player) {
+<span class="fc" id="L26">        Position newPosition = getNextPosition(dungeon, player);</span>
+<span class="fc" id="L27">        List&lt;Static&gt; entitiesOnNextBlock = dungeon.getStaticsOnBlock(newPosition);</span>
+        // Check for zombie Spawner
+<span class="fc" id="L29">        player.setPreviousPosition(player.getPosition());</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (Static entity : entitiesOnNextBlock) {</span>
+<span class="fc" id="L32">            entity.playerOnTo(player, dungeon, player.getMovement());</span>
+<span class="fc" id="L33">        }</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (entitiesOnNextBlock.size() &lt; 1) {</span>
+<span class="fc" id="L36">            player.setPosition(newPosition);</span>
+        }
+
+<span class="fc" id="L39">        List&lt;Collectable&gt; collectablesOnNextBlock = dungeon.getCollectablesOnBlock(newPosition);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (Collectable entity : collectablesOnNextBlock) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (entity.getType().equals(&quot;key&quot;)</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                    &amp;&amp; player.hasKey()) {</span>
+
+            } else {
+<span class="fc" id="L45">                entity.pickup(player, dungeon);</span>
+            }
+<span class="fc" id="L47">        }</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override 
+    public String toString(){
+<span class="nc" id="L52">        return &quot;Player&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

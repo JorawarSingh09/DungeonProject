@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id "com.adarshr.test-logger" version "3.0.0"
     id 'jacoco'
+	id 'java'
 }
 
 repositories {
@@ -60,6 +61,8 @@ allprojects {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+	dependsOn cleanTest
+    testLogging.showStandardStreams = true
 }
 
 jacocoTestReport {

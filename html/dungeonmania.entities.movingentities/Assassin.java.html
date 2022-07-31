@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Assassin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.movingentities</a> &gt; <span class="el_source">Assassin.java</span></div><h1>Assassin.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.movingentities;
+
+import com.google.gson.JsonObject;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.movingentities.playerstates.AliveState;
+import dungeonmania.entities.movingentities.playerstates.InvincibleState;
+import dungeonmania.entities.movingentities.playerstates.InvisibleState;
+import dungeonmania.entities.staticentities.Portal;
+import dungeonmania.entities.staticentities.Static;
+import dungeonmania.util.Position;
+
+public class Assassin extends Mercenary {
+    private double failChance;
+    private int reconRadius;
+
+    public Assassin(int id, Position position,
+            double ally_attack, double ally_defence, double assassin_attack,
+            double assassin_health, int bribe_radius, int bribe_amount, double fail_chance, int reconRadius) {
+
+<span class="fc" id="L21">        super(id, position, ally_attack, ally_defence, assassin_attack,</span>
+                assassin_health, bribe_radius, bribe_amount);
+
+<span class="fc" id="L24">        this.failChance = fail_chance;</span>
+<span class="fc" id="L25">        this.reconRadius = reconRadius;</span>
+<span class="fc" id="L26">    }</span>
+
+    public double getFailChance() {
+<span class="fc" id="L29">        return failChance;</span>
+    }
+
+    public void setFailChance(double failChance) {
+<span class="nc" id="L33">        this.failChance = failChance;</span>
+<span class="nc" id="L34">    }</span>
+
+    @Override
+    public String getType() {
+<span class="fc" id="L38">        return &quot;assassin&quot;;</span>
+    }
+
+    @Override
+    public void updatePosition(Dungeon dungeon, Player player) {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (player.getPlayerState() instanceof InvisibleState) {</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">            if (this.getDistanceBetweenTwoEntities(player) &gt; reconRadius) {</span>
+<span class="fc" id="L45">                currMoveStrat = playerInvis;</span>
+            } else {
+<span class="nc" id="L47">                currMoveStrat = standard;</span>
+            }
+<span class="pc bpc" id="L49" title="2 of 6 branches missed.">        } else if (player.getPlayerState() instanceof InvincibleState &amp;&amp; !isAlly &amp;&amp; !currMoveStrat.isReversed()) {</span>
+<span class="fc" id="L50">            currMoveStrat = standard;</span>
+<span class="fc" id="L51">            currMoveStrat.reversePath();</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        } else if (player.getPlayerState() instanceof AliveState &amp;&amp; currMoveStrat.isReversed()) {</span>
+<span class="fc" id="L53">            currMoveStrat = standard;</span>
+<span class="fc" id="L54">            currMoveStrat.reversePath();</span>
+        } else {
+<span class="fc" id="L56">            currMoveStrat = standard;</span>
+        }
+
+<span class="fc" id="L59">        boolean foundPortal = false;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (Static portal : dungeon.getStaticsOnBlock(currMoveStrat.getNextPosition(dungeon, player))) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (portal instanceof Portal) {</span>
+<span class="fc" id="L62">                ((Portal) portal).mercenaryMoveOnto(this, dungeon, Position.getDirection(this.getPosition(),</span>
+<span class="fc" id="L63">                        currMoveStrat.getNextPosition(dungeon, player)));</span>
+
+<span class="fc" id="L65">                foundPortal = true;</span>
+<span class="fc" id="L66">                break;</span>
+            }
+<span class="fc" id="L68">        }</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (!foundPortal)</span>
+<span class="fc" id="L71">            currMoveStrat.updateMovement(dungeon, player);</span>
+<span class="fc" id="L72">    }</span>
+
+    @Override
+    public JsonObject getJson() {
+<span class="fc" id="L76">        JsonObject entityJSON = new JsonObject();</span>
+<span class="fc" id="L77">        entityJSON.addProperty(&quot;id&quot;, super.getEntityId());</span>
+<span class="fc" id="L78">        entityJSON.addProperty(&quot;type&quot;, this.getType());</span>
+<span class="fc" id="L79">        entityJSON.addProperty(&quot;x&quot;, this.getPosition().getX());</span>
+<span class="fc" id="L80">        entityJSON.addProperty(&quot;y&quot;, this.getPosition().getY());</span>
+<span class="fc" id="L81">        entityJSON.addProperty(&quot;isAlly&quot;, this.isAlly());</span>
+
+<span class="fc" id="L83">        return entityJSON;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

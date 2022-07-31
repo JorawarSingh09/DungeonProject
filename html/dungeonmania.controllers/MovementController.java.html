@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovementController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.controllers</a> &gt; <span class="el_source">MovementController.java</span></div><h1>MovementController.java</h1><pre class="source lang-java linenums">package dungeonmania.controllers;
+
+import java.util.List;
+
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.movingentities.Player;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Health;
+import dungeonmania.entities.movingentities.playerstates.interfaces.Moveable;
+import dungeonmania.entities.staticentities.FloorSwitch;
+import dungeonmania.entities.staticentities.SwampTile;
+import dungeonmania.util.Direction;
+
+public class MovementController {
+
+    private Player player;
+    private Dungeon dungeon;
+    private boolean allSwitchestriggered;
+
+<span class="fc" id="L20">    public MovementController(Player player, Dungeon dungeon) {</span>
+<span class="fc" id="L21">        this.player = player;</span>
+<span class="fc" id="L22">        this.dungeon = dungeon;</span>
+<span class="fc" id="L23">        this.allSwitchestriggered = false;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void movePlayer(Direction movement) {
+<span class="fc" id="L27">        player.setMovement(movement);</span>
+<span class="fc" id="L28">        player.updatePosition(dungeon, movement);</span>
+<span class="fc" id="L29">        player.tickMindControl();</span>
+<span class="fc" id="L30">        checkBattles();</span>
+<span class="fc" id="L31">        checkSwitchBehaviour();</span>
+<span class="fc" id="L32">    }</span>
+
+    private void checkSwitchBehaviour() {
+<span class="fc" id="L35">        List&lt;Entity&gt; floorSwitches = dungeon.getEntitiesOfType(&quot;switch&quot;);</span>
+<span class="fc" id="L36">        List&lt;Entity&gt; boulders = dungeon.getEntitiesOfType(&quot;boulder&quot;);</span>
+<span class="fc" id="L37">        int floorSwitchCount = floorSwitches.size();</span>
+<span class="fc" id="L38">        int boulderCount = 0;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (Entity floorSwitch : floorSwitches) {</span>
+<span class="fc" id="L40">            boolean switchedOn = false;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            for (Entity boulder : boulders) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                if (floorSwitch.getPosition().equals(boulder.getPosition())) {</span>
+<span class="fc" id="L43">                    boulderCount++;</span>
+<span class="fc" id="L44">                    switchedOn = true;</span>
+<span class="fc" id="L45">                    break;</span>
+                }
+<span class="fc" id="L47">            }</span>
+<span class="fc" id="L48">            ((FloorSwitch) floorSwitch).setTriggered(switchedOn);</span>
+<span class="fc" id="L49">            ((FloorSwitch) floorSwitch).setCollidable(switchedOn);</span>
+<span class="fc" id="L50">            ((FloorSwitch) floorSwitch).checkBomb(dungeon);</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        this.allSwitchestriggered = (boulderCount == floorSwitchCount);</span>
+<span class="fc" id="L53">    }</span>
+
+    public boolean allSwitchestriggered() {
+<span class="fc" id="L56">        return this.allSwitchestriggered;</span>
+    }
+
+    public void updateEntityPositions() {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (Moveable enemy : dungeon.getEnemies()) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (!isStuckOnSwampTile(enemy)) enemy.updatePosition(dungeon, player);</span>
+<span class="fc" id="L62">        }</span>
+<span class="fc" id="L63">        checkBattles();</span>
+<span class="fc" id="L64">        checkSwitchBehaviour();</span>
+<span class="fc" id="L65">    }</span>
+
+    private void checkBattles() {
+<span class="fc" id="L68">        List&lt;Health&gt; enemiesOnNextBlock = dungeon.getEnemiesOnBlock(player.getPosition());</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (Health enemy : enemiesOnNextBlock) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (!enemy.isAlly())</span>
+<span class="fc" id="L71">                dungeon.startBattle(enemy);</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">    }</span>
+
+    private boolean isStuckOnSwampTile(Moveable enemy) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (SwampTile swampTile : dungeon.getSwampTiles()) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (swampTile.entityStuck(enemy, dungeon)) {</span>
+<span class="fc" id="L78">                return true;</span>
+            }
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

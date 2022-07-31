@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DungeonManiaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">dungeonmania</a> &gt; <span class="el_source">DungeonManiaController.java</span></div><h1>DungeonManiaController.java</h1><pre class="source lang-java linenums">package dungeonmania;
+
+// import dungeonmania.controllers.EntityController;
+import dungeonmania.enums.ErrorString;
+import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.util.Direction;
+import dungeonmania.util.FileLoader;
+import dungeonmania.util.GameFile;
+import dungeonmania.util.LoadConfig;
+import dungeonmania.dungeon.Dungeon;
+import dungeonmania.dungeon.DungeonFactory;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+<span class="fc" id="L21">public class DungeonManiaController {</span>
+    // private String configFileName;
+<span class="fc" id="L23">    private int currMaxDungeonId = 0;</span>
+    Dungeon dungeon;
+
+    public String getSkin() {
+<span class="nc" id="L27">        return &quot;default&quot;;</span>
+    }
+
+    public String getLocalisation() {
+<span class="nc" id="L31">        return &quot;en_US&quot;;</span>
+    }
+
+    private int assignDungeonID() {
+<span class="fc" id="L35">        return currMaxDungeonId++;</span>
+    }
+
+    /**
+     * Returns a list of
+     * /dungeons
+     */
+    public static List&lt;String&gt; dungeons() {
+<span class="fc" id="L43">        return FileLoader.listFileNamesInResourceDirectory(&quot;dungeons&quot;);</span>
+
+    }
+
+    public static List&lt;String&gt; saves() {
+<span class="fc" id="L48">        return FileLoader.listFileNamesInResourceDirectory(&quot;saves&quot;);</span>
+
+    }
+
+    /**
+     * /configs
+     */
+    public static List&lt;String&gt; configs() {
+<span class="fc" id="L56">        return FileLoader.listFileNamesInResourceDirectory(&quot;configs&quot;);</span>
+    }
+
+    /**
+     * /game/new
+     */
+    public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+<span class="fc bfc" id="L63" title="All 4 branches covered.">        if (!dungeons().contains(dungeonName) || !configs().contains(configName)) {</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException();</span>
+        }
+        try {
+<span class="fc" id="L67">            String jsonDungeon = new String(FileLoader.loadResourceFile(&quot;dungeons/&quot; + dungeonName + &quot;.json&quot;));</span>
+<span class="fc" id="L68">            JsonObject jsonObject = JsonParser.parseString(jsonDungeon).getAsJsonObject();</span>
+
+<span class="fc" id="L70">            String jsonConfig = new String(FileLoader.loadResourceFile(&quot;configs/&quot; + configName + &quot;.json&quot;));</span>
+<span class="fc" id="L71">            JsonObject configs = JsonParser.parseString(jsonConfig).getAsJsonObject();</span>
+
+<span class="fc" id="L73">            LoadConfig config = new LoadConfig(configs, configName);</span>
+<span class="fc" id="L74">            System.out.println(config.player_attack);</span>
+<span class="fc" id="L75">            dungeon = DungeonFactory.createDungeon(dungeonName, assignDungeonID(), jsonObject, false, config);</span>
+<span class="nc" id="L76">        } catch (IOException e) {</span>
+<span class="nc" id="L77">            throw new IllegalArgumentException();</span>
+<span class="fc" id="L78">        }</span>
+
+<span class="fc" id="L80">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) {
+
+        try {
+<span class="fc" id="L89">            GameFile.saveDungeon(dungeon);</span>
+<span class="nc" id="L90">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L91">            System.out.println(&quot;could not save game&quot;);</span>
+<span class="nc" id="L92">            e.printStackTrace();</span>
+<span class="fc" id="L93">        }</span>
+<span class="fc" id="L94">        return getDungeonResponseModel();</span>
+    }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+<span class="fc" id="L101">        String savedFile = &quot;&quot;;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (!saves().contains(name)) {</span>
+<span class="nc" id="L103">            System.out.println(&quot;save not found&quot;);</span>
+<span class="nc" id="L104">            throw new IllegalArgumentException();</span>
+        }
+        try {
+            savedFile = 
+<span class="fc" id="L108">                FileLoader.getSavedFile(FileLoader.createSaveFolder() + name + &quot;.json&quot;);</span>
+                
+<span class="nc" id="L110">        } catch (IOException e) {</span>
+<span class="nc" id="L111">            throw new IllegalArgumentException();</span>
+<span class="nc" id="L112">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L113">            e.printStackTrace();</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">        JsonObject gameFile = JsonParser.parseString(savedFile).getAsJsonObject();</span>
+
+<span class="fc" id="L117">        JsonObject config = gameFile.get(&quot;config&quot;).getAsJsonObject();</span>
+<span class="fc" id="L118">        LoadConfig loadedConfig = new LoadConfig(config,</span>
+<span class="fc" id="L119">                config.get(&quot;configName&quot;).getAsString());</span>
+
+<span class="fc" id="L121">        dungeon = DungeonFactory.createDungeon(</span>
+<span class="fc" id="L122">                name, assignDungeonID(), gameFile, true, loadedConfig);</span>
+<span class="fc" id="L123">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/dungeonResponseModel
+     */
+    public DungeonResponse getDungeonResponseModel() {
+
+<span class="fc" id="L131">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/tick/item
+     */
+    public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L138">        int itemId = Integer.parseInt(itemUsedId);</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (!dungeon.itemInPlayerInventory(itemId)) {</span>
+<span class="fc" id="L141">            dungeon.tick(false);</span>
+<span class="fc" id="L142">            throw new InvalidActionException(&quot;item not in player inventory&quot;);</span>
+        }
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (!dungeon.itemIsUsable(itemId)) {</span>
+<span class="fc" id="L145">            dungeon.tick(false);</span>
+<span class="fc" id="L146">            throw new IllegalArgumentException(&quot;item not usable&quot;);</span>
+        }
+<span class="fc" id="L148">        dungeon.useItem(itemId);</span>
+<span class="fc" id="L149">        dungeon.tick(false);</span>
+<span class="fc" id="L150">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/tick/movement
+     */
+    public DungeonResponse tick(Direction movementDirection) {
+<span class="fc" id="L157">        dungeon.updateMovement(movementDirection);</span>
+<span class="fc" id="L158">        dungeon.tick(true);</span>
+<span class="fc" id="L159">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/build
+     */
+    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
+        // If buildable is not one of bow, shield
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (!Dungeon.itemIsBuildable(buildable))</span>
+<span class="fc" id="L168">            throw new IllegalArgumentException(&quot;not buildable item&quot;);</span>
+        // If the player does not have sufficient items to craft the buildable
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (!dungeon.canBuild(buildable))</span>
+<span class="fc" id="L171">            throw new InvalidActionException(&quot;the player does not have sufficient items to craft the buildable&quot;);</span>
+<span class="fc" id="L172">        dungeon.build(buildable);</span>
+<span class="fc" id="L173">        dungeon.tick(false);</span>
+<span class="fc" id="L174">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /game/interact
+     */
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L181">        int id = Integer.parseInt(entityId);</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        if (!dungeon.itemIsInteractable(id))</span>
+<span class="fc" id="L183">            throw new IllegalArgumentException(entityId + &quot; is not a valid Entity Id.&quot;);</span>
+<span class="fc" id="L184">        String interactAttempt = dungeon.interact(id);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (!interactAttempt.equals(ErrorString.SUCCESS.toString()))</span>
+<span class="fc" id="L186">            throw new InvalidActionException(interactAttempt);</span>
+<span class="fc" id="L187">        dungeon.tick(false);</span>
+<span class="fc" id="L188">        return dungeon.createDungeonResponse();</span>
+    }
+
+    /**
+     * /games/all
+     */
+    public List&lt;String&gt; allGames() {
+<span class="nc" id="L195">        return saves();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
