@@ -3,6 +3,8 @@ package dungeonmania.entities.staticentities;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
 import dungeonmania.dungeon.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.movingentities.Player;
@@ -53,5 +55,12 @@ public class SwampTile extends Entity implements Static {
             }
         }
         return false;
+    }
+
+    @Override
+    public JsonObject getJson() {
+        JsonObject entityJSON = super.getJson();
+        entityJSON.addProperty("movement_factor", movementFactor);
+        return entityJSON;
     }
 }

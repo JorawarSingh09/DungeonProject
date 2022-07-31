@@ -1,0 +1,213 @@
+{
+    "entities": [
+        {
+            "x": 0,
+            "y": 0,
+            "type": "player"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "type": "bow"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "type": "sceptre"
+        },
+        {
+            "x": 0,
+            "y": 3,
+            "type": "shield"
+        },
+        {
+            "x": 0,
+            "y": 4,
+            "type": "midnight_armour"
+        },
+        {
+            "x": 0,
+            "y": 5,
+            "type": "arrow"
+        },
+        {
+            "x": 0,
+            "y": 6,
+            "type": "bomb"
+        },
+        {
+            "x": 0,
+            "y": 7,
+            "type": "invincibility_potion"
+        },
+        {
+            "x": 0,
+            "y": 7,
+            "type": "invisibility_potion"
+        },
+        {
+            "x": 0,
+            "y": 8,
+            "type": "key",
+            "key": 1
+        },
+        {
+            "x": 0,
+            "y": 9,
+            "type": "sun_stone"
+        },
+        {
+            "x": 0,
+            "y": 10,
+            "type": "sword"
+        },
+        {
+            "x": 0,
+            "y": 11,
+            "type": "treasure"
+        },
+        {
+            "x": 0,
+            "y": 12,
+            "type": "wood"
+        },
+        {
+            "x": 0,
+            "y": 10,
+            "type": "assassin"
+        },
+        {
+            "x": 0,
+            "y": 11,
+            "type": "hydra"
+        },
+        {
+            "x": 0,
+            "y": 12,
+            "type": "mercenary"
+        },
+        {
+            "x": 0,
+            "y": 13,
+            "type": "spider"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "type": "boulder"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "type": "door",
+            "key": 1
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "type": "exit"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "type": "switch"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "type": "portal",
+            "colour": "BLUE"
+        },
+        {
+            "x": 999,
+            "y": 2,
+            "type": "portal",
+            "colour": "BLUE"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "type": "swamp_tile",
+            "movement_factor": 3
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "type": "wall"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "type": "zombie_toast_spawner"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "type": "boulder"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "type": "boulder"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "type": "boulder"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "type": "boulder"
+        },
+        {
+            "x": -1,
+            "y": 0,
+            "type": "arrow"
+        },
+        {
+            "x": -2,
+            "y": 0,
+            "type": "bomb"
+        },
+        {
+            "x": -3,
+            "y": 0,
+            "type": "invincibility_potion"
+        },
+        {
+            "x": -4,
+            "y": 0,
+            "type": "invisibility_potion"
+        },
+        {
+            "x": -5,
+            "y": 0,
+            "type": "key",
+            "key": 1
+        },
+        {
+            "x": -6,
+            "y": 0,
+            "type": "sun_stone"
+        },
+        {
+            "x": -7,
+            "y": 0,
+            "type": "sword"
+        },
+        {
+            "x": -8,
+            "y": 0,
+            "type": "treasure"
+        },
+        {
+            "x": -9,
+            "y": 0,
+            "type": "wood"
+        }
+    ],
+    "goal-condition": {
+        "goal": "exit"
+    }
+}

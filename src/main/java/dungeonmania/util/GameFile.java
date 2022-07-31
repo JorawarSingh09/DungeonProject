@@ -65,10 +65,10 @@ public class GameFile {
         entitiesOnMap.forEach(e -> entities.add(e.getJson()));
         map.put("entities", entities);
         map.put("goal-condition", dungeon.getGoal().getJson(dungeon));
-        // LocalTime time = LocalTime.now();
+        LocalTime time = LocalTime.now();
         try {
             Writer writer = new FileWriter(FileLoader.createSaveFolder()
-                    + dungeon.getDungeonId() + ".json");
+                    + dungeon.getDungeonId() + dungeon.getDungeonName() + ".json");
 
             gson.toJson(map, writer);
             writer.close();

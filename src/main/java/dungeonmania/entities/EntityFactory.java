@@ -112,7 +112,7 @@ public class EntityFactory {
                     dungeon.addEntity(door);
                     break;
                 case "portal":
-                    String colour = ((JsonObject) entity).get("colour").toString();
+                    String colour = ((JsonObject) entity).get("colour").getAsString();
                     Portal portal = new Portal(dungeon.getCurrMaxEntityId(), new Position(x, y), colour);
                     dungeon.addEntity(portal);
                     if (portals.containsKey(colour)) {

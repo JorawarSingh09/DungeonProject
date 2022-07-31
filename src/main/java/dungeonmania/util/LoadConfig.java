@@ -19,7 +19,6 @@ public class LoadConfig {
     public int hydra_health;
     public int hydra_health_increase_amount;
     public double hydra_health_increase_rate;
-    public int hydra_spawn_rate;
     public int invincibility_potion_duration;
     public int invisibility_potion_duration;
     public int mercenary_attack;
@@ -100,7 +99,6 @@ public class LoadConfig {
             this.hydra_health = 1;
             this.hydra_health_increase_amount = 1;
             this.hydra_health_increase_rate = 1;
-            this.hydra_spawn_rate = 1;
             this.midnight_armour_attack = 1;
             this.midnight_armour_defence = 1;
             this.mind_control_duration = 1;
@@ -128,7 +126,6 @@ public class LoadConfig {
         configs.addProperty("hydra_health", hydra_health);
         configs.addProperty("hydra_health_increase_amount", hydra_health_increase_amount);
         configs.addProperty("hydra_health_increase_rate", hydra_health_increase_rate);
-        configs.addProperty("hydra_spawn_rate", hydra_spawn_rate);
         configs.addProperty("invincibility_potion_duration", invincibility_potion_duration);
         configs.addProperty("invisibility_potion_duration", invisibility_potion_duration);
         configs.addProperty("mercenary_attack", mercenary_attack);

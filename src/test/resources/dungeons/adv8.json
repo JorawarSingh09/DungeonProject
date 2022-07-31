@@ -1,0 +1,28 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 1,
+            "y": -1
+        },
+        {
+            "type": "assassin",
+            "x": 1,
+            "y": -100
+        },    {
+            "type": "portal",
+            "x": 1,
+            "y": -98,
+            "colour": "BLUE"
+        },
+        {
+            "type": "portal",
+            "x": -50,
+            "y": 1,
+            "colour": "BLUE"
+        }
+    ],
+    "goal-condition": {
+        "goal": "treasure"
+    }
+}
